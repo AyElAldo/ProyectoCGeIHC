@@ -1,0 +1,3 @@
+/home/axelnez/Documentos/8 semestre/compugrafica/Proyecto/Git/ProyectoCGeIHC/Proyclinux/build/CMakeFiles/practica0.dir
+/home/axelnez/Documentos/8 semestre/compugrafica/Proyecto/Git/ProyectoCGeIHC/Proyclinux/build/CMakeFiles/edit_cache.dir
+/home/axelnez/Documentos/8 semestre/compugrafica/Proyecto/Git/ProyectoCGeIHC/Proyclinux/build/CMakeFiles/rebuild_cache.dir
