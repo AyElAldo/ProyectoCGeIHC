@@ -1,9 +1,9 @@
 #pragma once
-/* pa windows
+/* pa windows */
 #include <glew.h>
-*/
+
 //linux
-#include <GL/glew.h>
+//#include <GL/glew.h>
 //Esta clase est� pensada para crear materiales asignables a nuestros diferentes objetos y luces
 class Material
 {

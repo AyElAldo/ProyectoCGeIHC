@@ -1,8 +1,8 @@
 #pragma once
-/* pa windows
-#include<glew.h>*/
+/* pa windows*/
+#include<glew.h>
 ///pa linux
-#include <GL/glew.h>
+//#include <GL/glew.h>
 
 class Texture
 {

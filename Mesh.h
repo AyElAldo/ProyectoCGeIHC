@@ -1,10 +1,10 @@
 #pragma once
-/* para windows
+/* para windows */
 #include <glew.h>
-*/
+
 
 ///linux
-#include <GL/glew.h>
+//#include <GL/glew.h>
 class Mesh
 {
 public:

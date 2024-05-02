@@ -4,10 +4,11 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-/* para windows
-#include <glew.h>*/
+/* para windows */
+#include <glew.h>
 ///para linux
-#include <GL/glew.h>
+//#include <GL/glew.h>
+
 #include "CommonValues.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
