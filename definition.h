@@ -7,16 +7,16 @@
 
 #ifndef HEADERS_DEFINITION_H_
 #define HEADERS_DEFINITION_H_
-/* Pa windws
+/* Pa windws*/
 #include <glm.hpp>
 #include <glew.h>
 #include <gtc/random.hpp>
-#include <iostream>*/
-/*Palinux*/
-#include<glm/glm.hpp>
-#include <GL/glew.h>
-#include <glm/gtc/random.hpp>
 #include <iostream>
+/*Palinux*/
+//#include<glm/glm.hpp>
+//#include <GL/glew.h>
+//#include <glm/gtc/random.hpp>
+//#include <iostream>
 
 typedef struct _VertexColor {
 

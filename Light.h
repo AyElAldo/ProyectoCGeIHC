@@ -1,10 +1,10 @@
 #pragma once
-/* para windows
+/* para windows */
 #include <glew.h>
-#include <glm.hpp>*/
+#include <glm.hpp>
 /*pa linux*/
-#include <GL/glew.h>
-#include<glm/glm.hpp>
+//#include <GL/glew.h>
+//#include<glm/glm.hpp>
 class Light
 {
 public:

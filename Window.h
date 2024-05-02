@@ -1,13 +1,13 @@
 #pragma once
 // parawindows
 #include<stdio.h>
-/* para windows
+/* para windows */
 #include<glew.h>
 #include<glfw3.h>
-*/
+
 ///linux
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+//#include <GL/glew.h>
+//#include <GLFW/glfw3.h>
 
 class Window
 {

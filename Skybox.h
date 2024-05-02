@@ -3,19 +3,19 @@
 #include "CommonValues.h"
 #include <vector>
 #include <string>
-/* para windows
+/* para windows */
 #include<glew.h>
 #include<glm.hpp>
 #include<glfw3.h>
 #include <gtc\matrix_transform.hpp>
 #include<gtc\type_ptr.hpp>
-*/
+
 ///para linux
-#include <GL/glew.h>
-#include<glm/glm.hpp>
-#include <GLFW/glfw3.h>
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
+//#include <GL/glew.h>
+//#include<glm/glm.hpp>
+//#include <GLFW/glfw3.h>
+//#include<glm/gtc/matrix_transform.hpp>
+//#include<glm/gtc/type_ptr.hpp>
 
 #include "Mesh.h"
 #include "Shader_light.h"
