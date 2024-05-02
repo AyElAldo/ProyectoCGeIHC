@@ -56,7 +56,7 @@ Texture brickTexture;
 Texture dirtTexture;
 Texture plainTexture;
 Texture pisoTexture;
-Texture AgaveTexture;
+//Texture AgaveTexture;
 
 Model Kitt_M;
 Model Llanta_M;
@@ -223,8 +223,8 @@ int main()
 	plainTexture.LoadTextureA();
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
-	AgaveTexture = Texture("Textures/Agave.tga");
-	AgaveTexture.LoadTextureA();
+	/*AgaveTexture = Texture("Textures/Agave.tga");
+	AgaveTexture.LoadTextureA();*/
 
 	Kitt_M = Model();
 	Kitt_M.LoadModel("Models/kitt_optimizado.obj");
