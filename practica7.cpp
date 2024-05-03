@@ -60,7 +60,8 @@ Texture pisoTexture;
 
 Model Kitt_M;
 Model Llanta_M;
-Model Blackhawk_M;
+Model Arboles_HoraDeAventura[10]; // Por lo mientras 10 arboles
+
 /////Proyectoo
 Model cubcesped;
 Model cubpavim;
@@ -230,8 +231,10 @@ int main()
 	Kitt_M.LoadModel("Models/kitt_optimizado.obj");
 	Llanta_M = Model();
 	Llanta_M.LoadModel("Models/llanta_optimizada.obj");
-	Blackhawk_M = Model();
-	Blackhawk_M.LoadModel("Models/uh60.obj");
+	Arboles_HoraDeAventura[0] = Model();
+	Arboles_HoraDeAventura[0].LoadModel("Models/arbol_algodon_horaaventura1.obj");
+	Arboles_HoraDeAventura[1] = Model();
+	Arboles_HoraDeAventura[1].LoadModel("Models/arbol_algodon2.obj");
 	////Proyecto
 	cubcarretera=Model();
 	cubcarretera.LoadModel("Models/carratera.obj");
@@ -250,7 +253,7 @@ int main()
 	avengers.LoadModel("Models/avengers.obj");
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
+	skyboxFaces.push_back("Textures/Skybox/adventure.jpg");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
@@ -474,6 +477,23 @@ model = glm::mat4(1.0);
 		///model = glm::scale(model, glm::vec3(22.0f, 1.0f, 67.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		avengers.RenderModel();
+
+
+
+
+
+/************************ VEGETACION ***************************/
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-0.0f, 1.0f, 0.0f));
+		///model = glm::scale(model, glm::vec3(22.0f, 1.0f, 67.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Arboles_HoraDeAventura[0].RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-1.0f, 1.0f, 0.0f));
+		///model = glm::scale(model, glm::vec3(22.0f, 1.0f, 67.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Arboles_HoraDeAventura[1].RenderModel();
 
 		/*
 
