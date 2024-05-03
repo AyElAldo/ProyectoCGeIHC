@@ -68,7 +68,18 @@ Model cubpavim;
 Model cubcarretera;
 ////dayly bugle
 Model daylybugle;
+///AVENGERS
 Model avengers;
+///STARK
+Model stark;
+///Sanctum
+
+Model Sanctum;
+///spiderman
+Model Spiderman;
+/// araña
+Model arana;
+
 Skybox skybox;
 
 //materiales
@@ -173,16 +184,16 @@ void CreateObjects()
 
 
 	};
-	
-	Mesh *obj1 = new Mesh();
+
+	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 32, 12);
 	meshList.push_back(obj1);
 
-	Mesh *obj2 = new Mesh();
+	Mesh* obj2 = new Mesh();
 	obj2->CreateMesh(vertices, indices, 32, 12);
 	meshList.push_back(obj2);
 
-	Mesh *obj3 = new Mesh();
+	Mesh* obj3 = new Mesh();
 	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
 	meshList.push_back(obj3);
 
@@ -199,10 +210,11 @@ void CreateObjects()
 
 void CreateShaders()
 {
-	Shader *shader1 = new Shader();
+	Shader* shader1 = new Shader();
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
 }
+
 
 
 
@@ -231,29 +243,49 @@ int main()
 	Kitt_M.LoadModel("Models/kitt_optimizado.obj");
 	Llanta_M = Model();
 	Llanta_M.LoadModel("Models/llanta_optimizada.obj");
+	
+	////Proyecto
+	
+
+	cubcarretera = Model();
+	cubcarretera.LoadModel("Models/carratera.obj");
+
+	cubcesped = Model();
+	cubcesped.LoadModel("Models/cubocesped.obj");
+
+	cubpavim = Model();
+	cubpavim.LoadModel("Models/cubopavimento.obj");
+
+	///bugle
+	daylybugle = Model();
+	daylybugle.LoadModel("Models/dailybugle.obj");
+	///torre avengers
+	avengers = Model();
+	avengers.LoadModel("Models/avengers.obj");
+	///stark
+	stark = Model();
+	stark.LoadModel("Models/STARK.obj");
+	///sanctum
+	Sanctum = Model();
+	Sanctum.LoadModel("Models/sanctumroque.obj");
+	///araña 
+	arana = Model();
+	arana.LoadModel("Models/arana.obj");
+	//spider man
+	Spiderman = Model();
+	Spiderman.LoadModel("Models/spiderman.obj");
+
+
+	/********************** Vegetacion ************************/
 	Arboles_HoraDeAventura[0] = Model();
 	Arboles_HoraDeAventura[0].LoadModel("Models/arbol_algodon_horaaventura1.obj");
 	Arboles_HoraDeAventura[1] = Model();
 	Arboles_HoraDeAventura[1].LoadModel("Models/arbol_algodon2.obj");
-	////Proyecto
-	cubcarretera=Model();
-	cubcarretera.LoadModel("Models/carratera.obj");
 
-	cubcesped=Model();
-	cubcesped.LoadModel("Models/cubocesped.obj");
 
-	cubpavim=Model();
-	cubpavim.LoadModel("Models/cubopavimento.obj");
-
-	///bugle
-	daylybugle=Model();
-	daylybugle.LoadModel("Models/dailybug.obj");
-	///torre avengers
-	avengers=Model();
-	avengers.LoadModel("Models/avengers.obj");
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/adventure.jpg");
+	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
@@ -297,7 +329,7 @@ int main()
 		1.0f, 0.0f, 0.0f,
 		15.0f);
 	spotLightCount++;
-	
+
 	//se crean mas luces puntuales y spotlight 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -327,7 +359,7 @@ int main()
 		uniformView = shaderList[0].GetViewLocation();
 		uniformEyePosition = shaderList[0].GetEyePositionLocation();
 		uniformColor = shaderList[0].getColorLocation();
-		
+
 		//informaci�n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
@@ -338,7 +370,7 @@ int main()
 
 		// luz ligada a la c�mara de tipo flash
 		//sirve para que en tiempo de ejecuci�n (dentro del while) se cambien propiedades de la luz
-			glm::vec3 lowerLight = camera.getCameraPosition();
+		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
@@ -374,21 +406,22 @@ int main()
 		model = glm::scale(model, glm::vec3(10.0f, 1.0f, 15.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubcesped.RenderModel();
-/////pavimento
+		/////pavimento
 		model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(0.0f, 0.0f, -16.00f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -16.00f));
 		model = glm::scale(model, glm::vec3(10.0f, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubpavim.RenderModel();
-////segundo pavimento
-model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(0.0f, 0.0f, 16.0f));
+
+		////segundo pavimento
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 16.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubpavim.RenderModel();
-///tercer pavimento
-model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(11.0f, 0.0f,0.0f));
+		///tercer pavimento
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(11.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 17.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubpavim.RenderModel();
@@ -396,40 +429,40 @@ model = glm::translate(model, glm::vec3(11.0f, 0.0f,0.0f));
 
 		//////cuarto pavimento
 		model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(-11.0f, 0.0f,0.0f));
+		model = glm::translate(model, glm::vec3(-11.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 17.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubpavim.RenderModel();
 
-/////calles
-model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(-17.0f, 0.0f,0.0f));
-model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		/////calles
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-17.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		model = glm::scale(model, glm::vec3(17.0f, 1.0f, 5.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubcarretera.RenderModel();
-////calle2
-model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(17.0f, 0.0f,0.0f));
-model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		////calle2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(17.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		model = glm::scale(model, glm::vec3(17.0f, 1.0f, 5.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubcarretera.RenderModel();
 
-///calle 3
-model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(0.0f, 0.0f,22.0f));
-//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		///calle 3
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		model = glm::scale(model, glm::vec3(22.0f, 1.0f, 5.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubcarretera.RenderModel();
-///calle 4
-model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(0.0f, 0.0f,-22.0f));
-//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		///calle 4
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -22.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		model = glm::scale(model, glm::vec3(22.0f, 1.0f, 5.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -438,12 +471,12 @@ model = glm::translate(model, glm::vec3(0.0f, 0.0f,-22.0f));
 
 		//pavimentooo
 		model = glm::mat4(1.0);
-model = glm::translate(model, glm::vec3(0.0f, 0.0f, -37.00f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -37.00f));
 		model = glm::scale(model, glm::vec3(22.0f, 1.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubpavim.RenderModel();
-		
-///pavimento
+
+		///pavimento
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 37.00f));
 		model = glm::scale(model, glm::vec3(22.0f, 1.0f, 10.0f));
@@ -453,44 +486,70 @@ model = glm::translate(model, glm::vec3(0.0f, 0.0f, -37.00f));
 		///pavimento
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(32.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(10.0f, 1.0f,47.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 1.0f, 47.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubpavim.RenderModel();
-		
-///pavimento
-model = glm::mat4(1.0);
+
+		///pavimento
+		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-32.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 1.0f, 47.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		cubpavim.RenderModel();
 
-///////// daily bugle
-
-model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-44.0f, 4.0f, 0.0f));
+		///////// daily bugle
+		//-15.0 y -32-0f
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-32.0f, 1.0f, -15.0f));
 		///model = glm::scale(model, glm::vec3(22.0f, 1.0f, 67.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		daylybugle.RenderModel();
-////// avengers
-model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-30.0f, 4.0f, 0.0f));
+
+		////// avengers
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-10.0f, 4.0f, 35.0f));
 		///model = glm::scale(model, glm::vec3(22.0f, 1.0f, 67.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		avengers.RenderModel();
+		////stark
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(15.0f, 1.0f, 35.0f));
+		//model = glm::scale(model, glm::vec3(0.002f,0.002f, 0.002f));
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		stark.RenderModel();
 
+		///sanctum
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-32.0f, 1.0f, 5.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Sanctum.RenderModel();
+
+		//araña
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		arana.RenderModel();
+		//Spiderman 
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-20.0f, 1.0f, -15.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spiderman.RenderModel();
 
 
 
 
 /************************ VEGETACION ***************************/
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-6.0f, 1.0f, 0.0f));
 		///model = glm::scale(model, glm::vec3(22.0f, 1.0f, 67.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Arboles_HoraDeAventura[0].RenderModel();
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-1.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-8.0f, 1.0f, 0.0f));
 		///model = glm::scale(model, glm::vec3(22.0f, 1.0f, 67.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Arboles_HoraDeAventura[1].RenderModel();

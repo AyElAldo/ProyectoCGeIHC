@@ -1,0 +1,24 @@
+# Blender MTL File: 'sanctumroque.blend'
+# Material Count: 2
+
+newmtl MI_SC_E_Main_SanctumA01
+Ns 650.249991
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd T_SC_Night_E_SangctumA02_D.png
+
+newmtl MI_SC_Night_E_SangctumA02
+Ns 650.249991
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd T_SC_E_SangctumA01_D.png
