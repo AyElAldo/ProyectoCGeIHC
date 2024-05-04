@@ -10,21 +10,23 @@ Pr�ctica 7: Iluminaci�n 1
 #include <vector>
 #include <math.h>
 /* pa windows */
+/*
 #include <glew.h>
-#include <glfw3.h>
+#include <glfw3.h>*/
 
 ///pa linux
-//#include <GL/glew.h>
-//#include <GLFW/glfw3.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 /* pa windows */
+/*
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
-#include <gtc\type_ptr.hpp>
+#include <gtc\type_ptr.hpp>*/
 
 //pa linux
-//#include<glm/glm.hpp>
-//#include<glm/gtc/matrix_transform.hpp>
-//#include<glm/gtc/type_ptr.hpp>
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 //para probar el importer
 //#include<assimp/Importer.hpp>
@@ -37,6 +39,7 @@ Pr�ctica 7: Iluminaci�n 1
 #include "Sphere.h"
 #include"Model.h"
 #include "Skybox.h"
+
 
 //para iluminaci�n
 #include "CommonValues.h"
@@ -79,6 +82,20 @@ Model Sanctum;
 Model Spiderman;
 /// araña
 Model arana;
+////scooter deadpol vehiculo motorizado
+Model scooterdeadpool;
+///bote de basura
+Model bote_basura;
+///arbol pino
+Model pino;
+//lampara deadpool
+Model lamp_deadpool;
+
+///mesasillaplatico
+Model mesasillaplastico;
+///estatua dorada spider man
+Model estatuaspidermandorada;
+
 
 Skybox skybox;
 
@@ -274,6 +291,30 @@ int main()
 	//spider man
 	Spiderman = Model();
 	Spiderman.LoadModel("Models/spiderman.obj");
+
+	///scooter deadpool
+	scooterdeadpool=Model();
+	scooterdeadpool.LoadModel("Models/scooterdead.obj");
+	///bote de basura
+	bote_basura=Model();
+	bote_basura.LoadModel("Models/botebasura.obj");
+	///pino
+	pino=Model();
+	pino.LoadModel("Models/pino.obj");
+
+	//model lamp dead pool
+	lamp_deadpool=Model();
+	lamp_deadpool.LoadModel("Models/lamparadeadpoolcalle.obj");
+	///mesa y silla
+	mesasillaplastico=Model();
+	mesasillaplastico.LoadModel("Models/mesasilla.obj");
+	///estatua dorada spiderman
+	estatuaspidermandorada=Model();
+	estatuaspidermandorada.LoadModel("Models/estatuaspiderman.obj");
+
+
+
+
 
 
 	/********************** Vegetacion ************************/
@@ -537,7 +578,99 @@ int main()
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Spiderman.RenderModel();
+		////deadpool scooter vehiculo motorizado
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-17.0f, 1.3f, -15.0f));
 
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		scooterdeadpool.RenderModel();
+		///falta que se mueva
+		///bote de basura
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-9.0f, 1.3f, 3.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bote_basura.RenderModel();
+
+		///arboles tipo hora de aventura pino con hielo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.3f, 13.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pino.RenderModel();
+
+		////segundo arboles tipo hora de aventura pino con hielo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.3f, -13.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pino.RenderModel();
+/*lamparas deadpool*/
+//1
+model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(9.0f, 1.3f, -14.0f));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		lamp_deadpool.RenderModel();
+
+///2 
+model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-9.0f, 1.3f, -14.0f));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		lamp_deadpool.RenderModel();
+
+
+///3
+model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(9.0f, 1.3f, 14.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		lamp_deadpool.RenderModel();
+///4
+model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-9.0f, 1.3f, 14.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		lamp_deadpool.RenderModel();
+
+///5
+model = glm::mat4(1.0);
+	model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(9.0f, 1.3f, 0.0f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		lamp_deadpool.RenderModel();	
+
+///6 
+model = glm::mat4(1.0);
+	model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-9.0f, 1.3f, 0.0f));
+		//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		lamp_deadpool.RenderModel();	
+
+//////////////////////////////////////
+////mesaconsilla
+model = glm::mat4(1.0);
+	model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-3.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		mesasillaplastico.RenderModel();	
+		///estatua de marvel spiderman dorada
+model = glm::mat4(1.0);
+	model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-3.0f, 1.0f, 8.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		estatuaspidermandorada.RenderModel();	
 
 
 
