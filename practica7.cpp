@@ -10,23 +10,21 @@ Pr�ctica 7: Iluminaci�n 1
 #include <vector>
 #include <math.h>
 /* pa windows */
-/*
 #include <glew.h>
-#include <glfw3.h>*/
+#include <glfw3.h>
 
 ///pa linux
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+//#include <GL/glew.h>
+//#include <GLFW/glfw3.h>
 /* pa windows */
-/*
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
-#include <gtc\type_ptr.hpp>*/
+#include <gtc\type_ptr.hpp>
 
 //pa linux
-#include<glm/glm.hpp>
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
+//#include<glm/glm.hpp>
+//#include<glm/gtc/matrix_transform.hpp>
+//#include<glm/gtc/type_ptr.hpp>
 
 //para probar el importer
 //#include<assimp/Importer.hpp>
@@ -39,7 +37,6 @@ Pr�ctica 7: Iluminaci�n 1
 #include "Sphere.h"
 #include"Model.h"
 #include "Skybox.h"
-
 
 //para iluminaci�n
 #include "CommonValues.h"
