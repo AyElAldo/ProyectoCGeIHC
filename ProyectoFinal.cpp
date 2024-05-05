@@ -59,8 +59,12 @@ Model relieve;
 Model pisoSecundario;
 
 /********* Hora de aventura *********/
+Model castillo_rey_helado;
+Model Montanas[2];
+
 Model Arboles_HoraDeAventura[10]; // Por lo mientras 10 arboles
 Model Rainicorn;
+Model Fuente01;
 
 /*************************************/
 
@@ -303,10 +307,24 @@ int main()
 	estatuaspidermandorada = Model();
 	estatuaspidermandorada.LoadModel("Models/estatuaspiderman.obj");
 
-	/******* Hora de aventura *******/
+	/************************** Hora de aventura *****************************/
+	// Castillo del rey helado
+	castillo_rey_helado = Model();
+	castillo_rey_helado.LoadModel("Models/king_castle.obj");
+
+	// Montañas
+	Montanas[0] = Model();
+	Montanas[0].LoadModel("Models/montanas.obj");
+	Montanas[1] = Model();
+	Montanas[1].LoadModel("Models/montanas.obj");
+
+	// Entrada unicornio
 	Rainicorn = Model();
 	Rainicorn.LoadModel("Models/Rainicorn_solo.obj");
 
+	// Fuente del centro de la alameda
+	Fuente01 = Model();
+	Fuente01.LoadModel("Models/fuente_alameda_centro.obj");
 
 
 
@@ -572,7 +590,7 @@ int main()
 
 		//araña
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -8.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		arana.RenderModel();
 		//Spiderman 
@@ -682,12 +700,43 @@ int main()
 
 		/************ Hora de Aventura **************/
 
+		// Castillo Rey Helado
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -40.0f));
+		model = glm::scale(model, glm::vec3(55.0f, 55.0f, 55.0f));
+		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		castillo_rey_helado.RenderModel();
+
+		// Montañas
+	// Primeras montañas
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(35.0f, 1.0f, -75.0f));
+		model = glm::scale(model, glm::vec3(35.0f, 35.0f, 35.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Montanas[0].RenderModel();
+	// Segundas montañas
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(80.0f, 1.0f, -40.0f));
+		model = glm::scale(model, glm::vec3(35.0f, 35.0f, 35.0f));
+		//model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Montanas[1].RenderModel();
+
 		// Entrada de unicornio arcoiris
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(5.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Rainicorn.RenderModel();
+
+		// Fuente de la alameda - Centro
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(1.4f, 1.0f, 4.5f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Fuente01.RenderModel();
 
 /************************ VEGETACION: Hora de aventura ***************************/
 		model = glm::mat4(1.0);
