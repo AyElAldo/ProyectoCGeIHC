@@ -56,6 +56,7 @@ Camera camera;
 
 /* Relieve */
 Model relieve;
+Model pisoSecundario;
 
 /********* Hora de aventura *********/
 Model Arboles_HoraDeAventura[10]; // Por lo mientras 10 arboles
@@ -249,6 +250,11 @@ int main()
 
 	relieve = Model();
 	relieve.LoadModel("Models/relieve.obj");
+
+	pisoSecundario = Model();
+	pisoSecundario.LoadModel("Models/piso_secundario.obj");
+
+
 	/*cubcarretera = Model();
 	cubcarretera.LoadModel("Models/carratera.obj");
 
@@ -428,6 +434,12 @@ int main()
 		model_relieve_principal = glm::scale(model_relieve_principal, glm::vec3(5.0f, 4.0f, 3.9f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model_relieve_principal));
 		relieve.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(1.5f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 4.0f, 3.9f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pisoSecundario.RenderModel();
 		////pasto
 		///model = glm::mat4(1.0);
 
