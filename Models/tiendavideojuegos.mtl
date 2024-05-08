@@ -10,7 +10,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 0.300000
 illum 1
-map_Kd /home/axelnez/Documentos/8 semestre/compugrafica/proyectolinuxsingit/Textures/azulventana.tga
+map_Kd azulventana.tga
 
 newmtl 02_-_Default
 Ns 82.706287
@@ -21,7 +21,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 3
-map_Kd /home/axelnez/Documentos/8 semestre/compugrafica/proyectolinuxsingit/Textures/Color_negro.png
+map_Kd Color_negro.png
 
 newmtl 03_-_Default
 Ns 18.000005
@@ -32,7 +32,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd /home/axelnez/Documentos/8 semestre/compugrafica/proyectolinuxsingit/Textures/__Concrete_.jpg
+map_Kd __Concrete_.jpg
 
 newmtl 07_-_Default
 Ns 18.000005
@@ -43,8 +43,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Bump /home/axelnez/Descargas/store-small-game-ready/source/Store1/Brick_Wall_019_normal.jpg
-map_Kd /home/axelnez/Descargas/store-small-game-ready/source/Store1/Brick_Wall_019_basecolor.jpg
+
+map_Kd Brick_Wall_019_basecolor.jpg
 
 newmtl 08_-_Default
 Ns 18.000005
@@ -55,7 +55,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd /home/axelnez/Documentos/8 semestre/compugrafica/proyectolinuxsingit/Textures/__Concrete_.jpg
+map_Kd __Concrete_.jpg
 
 newmtl 09_-_Default
 Ns 18.000005
@@ -66,8 +66,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Bump /home/axelnez/Descargas/store-small-game-ready/source/Store1/Rubber_Floor_001_normal.jpg
-map_Kd /home/axelnez/Descargas/store-small-game-ready/source/Store1/Rubber_Floor_001_height.png
+
+map_Kd Rubber_Floor_001_height.png
 
 newmtl Material.001
 Ns 225.000000
@@ -78,7 +78,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd /home/axelnez/Documentos/8 semestre/compugrafica/proyectolinuxsingit/Textures/grismetal.png
+map_Kd grismetal.png
 
 newmtl Material.003
 Ns 225.000000
@@ -89,7 +89,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd /home/axelnez/Documentos/8 semestre/compugrafica/proyectolinuxsingit/Textures/masterchief.png
+map_Kd masterchief.png
 
 newmtl Material.004
 Ns 225.000000
@@ -100,7 +100,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd /home/axelnez/Documentos/8 semestre/compugrafica/proyectolinuxsingit/Textures/samus.jpg
+map_Kd samus.jpg
 
 newmtl Material.005
 Ns 225.000000
@@ -111,7 +111,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd /home/axelnez/Documentos/8 semestre/compugrafica/proyectolinuxsingit/Textures/gamestoreletras.png
+map_Kd gamestoreletras.png
 
 newmtl None
 Ns 500

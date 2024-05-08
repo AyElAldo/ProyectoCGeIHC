@@ -4,6 +4,7 @@ Pr�ctica 7: Iluminaci�n 1
 //para cargar imagen
 #define STB_IMAGE_IMPLEMENTATION
 
+
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
@@ -107,8 +108,13 @@ Model tiendacomic;
 ///tienda de dulce transparencia
 Model candystore;
 Model tiendavideojuegos;
+///// modelos con spotlights
+Model Farospot;
+Model Torrecontrolspot;
+Model proyectorspot;
 
 Skybox skybox;
+Skybox skybox2;
 
 //materiales
 Material Material_brillante;
@@ -338,6 +344,18 @@ int main()
 	tiendavideojuegos=Model();
 	tiendavideojuegos.LoadModel("Models/tiendavideojuegos.obj");
 
+/************************** modelosspotlights*****************************/
+Farospot=Model();
+Farospot.LoadModel("Models/faro.obj");
+Torrecontrolspot=Model();
+Torrecontrolspot.LoadModel("Models/airtrafic.obj");
+proyectorspot=Model();
+proyectorspot.LoadModel("Models/proyector.obj");
+
+
+
+
+
 	
 	
 	/************************** Hora de aventura *****************************/
@@ -380,6 +398,16 @@ int main()
 
 	skybox = Skybox(skyboxFaces);
 
+/////noche
+	std::vector<std::string> skyboxFaces2;
+skyboxFaces2.push_back("Textures/Skybox/luna_rt.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_lf.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_dn.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_up.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_bk.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_ft.tga");
+	
+skybox2=Skybox(skyboxFaces2);
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
@@ -387,7 +415,7 @@ int main()
 	//luz direccional, s�lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
-		0.0f, 0.0f, -1.0f);
+		0.0f, 0.0f,-1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
 	//Declaraci�n de primer luz puntual
@@ -398,7 +426,8 @@ int main()
 	pointLightCount++;
 
 	unsigned int spotLightCount = 0;
-	//linterna
+	////al final tendr+ia que ser esta la uno del faro
+	
 	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
 		0.0f, 2.0f,
 		0.0f, 0.0f, 0.0f,
@@ -407,14 +436,37 @@ int main()
 		5.0f);
 	spotLightCount++;
 
-	//luz fija
-	spotLights[1] = SpotLight(0.0f, 1.0f, 0.0f,
+	//faro
+	///-100.0f, 30.0f, -40.0f,
+
+	spotLights[1] = SpotLight(1.0f, 1.0f, 0.0f,
 		1.0f, 2.0f,
-		5.0f, 10.0f, 0.0f,
-		0.0f, -5.0f, 0.0f,
+		-30.0f, 27.0f, -40.0f,
+		5.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
-		15.0f);
+		5.0f);
 	spotLightCount++;
+///1.0f,2.0f
+	//torre de control
+	spotLights[2] = SpotLight(1.0f, 1.0f, 1.0f,
+		3.0f, 2.0f,
+		-35.0f, 30.0f, 50.0f,
+		5.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		5.0f);
+	spotLightCount++;
+	//proyector
+
+	///posicion-85.0f, 2.0f, 0.0f,
+
+	spotLights[3] = SpotLight(0.0f, 0.0f, 1.0f,
+		0.0f, 2.0f,
+		-86.0f, 2.0f, 0.0f,
+		5.0f, 0.0f, 0.0f,
+		4.0f, 0.0f, 0.0f,
+		20.0f);
+	spotLightCount++;
+
 
 	//se crean mas luces puntuales y spotlight 
 
@@ -423,6 +475,9 @@ int main()
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 	////Loop mientras no se cierra la ventana
+	bool cicloDia = true;
+		double tiempoInicial = glfwGetTime();
+	double tiempoUltimoCambio = tiempoInicial;
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
@@ -430,15 +485,56 @@ int main()
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 
+
+
 		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-
+		///luz de este a oeste
+		
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+		double tiempoActualskybox = glfwGetTime();
+		float tiempo;
+
+		if (tiempoActualskybox - tiempoUltimoCambio >= 30.0)
+		{
+
+			cicloDia = (cicloDia == true) ? false : true;
+			tiempoUltimoCambio = tiempoActualskybox;
+			
+			
+
+
+			
+
+			
+		}
+		if (cicloDia == true)
+		{
+			skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+			///no descomentar, no funciona dejarlo comentado es para la luz de este a oeste
+			//for (GLfloat z = -20; z <= 20; ++z) {
+				    //printf("Valor de z: %.2f\n", z); // Imprimir el valor de z
+					//GLfloat z=-1;
+
+				    //mainLight.SetDirection(0.0f,0.0f,-1);
+				//shaderList[0].SetDirectionalLight(&mainLight);
+
+
+					//}
+
+			
+			
+
+		}
+		else
+		{
+			skybox2.DrawSkybox(camera.calculateViewMatrix(), projection);
+		}
+		//skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -461,6 +557,17 @@ int main()
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//informaci�n al shader de fuentes de iluminaci�n
+		///no descomentar no funciona, dejarlo comentado es para la luz de oeste a este pero no funciona
+		//GLfloat z=-2;
+		//for (GLfloat x = -100; x <= 0; ++x) {
+				   // printf("Valor de z: %.2f\n", x); // Imprimir el valor de z
+					
+				    //mainLight.SetDirection(x,0.0f,-1.0f);
+				//shaderList[0].SetDirectionalLight(&mainLight);
+
+
+					//}
+		//mainLight.SetDirection(0.0f,0.0f,z);
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
@@ -492,6 +599,19 @@ int main()
 		model = glm::scale(model, glm::vec3(5.0f, 4.0f, 3.9f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pisoSecundario.RenderModel();
+
+
+		///segundo piso
+model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(1.5f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-53.0f, 1.0f, 0.0f));
+
+		model = glm::scale(model, glm::vec3(5.0f, 4.0f, 3.9f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pisoSecundario.RenderModel();
+
+
+
 		////pasto
 		///model = glm::mat4(1.0);
 
@@ -641,6 +761,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		scooterdeadpool.RenderModel();
 		///falta que se mueva
+		
 		///bote de basura
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-9.0f, 1.3f, 3.0f));
@@ -664,6 +785,8 @@ int main()
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pino.RenderModel();
+		
+	
 
 /*lamparas deadpool*/
 //1
@@ -718,6 +841,7 @@ int main()
 		lamp_deadpool.RenderModel();	
 
 //////////////////////////////////////
+
 		////mesaconsilla
 		model = glm::mat4(1.0);
 		model = glm::mat4(1.0);
@@ -740,29 +864,61 @@ int main()
 		model = glm::translate(model, glm::vec3(5.0f, 1.4f, 4.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pelotabasquet.RenderModel();
+		
 
+
+/**************************ventanas transparentes*****************************/
 
 		////tienda comic con ventana transparente
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 1.0f, -15.0f));
+		model = glm::translate(model, glm::vec3(-55.0f, 0.0f, -40.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		tiendacomic.RenderModel();
 		///tienda de dulce
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 1.0f, -30.0f));
+		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, -10.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		candystore.RenderModel();
+		candystore.RenderModel();		
 		///tienda videojuegos
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 1.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 10.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		tiendavideojuegos.RenderModel();
+		/************************** modelosspotlights*****************************/
+
+
+		///faro
+		
+model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-30.0f, 0.0f, -40.0f));
+		//model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
+
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Farospot.RenderModel();
+//model = glm::translate(model, glm::vec3(-35.0f, 4.0f, 40.0f));
+
+		///control tower
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(-35.0f, 3.0f, 50.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Torrecontrolspot.RenderModel();
+	//proyector
+model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-85.0f, 0.5f, 0.0f));
+
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		proyectorspot.RenderModel();
+
+
 
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
