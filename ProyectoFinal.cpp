@@ -112,6 +112,12 @@ Model tiendavideojuegos;
 Model Farospot;
 Model Torrecontrolspot;
 Model proyectorspot;
+///modelos con pointlights
+Model espada_fin;
+Model gema_infinito;
+////lampara deapdpool por tiempo
+
+
 
 Skybox skybox;
 Skybox skybox2;
@@ -130,7 +136,18 @@ static double limitFPS = 1.0 / 60.0;
 DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
 PointLight pointLights[MAX_POINT_LIGHTS];
+////luz que se apague con teclado
+
+//PointLight pointLights2[MAX_POINT_LIGHTS];
+//SPOTLIGHTS
 SpotLight spotLights[MAX_SPOT_LIGHTS];
+//FARO CON TIEMPO
+//SpotLight spotLights2[MAX_SPOT_LIGHTS];
+
+
+
+
+
 
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
@@ -353,6 +370,12 @@ proyectorspot=Model();
 proyectorspot.LoadModel("Models/proyector.obj");
 
 
+/************************** modelosspotlights*****************************/
+espada_fin=Model();
+espada_fin.LoadModel("Models/espadafin.obj");
+gema_infinito=Model();
+gema_infinito.LoadModel("Models/gema.obj");
+
 
 
 
@@ -418,28 +441,64 @@ skybox2=Skybox(skyboxFaces2);
 		0.0f, 0.0f,-1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
-	//Declaraci�n de primer luz puntual
-	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
-		0.0f, 1.0f,
-		-6.0f, 1.5f, 1.5f,
-		0.3f, 0.2f, 0.1f);
-	pointLightCount++;
+	//LUZ TECLADO  ESPADA FIN
+	unsigned int pointLightCount2 = 0;
+	///	LUZ TECLADO  LAMP DEADPOOL 
+	unsigned int pointLightCount3 = 0;
 
+
+	
+
+	///gema de poder cero PUNTUAL ARREGLO1
+	pointLights[0] = PointLight(0.0f,0.0f, 1.0f,
+		0.4f, 1.0f,
+		-86.0f, 5.0f,-44.0f,
+		0.1f, 0.1f, 0.1f);
+	pointLightCount++;
+	 
+	pointLights[1] = PointLight(1.0f,1.0f, 0.0f,
+		0.4f, 1.0f,
+		13.0f, 5.0f,0.0f,
+		0.1f, 0.1f, 0.1f);
+	pointLightCount++;
+	//Declaraci�n de primer luz puntual ARREGLO2 espada fin
+pointLights[2] = PointLight(1.0f, 1.0f, 0.0f,
+		0.4f, 1.0f,
+		-86.0f, 5.0f,44.0f,
+		0.1f, 0.1f, 0.1f);
+	pointLightCount++;
 	unsigned int spotLightCount = 0;
+
+
+
 	////al final tendr+ia que ser esta la uno del faro
 	
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+	/*spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
 		0.0f, 2.0f,
 		0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		5.0f);
+	spotLightCount++;*/
+
+//torre de control
+	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+		3.0f, 2.0f,
+		-35.0f, 30.0f, 50.0f,
+		5.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		5.0f);
 	spotLightCount++;
-
+//proyector
+	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
+		0.0f, 2.0f,
+		-86.0f, 2.0f, 0.0f,
+		5.0f, 0.0f, 0.0f,
+		4.0f, 0.0f, 0.0f,
+		20.0f);
+	spotLightCount++;
 	//faro
-	///-100.0f, 30.0f, -40.0f,
-
-	spotLights[1] = SpotLight(1.0f, 1.0f, 0.0f,
+	spotLights[2] = SpotLight(1.0f, 1.0f, 0.0f,
 		1.0f, 2.0f,
 		-30.0f, 27.0f, -40.0f,
 		5.0f, 0.0f, 0.0f,
@@ -447,25 +506,7 @@ skybox2=Skybox(skyboxFaces2);
 		5.0f);
 	spotLightCount++;
 ///1.0f,2.0f
-	//torre de control
-	spotLights[2] = SpotLight(1.0f, 1.0f, 1.0f,
-		3.0f, 2.0f,
-		-35.0f, 30.0f, 50.0f,
-		5.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		5.0f);
-	spotLightCount++;
-	//proyector
-
-	///posicion-85.0f, 2.0f, 0.0f,
-
-	spotLights[3] = SpotLight(0.0f, 0.0f, 1.0f,
-		0.0f, 2.0f,
-		-86.0f, 2.0f, 0.0f,
-		5.0f, 0.0f, 0.0f,
-		4.0f, 0.0f, 0.0f,
-		20.0f);
-	spotLightCount++;
+	
 
 
 	//se crean mas luces puntuales y spotlight 
@@ -476,8 +517,20 @@ skybox2=Skybox(skyboxFaces2);
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 	////Loop mientras no se cierra la ventana
 	bool cicloDia = true;
+	///skybox cambio de dia y noche
 		double tiempoInicial = glfwGetTime();
 	double tiempoUltimoCambio = tiempoInicial;
+
+
+	///tiempo lammpara que se prende y apague automatico
+////FARO por tiempo
+bool tiempofaro = true;
+double tiempoInicical2=glfwGetTime();
+	double tiempoUltimoCambio2 =tiempoInicical2;
+
+
+
+
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
@@ -497,9 +550,10 @@ skybox2=Skybox(skyboxFaces2);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		double tiempoActualskybox = glfwGetTime();
-		float tiempo;
+		double tiempoActualfaro=glfwGetTime();
 
-		if (tiempoActualskybox - tiempoUltimoCambio >= 30.0)
+////////////////////////////////////////skybox/////////////////////////////
+		if (tiempoActualskybox - tiempoUltimoCambio >= 60.0)
 		{
 
 			cicloDia = (cicloDia == true) ? false : true;
@@ -515,25 +569,23 @@ skybox2=Skybox(skyboxFaces2);
 		if (cicloDia == true)
 		{
 			skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
-			///no descomentar, no funciona dejarlo comentado es para la luz de este a oeste
-			//for (GLfloat z = -20; z <= 20; ++z) {
-				    //printf("Valor de z: %.2f\n", z); // Imprimir el valor de z
-					//GLfloat z=-1;
-
-				    //mainLight.SetDirection(0.0f,0.0f,-1);
-				//shaderList[0].SetDirectionalLight(&mainLight);
-
-
-					//}
-
-			
-			
 
 		}
 		else
 		{
 			skybox2.DrawSkybox(camera.calculateViewMatrix(), projection);
 		}
+
+////////faro pot tiempo
+
+if (tiempoActualfaro - tiempoUltimoCambio2 >= 15.0)
+		{
+
+			tiempofaro = (tiempofaro == true) ? false : true;
+			tiempoUltimoCambio2 = tiempoActualfaro;
+			
+		}
+
 		//skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
@@ -554,10 +606,10 @@ skybox2=Skybox(skyboxFaces2);
 		//sirve para que en tiempo de ejecuci�n (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		///spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//informaci�n al shader de fuentes de iluminaci�n
-		///no descomentar no funciona, dejarlo comentado es para la luz de oeste a este pero no funciona
+		///no descomentar no funciona, dejarlo comentado
 		//GLfloat z=-2;
 		//for (GLfloat x = -100; x <= 0; ++x) {
 				   // printf("Valor de z: %.2f\n", x); // Imprimir el valor de z
@@ -569,9 +621,48 @@ skybox2=Skybox(skyboxFaces2);
 					//}
 		//mainLight.SetDirection(0.0f,0.0f,z);
 		shaderList[0].SetDirectionalLight(&mainLight);
-		shaderList[0].SetPointLights(pointLights, pointLightCount);
-		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
+		
+	
+////////////luz por ciclo pointlights
+
+	/*if(tiempolampdeadpool==true){
+
+		shaderList[0].SetPointLights(pointLights, pointLightCount);
+
+
+
+
+		}
+		else{
+		shaderList[0].SetPointLights(pointLights, pointLightCount-1);
+
+
+		}	*/
+		
+		if (mainWindow.getLampara() == true) {
+    shaderList[0].SetPointLights(pointLights, pointLightCount);
+
+}else {
+    shaderList[0].SetPointLights(pointLights, pointLightCount-1);
+
+
+}
+
+////////////luz por ciclo pointlights
+
+if(tiempofaro==true) {
+  shaderList[0].SetSpotLights(spotLights, spotLightCount);
+}
+else {
+	shaderList[0].SetSpotLights(spotLights, spotLightCount-1);
+}
+
+
+		//shaderList[0].SetSpotLights(spotLights, spotLightCount);
+
+
+ 
 
 		glm::mat4 model(1.0);
 		glm::mat4 model_relieve_principal(1.0);
@@ -917,7 +1008,21 @@ model = glm::mat4(1.0);
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		proyectorspot.RenderModel();
+/************************** modelospointlights*****************************/
 
+//espada fin
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(-85.0f, 3.0f, 45.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		espada_fin.RenderModel();
+
+////gema poder
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(-85.0f, 0.0f, -45.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		gema_infinito.RenderModel();
 
 
 		//glEnable(GL_BLEND);
