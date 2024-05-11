@@ -1,0 +1,24 @@
+# Blender MTL File: 'llantahalo.blend'
+# Material Count: 2
+
+newmtl Black_Body
+Ns 56.806129
+Ka 0.500000 0.500000 0.500000
+Kd 0.032298 0.042000 0.037149
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /Color_negro.png
+
+newmtl Green_Body
+Ns 56.806129
+Ka 0.500000 0.500000 0.500000
+Kd 0.124774 0.155927 0.109461
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /verdemilitar.png

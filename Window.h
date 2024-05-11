@@ -1,6 +1,6 @@
 #pragma once
 // paralinux
-#include<stdio.h>
+//#include<stdio.h>
 /* para windows */
 #include<glew.h>
 #include<glfw3.h>
