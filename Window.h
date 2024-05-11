@@ -1,6 +1,6 @@
 #pragma once
-// parawindows
-#include<stdio.h>
+// paralinux
+//#include<stdio.h>
 /* para windows */
 #include<glew.h>
 #include<glfw3.h>
@@ -20,6 +20,9 @@ public:
 	GLfloat getXChange();
 	GLfloat getYChange();
 	GLfloat getmuevex() { return muevex; }
+	///lampespadafin teclado
+	GLboolean getLampara() { return lampespadafin; }
+
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
@@ -37,6 +40,8 @@ private:
 	GLfloat xChange;
 	GLfloat yChange;
 	GLfloat muevex;
+	///lampespadafin teclado
+		GLboolean lampespadafin = true;
 	bool mouseFirstMoved;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
