@@ -4,6 +4,7 @@ Pr�ctica 7: Iluminaci�n 1
 //para cargar imagen
 #define STB_IMAGE_IMPLEMENTATION
 
+
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
@@ -85,7 +86,7 @@ Model Spiderman;
 /// araña
 Model arana;
 ////scooter deadpol vehiculo motorizado
-Model scooterdeadpool;
+//Model scooterdeadpool;
 ///bote de basura
 Model bote_basura;
 ///arbol pino
@@ -98,8 +99,51 @@ Model mesasillaplastico;
 ///estatua dorada spider man
 Model estatuaspidermandorada;
 
+/// Bicicleta roja
+Model bicicletaroja;
+///BALON BASQUET
+Model pelotabasquet;
+////tienda comic ventana con transparencia
+Model tiendacomic;
+///tienda de dulce transparencia
+Model candystore;
+Model tiendavideojuegos;
+///// modelos con spotlights
+Model Farospot;
+Model Torrecontrolspot;
+Model proyectorspot;
+///modelos con pointlights
+Model espada_fin;
+Model gema_infinito;
+////halo carrito
+Model halo_carrito;
+Model halo_carritollantaizq;
+Model halo_carritollantader;
+//////////////////////////////////7variables animacion coche halo
+float movCochehalo;
+float movOffsethalo;
+float rotllantahalo;
+float rotllantaOffsethalo;
+bool avanzahalo; 
+//bool avanzahalox;
+//bool avanzahaloy;
+///scooter deadpol vehiculo motorizado
+Model scooterdeadpool;
+Model scotterdeadpoolllantader;
+///////////////////////////////////////////////////////////////////variables animacion deadpool
 
+float movscootdeadpool;
+float movOffscootdeadpool;
+float rotllantascootdeadpool;
+float rotllantascootOffsetdeadpool;
+bool avanzascootdeadpool; 
+
+
+
+
+//////////////////////////////////////////////////
 Skybox skybox;
+Skybox skybox2;
 
 //materiales
 Material Material_brillante;
@@ -115,7 +159,18 @@ static double limitFPS = 1.0 / 60.0;
 DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
 PointLight pointLights[MAX_POINT_LIGHTS];
+////luz que se apague con teclado
+
+//PointLight pointLights2[MAX_POINT_LIGHTS];
+//SPOTLIGHTS
 SpotLight spotLights[MAX_SPOT_LIGHTS];
+//FARO CON TIEMPO
+//SpotLight spotLights2[MAX_SPOT_LIGHTS];
+
+
+
+
+
 
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
@@ -288,8 +343,8 @@ int main()
 	Spiderman.LoadModel("Models/spiderman.obj");
 
 	///scooter deadpool
-	scooterdeadpool = Model();
-	scooterdeadpool.LoadModel("Models/scooterdead.obj");
+	//scooterdeadpool = Model();
+	//scooterdeadpool.LoadModel("Models/scooterdead.obj");
 	///bote de basura
 	bote_basura = Model();
 	bote_basura.LoadModel("Models/botebasura.obj");
@@ -306,8 +361,64 @@ int main()
 	///estatua dorada spiderman
 	estatuaspidermandorada = Model();
 	estatuaspidermandorada.LoadModel("Models/estatuaspiderman.obj");
+	
+///fuente agua
+	//fuenteagua=Model();
+	//fuenteagua.LoadModel("Models/fuenteagua.obj");
+	////bicicleta roja
+	bicicletaroja=Model();
+	bicicletaroja.LoadModel("Models/bicicletaroja.obj");
+	///pelota basquet
+	pelotabasquet=Model();
+	pelotabasquet.LoadModel("Models/pelotbasquet.obj");
 
+/************************** ventana transparente*****************************/
+
+	///tienda comic ventana transparente
+
+	tiendacomic=Model();
+	tiendacomic.LoadModel("Models/tiendacomic.obj");
+
+	candystore=Model();
+	candystore.LoadModel("Models/candystore.obj");
+	tiendavideojuegos=Model();
+	tiendavideojuegos.LoadModel("Models/tiendavideojuegos.obj");
+
+/************************** modelosspotlights*****************************/
+Farospot=Model();
+Farospot.LoadModel("Models/faro.obj");
+Torrecontrolspot=Model();
+Torrecontrolspot.LoadModel("Models/airtrafic.obj");
+proyectorspot=Model();
+proyectorspot.LoadModel("Models/proyector.obj");
+
+
+/************************** modelosspotlights*****************************/
+espada_fin=Model();
+espada_fin.LoadModel("Models/espadafin.obj");
+gema_infinito=Model();
+gema_infinito.LoadModel("Models/gema.obj");
+
+/************************** modeloscarrosmotor*****************************/
+halo_carrito=Model();
+halo_carrito.LoadModel("Models/halocarro.obj");
+
+halo_carritollantader=Model();
+halo_carritollantader.LoadModel("Models/halocarroder.obj");
+halo_carritollantaizq=Model();
+halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
+
+////scooter deadpool o algo asi 2°vehiculo
+
+///scooter deadpool
+	scooterdeadpool = Model();
+	scooterdeadpool.LoadModel("Models/scooterdead.obj");
+
+	scotterdeadpoolllantader=Model();
+	scotterdeadpoolllantader.LoadModel("Models/scooterdeadllanta.obj");
+	
 	/************************** Hora de aventura *****************************/
+
 	// Castillo del rey helado
 	castillo_rey_helado = Model();
 	castillo_rey_helado.LoadModel("Models/king_castle.obj");
@@ -320,7 +431,7 @@ int main()
 
 	// Entrada unicornio
 	Rainicorn = Model();
-	Rainicorn.LoadModel("Models/Rainicorn_solo.obj");
+	Rainicorn.LoadModel("Models/rainicorn_solo.obj");
 
 	// Fuente del centro de la alameda
 	Fuente01 = Model();
@@ -337,15 +448,25 @@ int main()
 
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+	skyboxFaces.push_back("Textures/Skybox/desertsky_rt.tga");
+	skyboxFaces.push_back("Textures/Skybox/desertsky_lf.tga");
+	skyboxFaces.push_back("Textures/Skybox/desertsky_dn.tga");
+	skyboxFaces.push_back("Textures/Skybox/desertsky_up.tga");
+	skyboxFaces.push_back("Textures/Skybox/desertsky_bk.tga");
+	skyboxFaces.push_back("Textures/Skybox/desertsky_ft.tga");
 
 	skybox = Skybox(skyboxFaces);
 
+/////noche
+	std::vector<std::string> skyboxFaces2;
+skyboxFaces2.push_back("Textures/Skybox/luna_rt.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_lf.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_dn.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_up.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_bk.tga");
+	skyboxFaces2.push_back("Textures/Skybox/luna_ft.tga");
+	
+skybox2=Skybox(skyboxFaces2);
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
@@ -353,34 +474,76 @@ int main()
 	//luz direccional, s�lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
-		0.0f, 0.0f, -1.0f);
+		0.0f, 0.0f,-1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
-	//Declaraci�n de primer luz puntual
-	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
-		0.0f, 1.0f,
-		-6.0f, 1.5f, 1.5f,
-		0.3f, 0.2f, 0.1f);
-	pointLightCount++;
+	//LUZ TECLADO  ESPADA FIN
+	unsigned int pointLightCount2 = 0;
+	///	LUZ TECLADO  LAMP DEADPOOL 
+	unsigned int pointLightCount3 = 0;
 
+
+	
+
+	///gema de poder cero PUNTUAL ARREGLO1
+	pointLights[0] = PointLight(0.0f,0.0f, 1.0f,
+		0.4f, 1.0f,
+		-86.0f, 5.0f,-44.0f,
+		0.1f, 0.1f, 0.1f);
+	pointLightCount++;
+	 
+	pointLights[1] = PointLight(1.0f,1.0f, 0.0f,
+		0.4f, 1.0f,
+		13.0f, 5.0f,0.0f,
+		0.1f, 0.1f, 0.1f);
+	pointLightCount++;
+	//Declaraci�n de primer luz puntual ARREGLO2 espada fin
+pointLights[2] = PointLight(1.0f, 1.0f, 0.0f,
+		0.4f, 1.0f,
+		-86.0f, 5.0f,44.0f,
+		0.1f, 0.1f, 0.1f);
+	pointLightCount++;
 	unsigned int spotLightCount = 0;
-	//linterna
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+
+
+
+	////al final tendr+ia que ser esta la uno del faro
+	
+	/*spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
 		0.0f, 2.0f,
 		0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		5.0f);
+	spotLightCount++;*/
+
+//torre de control
+	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+		3.0f, 2.0f,
+		-35.0f, 30.0f, 50.0f,
+		5.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		5.0f);
 	spotLightCount++;
-
-	//luz fija
-	spotLights[1] = SpotLight(0.0f, 1.0f, 0.0f,
-		1.0f, 2.0f,
-		5.0f, 10.0f, 0.0f,
-		0.0f, -5.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		15.0f);
+//proyector
+	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
+		0.0f, 2.0f,
+		-86.0f, 2.0f, 0.0f,
+		5.0f, 0.0f, 0.0f,
+		4.0f, 0.0f, 0.0f,
+		20.0f);
 	spotLightCount++;
+	//faro
+	spotLights[2] = SpotLight(1.0f, 1.0f, 0.0f,
+		1.0f, 2.0f,
+		-30.0f, 27.0f, -40.0f,
+		5.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		5.0f);
+	spotLightCount++;
+///1.0f,2.0f
+	
+
 
 	//se crean mas luces puntuales y spotlight 
 
@@ -389,6 +552,41 @@ int main()
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 	////Loop mientras no se cierra la ventana
+////////////variables animacion coche halo
+movCochehalo = 0.0f;
+	movOffsethalo = 0.1f; //velocidad del coche
+	rotllantahalo = 0.0f;
+	rotllantaOffsethalo = 5.0f;
+avanzahalo=true;
+//avanzahalox=true;
+//avanzahaloy=true;
+/////////variables animacion coche scootdeadpool
+
+movscootdeadpool=0.0f;
+movOffscootdeadpool=0.2;
+rotllantascootdeadpool=0.0f;
+rotllantaOffsethalo=5.0f;
+avanzascootdeadpool=true;
+
+
+
+
+
+	bool cicloDia = true;
+	///skybox cambio de dia y noche
+		double tiempoInicial = glfwGetTime();
+	double tiempoUltimoCambio = tiempoInicial;
+
+
+	///tiempo lammpara que se prende y apague automatico
+////FARO por tiempo
+bool tiempofaro = true;
+double tiempoInicical2=glfwGetTime();
+	double tiempoUltimoCambio2 =tiempoInicical2;
+
+
+
+
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
@@ -396,15 +594,56 @@ int main()
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 
+
+
 		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-
+		///luz de este a oeste
+		
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+		double tiempoActualskybox = glfwGetTime();
+		double tiempoActualfaro=glfwGetTime();
+
+////////////////////////////////////////skybox/////////////////////////////
+		if (tiempoActualskybox - tiempoUltimoCambio >= 60.0)
+		{
+
+			cicloDia = (cicloDia == true) ? false : true;
+			tiempoUltimoCambio = tiempoActualskybox;
+			
+			
+
+
+			
+
+			
+		}
+		if (cicloDia == true)
+		{
+			skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+
+		}
+		else
+		{
+			skybox2.DrawSkybox(camera.calculateViewMatrix(), projection);
+		}
+
+////////faro pot tiempo
+
+if (tiempoActualfaro - tiempoUltimoCambio2 >= 15.0)
+		{
+
+			tiempofaro = (tiempofaro == true) ? false : true;
+			tiempoUltimoCambio2 = tiempoActualfaro;
+			
+		}
+
+
+		//skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -424,17 +663,147 @@ int main()
 		//sirve para que en tiempo de ejecuci�n (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		///spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//informaci�n al shader de fuentes de iluminaci�n
+		///no descomentar no funciona, dejarlo comentado
+		//GLfloat z=-2;
+		//for (GLfloat x = -100; x <= 0; ++x) {
+				   // printf("Valor de z: %.2f\n", x); // Imprimir el valor de z
+					
+				    //mainLight.SetDirection(x,0.0f,-1.0f);
+				//shaderList[0].SetDirectionalLight(&mainLight);
+
+
+					//}
+		//mainLight.SetDirection(0.0f,0.0f,z);
 		shaderList[0].SetDirectionalLight(&mainLight);
+
+		
+	
+////////////luz por ciclo pointlights
+
+	/*if(tiempolampdeadpool==true){
+
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
-		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 
+
+
+		}
+		else{
+		shaderList[0].SetPointLights(pointLights, pointLightCount-1);
+
+
+		}	*/
+		
+		if (mainWindow.getLampara() == true) {
+    shaderList[0].SetPointLights(pointLights, pointLightCount);
+
+}else {
+    shaderList[0].SetPointLights(pointLights, pointLightCount-1);
+
+
+}
+
+////////////luz por ciclo pointlights
+
+if(tiempofaro==true) {
+  shaderList[0].SetSpotLights(spotLights, spotLightCount);
+}
+else {
+	shaderList[0].SetSpotLights(spotLights, spotLightCount-1);
+}
+
+
+		//shaderList[0].SetSpotLights(spotLights, spotLightCount);
+
+
+ ///////////////animacion cohce halo
+
+if (avanzahalo)
+		{
+			//el coche avanza y se detiene en el límite del plano
+			if (movCochehalo > -10.0f)
+			{
+				movCochehalo -= ((movOffsethalo * deltaTime)/10);
+				rotllantahalo +=rotllantaOffsethalo * deltaTime;
+				//printf("> -10.0f  %.2f\n", movscootdeadpool);
+
+
+			}
+			else
+			{
+				avanzahalo = false;
+			}
+		}
+		else
+		{
+			//el coche avanza hacia atrás y se detiene en el límite del plano
+			if (movCochehalo < 10.0f)
+			{
+				movCochehalo += ((movOffsethalo * deltaTime)/10);
+				rotllantahalo -=rotllantaOffsethalo * deltaTime;
+				//printf("< 10.0f  %.2f\n", movCochehalo);
+
+			}
+			else
+			{
+				avanzahalo = true;
+			}
+		}
+//////////////////////////////////////////////////////// scooter deadpool
+
+if (avanzascootdeadpool)
+		{
+			//el coche avanza y se detiene en el límite del plano
+			if (movscootdeadpool > -5.0f)
+			{
+				movscootdeadpool -= ((movOffscootdeadpool * deltaTime)/10);
+				rotllantascootdeadpool +=rotllantascootOffsetdeadpool * deltaTime;
+				//printf("> -10.0f  %.2f\n", movscootdeadpool);
+
+
+
+			}
+			else
+			{
+				avanzascootdeadpool = false;
+			}
+		}
+		else
+		{
+			//el coche avanza hacia atrás y se detiene en el límite del plano
+			if (movscootdeadpool < 5.0f)
+			{
+				movscootdeadpool +=( (movOffscootdeadpool * deltaTime)/10);
+				rotllantascootdeadpool -=rotllantaOffsethalo * deltaTime;
+				//printf("< 10.0f  %.2f\n", movscootdeadpool);
+
+
+			}
+			else
+			{
+				avanzascootdeadpool = true;
+			}
+		}
+
+////////////////////////////
+
+
+
+/////////////////
 		glm::mat4 model(1.0);
 		glm::mat4 model_relieve_principal(1.0);
 		glm::mat4 modelaux(1.0);
+		////carrro halo
+		glm::mat4 modelaux2(1.0);
+		glm::mat4 modelaux3(1.0);
+		///carro spiderman
+		glm::mat4 modelaux4(1.0);
+		//glm::mat4 modelaux3(1.0);
+
+
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 
 		model = glm::mat4(1.0);
@@ -458,6 +827,19 @@ int main()
 		model = glm::scale(model, glm::vec3(5.0f, 4.0f, 3.9f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pisoSecundario.RenderModel();
+
+
+		///segundo piso
+model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(1.5f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-53.0f, 1.0f, 0.0f));
+
+		model = glm::scale(model, glm::vec3(5.0f, 4.0f, 3.9f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pisoSecundario.RenderModel();
+
+
+
 		////pasto
 		///model = glm::mat4(1.0);
 
@@ -595,18 +977,19 @@ int main()
 		arana.RenderModel();
 		//Spiderman 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-20.0f, 1.25f, -15.0f));
+		model = glm::translate(model, glm::vec3(-22.0f, 1.25f, -15.0f));
 		model = glm::scale(model, glm::vec3(0.75f,0.75f, 0.75f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Spiderman.RenderModel();
 		////deadpool scooter vehiculo motorizado
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-20.0f, 1.4f, -15.0f));
+		//model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(-20.0f, 1.4f, -15.0f));
 
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		scooterdeadpool.RenderModel();
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//scooterdeadpool.RenderModel();
 		///falta que se mueva
+		
 		///bote de basura
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-9.0f, 1.3f, 3.0f));
@@ -630,6 +1013,8 @@ int main()
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pino.RenderModel();
+		
+	
 
 /*lamparas deadpool*/
 //1
@@ -684,6 +1069,7 @@ int main()
 		lamp_deadpool.RenderModel();	
 
 //////////////////////////////////////
+
 		////mesaconsilla
 		model = glm::mat4(1.0);
 		model = glm::mat4(1.0);
@@ -695,9 +1081,191 @@ int main()
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-3.0f, 1.0f, 8.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		estatuaspidermandorada.RenderModel();	
+		estatuaspidermandorada.RenderModel();
+		///bicicleta roja
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(5.0f, 1.2f, 8.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bicicletaroja.RenderModel();
+		///pelotabasquet
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(5.0f, 1.4f, 4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pelotabasquet.RenderModel();
+		
 
 
+/**************************ventanas transparentes*****************************/
+
+		////tienda comic con ventana transparente
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-55.0f, 0.0f, -40.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		tiendacomic.RenderModel();
+		///tienda de dulce
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, -10.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		candystore.RenderModel();		
+		///tienda videojuegos
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 10.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		tiendavideojuegos.RenderModel();
+		/************************** modelosspotlights*****************************/
+
+
+		///faro
+		
+model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-30.0f, 0.0f, -40.0f));
+		//model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
+
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Farospot.RenderModel();
+//model = glm::translate(model, glm::vec3(-35.0f, 4.0f, 40.0f));
+
+		///control tower
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(-35.0f, 3.0f, 50.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Torrecontrolspot.RenderModel();
+	//proyector
+model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-85.0f, 0.5f, 0.0f));
+
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		proyectorspot.RenderModel();
+/************************** modelospointlights*****************************/
+
+//espada fin
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(-85.0f, 3.0f, 45.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		espada_fin.RenderModel();
+
+////gema poder
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(-85.0f, 0.0f, -45.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		gema_infinito.RenderModel();
+
+
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+/************************** modeloscarrosmotor*****************************/
+///carro halo 1.8
+model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(20.0f, 1.7f, -15.0f));
+		///por aqui que s emueva
+		model = glm::translate(model, glm::vec3(20.0f, 1.7f,movCochehalo));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		modelaux2=model;
+		modelaux3=model;
+		halo_carrito.RenderModel();
+		
+		///1°llanta derecha
+model=modelaux2;
+		//model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
+		model = glm::translate(model, glm::vec3(0.5f,-0.2f,0.9f));
+		modelaux2=model;
+		//modelaux=model;
+		///aqui para que rote
+		model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
+		halo_carritollantader.RenderModel();
+
+
+		///2°llanta derecha
+		model=modelaux2;
+		//model = glm::translate(model, glm::vec3(0.0f,0.0f,-1.7f));
+		model = glm::translate(model, glm::vec3(0.0f,0.0f,-1.7f));
+		model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(-1.0f, 0.0f, 0.0f));
+
+glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		halo_carritollantader.RenderModel();
+		modelaux2=model;
+		///aqui para que rote
+
+		///1° lllanta izq
+		model=modelaux3;
+		model = glm::translate(model, glm::vec3(-0.5f,-0.2f,0.9f));
+		modelaux3=model;
+		model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(-1.0f, 0.0f, 0.0f));
+glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+halo_carritollantaizq.RenderModel();
+//modelaux3=model;
+
+//////////2° llanta izq
+model=modelaux3;
+		model = glm::translate(model, glm::vec3(0.0f,0.0f,-1.7f));
+	model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(-1.0f, 0.0f, 0.0f));
+
+glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+halo_carritollantaizq.RenderModel();
+
+/////////////////////////////2 carro motorizado deadpool
+////deadpool scooter vehiculo motorizado
+		model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(-19.0f, 1.6f, -15.0f));
+		///se pone la traslacion
+model = glm::translate(model, glm::vec3(-19.0f, 1.6f,movscootdeadpool));
+glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		modelaux4=model;
+
+		scooterdeadpool.RenderModel();
+		///llanta 1
+		model=modelaux4;
+		//model=glm::mat4(1.0);
+
+		///-0.3f
+		model = glm::translate(model, glm::vec3(0.1f, -0.2f, 0.8f));
+		modelaux4=model;
+		//model = glm::translate(model, glm::vec3(-19.0f, 1.6f, -15.0f));
+
+		model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		///aqui se rota
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		scotterdeadpoolllantader.RenderModel();
+		
+		///llanta2
+		model=modelaux4;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.3f));
+		modelaux4=model;
+		model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+		///aqui se rota
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		scotterdeadpoolllantader.RenderModel();
+		
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
 		/************ Hora de Aventura **************/
 
 		// Castillo Rey Helado
