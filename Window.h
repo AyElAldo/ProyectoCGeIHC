@@ -41,7 +41,7 @@ private:
 	GLfloat yChange;
 	GLfloat muevex;
 	///lampespadafin teclado
-		GLboolean lampespadafin = true;
+	GLboolean lampespadafin = true;
 	bool mouseFirstMoved;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
