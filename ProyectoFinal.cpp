@@ -76,6 +76,15 @@ Model Fuente01;
 // Personajes
 Model ReyHelado;
 
+// Parque alameda
+Model Fence_color;
+Model Fence_normal;
+
+// Vegatacion
+Model arbusto_colorido;
+Model arbol_colorido;
+Model pasto_rosa;
+
 
 /*************************************/
 
@@ -426,9 +435,6 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 	scotterdeadpoolllantader=Model();
 	scotterdeadpoolllantader.LoadModel("Models/scooterdeadllanta.obj");
 
-	
-
-	
 	/************************** Hora de aventura *****************************/
 
 	// Rey helado
@@ -471,6 +477,21 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 	Arboles_HoraDeAventura[1] = Model();
 	Arboles_HoraDeAventura[1].LoadModel("Models/arbol_algodon2.obj");
 
+	/************************** Parque alameda *****************************/
+	Fence_color = Model();
+	Fence_color.LoadModel("Models/fence_color.obj");
+
+	Fence_normal = Model();
+	Fence_normal.LoadModel("Models/fence_normal.obj");
+
+	arbusto_colorido = Model();
+	arbusto_colorido.LoadModel("Models/colorful_bush.obj");
+
+	arbol_colorido = Model();
+	arbol_colorido.LoadModel("Models/arbol_colorido.obj");
+
+	pasto_rosa = Model();
+	pasto_rosa.LoadModel("Models/pasto_rosa.obj");
 
 
 	std::vector<std::string> skyboxFaces;
@@ -1183,31 +1204,21 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		scotterdeadpoolllantader.RenderModel();
 		
 
-
-
-
-
-
-
-
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////
 		/************ Hora de Aventura **************/
 
 		// Rey Helado
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(30.0f, 1.0f, -30.0f));
-		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ReyHelado.RenderModel();
 
 		// Piso helado
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(50.0f, -0.1f, -40.0f));
-		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(40.0f, 0.17f, -40.0f));
+		model = glm::scale(model, glm::vec3(13.0f, 13.0f, 13.0f));
 		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pisoHielo.RenderModel();
@@ -1261,7 +1272,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Entrada de unicornio arcoiris
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(5.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(16.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Rainicorn.RenderModel();
@@ -1275,19 +1286,73 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 /************************ VEGETACION: Hora de aventura ***************************/
 		float tamanoArboles = 3.0f;
+		for (int i = 0; i < 6 * 2; i = i + 2) {
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-10.0f, 1.0f, -28.0f + i));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Arboles_HoraDeAventura[0].RenderModel();
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-6.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Arboles_HoraDeAventura[0].RenderModel();
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-13.0f, 1.0f, -27.0f + i));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Arboles_HoraDeAventura[1].RenderModel();
+		}
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-8.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Arboles_HoraDeAventura[1].RenderModel();
+		for (int i = 0; i < 6 * 2; i = i + 2) {
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(13.0f, 1.0f, -28.0f + i));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			arbol_colorido.RenderModel();
+		}
+		
 
+/************************* Parque alameda ****************************/
+
+		/* Lado derecho */
+		for (int i = 0; i <= 4 * 6; i = i + 4) {
+			// Reja colorida
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(16.0f, 1.0f, -30.0f + i));
+			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Fence_color.RenderModel();
+		}
+
+		for (int i = 0; i <= 2 * 24; i = i + 1) {
+			// Pasto rosa
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(16.5f, 1.0f, -30.0f + i));
+			model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			pasto_rosa.RenderModel();
+		}
+
+		for (int i = 0; i <= 4 * 6; i = i + 4) {
+			// Reja colorida
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(16.0f, 1.0f, 6.0f + i));
+			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Fence_color.RenderModel();
+		}
+
+		/* Lado izquierdo */
+
+		for (int i = 0; i <= 4 * 6; i = i + 4) {
+			// Reja normal
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-15.0f, 1.0f, -30.0f + i));
+			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Fence_color.RenderModel();
+		}
 
 
 		//blending: transparencia o traslucidez
