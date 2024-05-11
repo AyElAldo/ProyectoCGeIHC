@@ -60,12 +60,22 @@ Model relieve;
 Model pisoSecundario;
 
 /********* Hora de aventura *********/
+Model pisoHielo;
 Model castillo_rey_helado;
 Model Montanas[2];
 
 Model Arboles_HoraDeAventura[10]; // Por lo mientras 10 arboles
+
+Model Casa_JakeConPasto;
+Model maceta;
+
 Model Rainicorn;
 Model Fuente01;
+
+
+// Personajes
+Model ReyHelado;
+
 
 /*************************************/
 
@@ -393,7 +403,6 @@ proyectorspot=Model();
 proyectorspot.LoadModel("Models/proyector.obj");
 
 
-/************************** modelosspotlights*****************************/
 espada_fin=Model();
 espada_fin.LoadModel("Models/espadafin.obj");
 gema_infinito=Model();
@@ -416,12 +425,29 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 
 	scotterdeadpoolllantader=Model();
 	scotterdeadpoolllantader.LoadModel("Models/scooterdeadllanta.obj");
+
+	
+
 	
 	/************************** Hora de aventura *****************************/
+
+	// Rey helado
+	ReyHelado = Model();
+	ReyHelado.LoadModel("Models/rey_helado.obj");
+
+	pisoHielo = Model();
+	pisoHielo.LoadModel("Models/sueloHielo.obj");
 
 	// Castillo del rey helado
 	castillo_rey_helado = Model();
 	castillo_rey_helado.LoadModel("Models/king_castle.obj");
+
+	// Casa madera
+	Casa_JakeConPasto = Model();
+	Casa_JakeConPasto.LoadModel("Models/casaJakeConPasto.obj");
+		// Maceta casa jake
+	maceta = Model();
+	maceta.LoadModel("Models/maceta.obj");
 
 	// Montañas
 	Montanas[0] = Model();
@@ -992,7 +1018,8 @@ model = glm::mat4(1.0);
 		
 		///bote de basura
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-9.0f, 1.3f, 3.0f));
+		//model = glm::translate(model, glm::vec3(-32.0f, 1.2f, -15.0f));
+		model = glm::translate(model, glm::vec3(-30.0f, 1.3f, -6.5f));
 		model = glm::scale(model, glm::vec3(0.8f,0.8f, 0.8f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1084,7 +1111,8 @@ model = glm::mat4(1.0);
 		estatuaspidermandorada.RenderModel();
 		///bicicleta roja
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(5.0f, 1.2f, 8.0f));
+		model = glm::translate(model, glm::vec3(45.0f, 1.2f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bicicletaroja.RenderModel();
 		///pelotabasquet
@@ -1268,6 +1296,22 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 ///////////////////////////////////////////////////////////////////////////////////
 		/************ Hora de Aventura **************/
 
+		// Rey Helado
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.0f, 1.0f, -30.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ReyHelado.RenderModel();
+
+		// Piso helado
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, -0.1f, -40.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pisoHielo.RenderModel();
+
 		// Castillo Rey Helado
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -40.0f));
@@ -1275,6 +1319,29 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		castillo_rey_helado.RenderModel();
+
+		// Casa Jake
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -0.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Casa_JakeConPasto.RenderModel();
+		// Maceta de casa de Jake
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -0.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		maceta.RenderModel();
+		// Maceta de casa de Jake
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -20.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		maceta.RenderModel();
+
 
 		// Montañas
 	// Primeras montañas
@@ -1307,78 +1374,22 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Fuente01.RenderModel();
 
 /************************ VEGETACION: Hora de aventura ***************************/
+		float tamanoArboles = 3.0f;
+
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-6.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
+		model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Arboles_HoraDeAventura[0].RenderModel();
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-8.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
+		model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Arboles_HoraDeAventura[1].RenderModel();
 
-		/*
 
-		//Instancia del coche 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f + mainWindow.getmuevex(), 0.5f, -3.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Kitt_M.RenderModel();
 
-		//Llanta delantera izquierda
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(7.0f, -0.5f, 8.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		color = glm::vec3(0.5f, 0.5f, 0.5f);//llanta con color gris
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
-
-		//Llanta trasera izquierda
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 8.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
-
-		//Llanta delantera derecha
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(7.0f, -0.5f, 1.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
-
-		//Llanta trasera derecha
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
-	
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 6.0));
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Blackhawk_M.RenderModel();
-
-		//Agave �qu� sucede si lo renderizan antes del coche y el helic�ptero?
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -4.0f));
-		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		*/
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

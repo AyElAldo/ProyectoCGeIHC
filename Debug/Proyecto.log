@@ -1,11 +1,17 @@
-﻿  ProyectoFinal.cpp
+﻿  Window.cpp
 C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.h(18,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-  (compilando archivo de origen "ProyectoFinal.cpp")
+  (compilando archivo de origen "Window.cpp")
   
 C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.h(19,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-  (compilando archivo de origen "ProyectoFinal.cpp")
+  (compilando archivo de origen "Window.cpp")
   
-C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(370,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(372,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(150,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(151,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(155,28): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(156,40): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(158,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(159,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(76): warning C4715: 'Window::Initialise': no todas las rutas de acceso de control devuelven un valor
+  LINK : no se encontró C:\Users\26ald\Documents\Grafica\Proyecto\Debug\Proyecto.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
 LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
   Proyecto.vcxproj -> C:\Users\26ald\Documents\Grafica\Proyecto\Debug\Proyecto.exe
