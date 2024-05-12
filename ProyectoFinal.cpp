@@ -64,7 +64,7 @@ Model pisoHielo;
 Model castillo_rey_helado;
 Model Montanas[2];
 
-Model Arboles_HoraDeAventura[10]; // Por lo mientras 10 arboles
+Model Arboles_HoraDeAventura[3]; // Por lo mientras 3 arboles
 
 Model Casa_JakeConPasto;
 Model maceta;
@@ -197,10 +197,6 @@ PointLight pointLights[MAX_POINT_LIGHTS];
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 //FARO CON TIEMPO
 //SpotLight spotLights2[MAX_SPOT_LIGHTS];
-
-
-
-
 
 
 // Vertex Shader
@@ -979,7 +975,7 @@ model = glm::mat4(1.0);
 
 		///arboles tipo hora de aventura pino con hielo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.3f, 13.0f));
+		model = glm::translate(model, glm::vec3(20.0f, 1.3f, -34.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -987,8 +983,9 @@ model = glm::mat4(1.0);
 
 		////segundo arboles tipo hora de aventura pino con hielo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.3f, -13.0f));
+		model = glm::translate(model, glm::vec3(25.0f, 1.3f, -25.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pino.RenderModel();
@@ -1058,15 +1055,15 @@ model = glm::mat4(1.0);
 
 		// Pedestal estatua
 		model = glm::mat4(1.0);
-		glm::vec3 posEstatua = glm::vec3(-7.0f, 1.0f, 0.0f);
+		glm::vec3 posEstatua = glm::vec3(-9.0f, 1.0f, 0.0f);
 		model = glm::translate(model, posEstatua);
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pedestalEstatua.RenderModel();
 
-		posEstatua.x += 1;
-		posEstatua.y += 2;
-		posEstatua.x -= 1;
+		posEstatua.x += 1.7;
+		posEstatua.y += 1.5;
+		posEstatua.z -= 2.3;
 		///estatua de marvel spiderman dorada
 		model = glm::mat4(1.0);
 		model = glm::translate(model, posEstatua);
@@ -1262,7 +1259,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Bimo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -10.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -15.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		//model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1340,7 +1337,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		// Piso centro
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 2.0f, 4.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		piso_central.RenderModel();
 
@@ -1353,7 +1350,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Fuente
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.1f, 25.5f));
+		model = glm::translate(model, glm::vec3(0.0f, 1.1f, 29.0f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Fuente01.RenderModel();
@@ -1361,49 +1358,97 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 /************************ VEGETACION: Hora de aventura ***************************/
 		float tamanoArboles = 3.0f;
 		// Arboles izquierdo
-		for (int i = 0; i < 15 * 3; i = i + 3) {
-			if (i > 20 && i < 38) {
+		for (int i = 0; i < 19 * 3; i = i + 3) {
+			if (i > 15 && i < 38) {
 				continue;
 			}
 			else {
 				// Arbol 0 rosa
 				model = glm::mat4(1.0);
-				model = glm::translate(model, glm::vec3(-9.0f, 1.0f, -28.0f + i));
+				model = glm::translate(model, glm::vec3(-9.5f, 1.0f, -28.0f + i));
 				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
 				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 				Arboles_HoraDeAventura[0].RenderModel();
 
 				// Arbol 1 azul
 				model = glm::mat4(1.0);
-				model = glm::translate(model, glm::vec3(-11.0f, 1.0f, -27.0f + i));
+				model = glm::translate(model, glm::vec3(-12.5f, 1.0f, -27.0f + i));
 				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
 				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 				Arboles_HoraDeAventura[1].RenderModel();
 
 				// Arbol colorido
 				model = glm::mat4(1.0);
-				model = glm::translate(model, glm::vec3(-7.0f, 1.0f, -27.0f + i));
+				model = glm::translate(model, glm::vec3(-6.5f, 1.0f, -27.0f + i));
 				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
 				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 				arbol_colorido.RenderModel();
 
-				// Arbustos
-				model = glm::mat4(1.0);
-				model = glm::translate(model, glm::vec3(-11.5f, 1.0f, -26.5f + i));
-				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
-				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-				arbusto_colorido.RenderModel();
+				
 			}
 		}
 
-		// Arboles lado derecho
-		for (int i = 0; i < 6 * 2; i = i + 2) {
+		// Arbustos izquierdo
+		for (int i = 0; i < 10; i = i + 3) {
 			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(13.0f, 1.0f, -28.0f + i));
+			model = glm::translate(model, glm::vec3(-5.0f - i, 1.0f, 4.5f));
 			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			
+			arbusto_colorido.RenderModel();
+
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-5.0f - i, 1.0f, -4.5f));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			arbusto_colorido.RenderModel();
 		}
+
+		// Arboles derecho
+		for (int i = 0; i < 19 * 3; i = i + 3) {
+			if (i > 15 && i < 38) {
+				continue;
+			}
+			else {
+				// Arbol 0 rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(9.5f, 1.0f, -28.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Arboles_HoraDeAventura[0].RenderModel();
+
+				// Arbol 1 azul
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(12.5f, 1.0f, -27.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Arboles_HoraDeAventura[1].RenderModel();
+
+				// Arbol colorido
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(6.5f, 1.0f, -27.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				arbol_colorido.RenderModel();
+
+
+			}
+		}
+
+		// Arbustos izquierdo
+		for (int i = 0; i < 10; i = i + 3) {
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(5.0f + i, 1.0f, 4.5f));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			arbusto_colorido.RenderModel();
+
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(5.0f + i, 1.0f, -4.5f));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			arbusto_colorido.RenderModel();
+		}
+		
 		
 
 /************************* Parque alameda ****************************/
@@ -1471,18 +1516,37 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			}
 		}
 
-		// Reja colorida inclinada lado piramides
-		float aux1 = 0, aux2 = 0;
-		for (int i = 0; i < 9; i++) {
-			aux1 = aux1 + 1.2;
-			aux2 = aux2 + 3.1;
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(4.0f + aux1, 1.0f, -33.0f + aux2));
-			model = glm::scale(model, glm::vec3(1.8f, 1.8f, 1.8f));
-			model = glm::rotate(model, 23 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Fence_color.RenderModel();
+		// Lado derecho interior
+		for (int i = 0; i <= 4 * 15; i = i + 4) {
+			if (i > 24 && i < 36) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(4.0f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
 		}
+
+		// Reja del lado de las piramides interior
+		//for (int i = 0; i <= 4 * 7; i = i + 4) {
+		//	if (i > 11 && i < 17) {
+		//		continue;
+		//	}
+		//	else {
+		//		// Reja colorida
+		//		model = glm::mat4(1.0);
+		//		model = glm::translate(model, glm::vec3(4.0f - i, 1.0f, -32.0f));
+		//		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		//		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//		Fence_color.RenderModel();
+		//	}
+		//}
 
 		/* Lado izquierdo */
 
@@ -1540,13 +1604,30 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			else {
 				// Pasto rosa
 				model = glm::mat4(1.0);
-				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, -32.5f));
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, 32.5f));
 				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 				pasto_rosa.RenderModel();
 			}
 		}
+
+		// Lado izquierdo interior
+		for (int i = 0; i <= 4 * 15; i = i + 4) {
+			if (i > 24 && i < 36) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-4.0f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
+		}
+
 
 
 		//blending: transparencia o traslucidez
