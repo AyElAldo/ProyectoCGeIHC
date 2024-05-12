@@ -11,21 +11,21 @@ Pr�ctica 7: Iluminaci�n 1
 #include <vector>
 #include <math.h>
 /* pa windows */
-#include <glew.h>
-#include <glfw3.h>
+//#include <glew.h>
+//#include <glfw3.h>
 
 ///pa linux
-//#include <GL/glew.h>
-//#include <GLFW/glfw3.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 /* pa windows */
-#include <glm.hpp>
-#include <gtc\matrix_transform.hpp>
-#include <gtc\type_ptr.hpp>
+//#include <glm.hpp>
+//#include <gtc\matrix_transform.hpp>
+//#include <gtc\type_ptr.hpp>
 
 //pa linux
-//#include<glm/glm.hpp>
-//#include<glm/gtc/matrix_transform.hpp>
-//#include<glm/gtc/type_ptr.hpp>
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 //para probar el importer
 //#include<assimp/Importer.hpp>
@@ -179,6 +179,12 @@ float rotmovescudocap;
 float rotmovescudocapOffset;
 bool avanzaescudocap; 
 /////2 animacion simple
+Model coronarey;
+float movcoronarey;
+float movOffcoronarey;
+float rotmovcoronarey;
+float rotmovOffcornarey;
+bool avanzacorona; 
 
 ////
 ////////
@@ -459,9 +465,13 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 //////////////////////////nave samus 3°vehiculo
 naveSamus=Model();
 naveSamus.LoadModel("Models/samusnave.obj");
-/************************** animaciones simples*****************************/
+/************************** animaciones simples 1°*****************************/
 escudocap=Model();
 escudocap.LoadModel("Models/escudocap.obj");
+/************************** animaciones simples 2°*****************************/
+coronarey=Model();
+coronarey.LoadModel("Models/coronareyhelado.obj");
+
 
 /************************** animaciones compleja*****************************/
 
@@ -655,11 +665,16 @@ subenavsamus=true;
 //bajasamus=false;
 /////variables escudo cap 1 animacion
 movescudocap=0.0f;
-movOffescudocap=0.05;
+movOffescudocap=0.05f;
 rotmovescudocap=0.0f;
 rotmovescudocapOffset=5.0f;
 avanzaescudocap=true;
-/////
+/////variables coronareyhelado
+movcoronarey=0.0f;
+ movOffcoronarey=0.01f;
+ rotmovcoronarey=0.0f;
+ rotmovOffcornarey=5.0f;
+ avanzacorona=true; 
 
 
 
@@ -944,7 +959,7 @@ if (avanzaescudocap)
 			{
 				movescudocap -= movOffescudocap * deltaTime;
 				rotmovescudocap +=rotmovescudocapOffset * deltaTime;
-				printf("> 0.0f  %.2f\n", movOffescudocap);
+				//sprintf("> 0.0f  %.2f\n", movOffescudocap);
 
 
 
@@ -961,7 +976,7 @@ if (avanzaescudocap)
 			{
 				movescudocap +=movOffescudocap * deltaTime;
 				rotmovescudocap -=rotmovescudocapOffset * deltaTime;
-				printf("< 25.0f  %.2f\n", movescudocap);
+				//printf("< 25.0f  %.2f\n", movescudocap);
 			}
 			else
 			{
@@ -969,6 +984,38 @@ if (avanzaescudocap)
 			}
 		}
 
+///////////////////////////animacion simple corona rey
+if (avanzacorona)
+		{
+			//el coche avanza y se detiene en el límite del plano
+			if (movcoronarey > 0.0f)
+			{
+				movcoronarey -= movOffcoronarey * deltaTime;
+				rotmovcoronarey +=rotmovOffcornarey * deltaTime;
+				//printf("> 0.0f  %.2f\n", movOffescudocap);
+
+
+
+			}
+			else
+			{
+				avanzacorona = false;
+			}
+		}
+		else
+		{
+			//el coche avanza hacia atrás y se detiene en el límite del plano
+			if (movcoronarey< 25.0f)
+			{
+				movcoronarey +=movOffcoronarey * deltaTime;
+				rotmovcoronarey -=rotmovOffcornarey * deltaTime;
+				//printf("< 25.0f  %.2f\n", movescudocap);
+			}
+			else
+			{
+				avanzacorona = true;
+			}
+		}
 
 	
 		
@@ -1365,7 +1412,18 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			escudocap.RenderModel();
 		
+/////////////////////////////////////////////////////////////////////////////////// 2° animacionsimple corona rey
+//-80
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-75.0f, 2.0f,3.0f));
+			model = glm::translate(model, glm::vec3(0.0f,0.0f,movescudocap));
+			//printf("movescudocap  %.2f\n",movescudocap);
+			model = glm::rotate(model, rotmovescudocap * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 
+
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			coronarey.RenderModel();
 
 
 
