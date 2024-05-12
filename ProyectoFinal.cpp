@@ -60,12 +60,31 @@ Model relieve;
 Model pisoSecundario;
 
 /********* Hora de aventura *********/
+Model pisoHielo;
 Model castillo_rey_helado;
 Model Montanas[2];
 
 Model Arboles_HoraDeAventura[10]; // Por lo mientras 10 arboles
+
+Model Casa_JakeConPasto;
+Model maceta;
+
 Model Rainicorn;
 Model Fuente01;
+
+
+// Personajes
+Model ReyHelado;
+
+// Parque alameda
+Model Fence_color;
+Model Fence_normal;
+
+// Vegatacion
+Model arbusto_colorido;
+Model arbol_colorido;
+Model pasto_rosa;
+
 
 /*************************************/
 
@@ -141,7 +160,29 @@ bool avanzascootdeadpool;
 
 
 
-//////////////////////////////////////////////////
+//////////////////////////////////////////////////VARIABLES NAVE 3 VEHICULO MOTORIZADO
+Model naveSamus;
+	 float samusmovN;
+	float samusmovNOffset;
+	float samusmovNy;
+	float samusmovNyOffset;
+bool subenavsamus;
+bool bajasamus;
+bool avanzasamus;
+bool regresasamus;
+/////////////1 animacion simple
+
+Model escudocap;
+float movescudocap;
+float movOffescudocap;
+float rotmovescudocap;
+float rotmovescudocapOffset;
+bool avanzaescudocap; 
+/////2 animacion simple
+
+////
+////////
+////2 animacion simple
 Skybox skybox;
 Skybox skybox2;
 
@@ -393,7 +434,6 @@ proyectorspot=Model();
 proyectorspot.LoadModel("Models/proyector.obj");
 
 
-/************************** modelosspotlights*****************************/
 espada_fin=Model();
 espada_fin.LoadModel("Models/espadafin.obj");
 gema_infinito=Model();
@@ -416,12 +456,34 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 
 	scotterdeadpoolllantader=Model();
 	scotterdeadpoolllantader.LoadModel("Models/scooterdeadllanta.obj");
-	
+//////////////////////////nave samus 3°vehiculo
+naveSamus=Model();
+naveSamus.LoadModel("Models/samusnave.obj");
+/************************** animaciones simples*****************************/
+escudocap=Model();
+escudocap.LoadModel("Models/escudocap.obj");
+
+/************************** animaciones compleja*****************************/
+
 	/************************** Hora de aventura *****************************/
+
+	// Rey helado
+	ReyHelado = Model();
+	ReyHelado.LoadModel("Models/rey_helado.obj");
+
+	pisoHielo = Model();
+	pisoHielo.LoadModel("Models/sueloHielo.obj");
 
 	// Castillo del rey helado
 	castillo_rey_helado = Model();
 	castillo_rey_helado.LoadModel("Models/king_castle.obj");
+
+	// Casa madera
+	Casa_JakeConPasto = Model();
+	Casa_JakeConPasto.LoadModel("Models/casaJakeConPasto.obj");
+		// Maceta casa jake
+	maceta = Model();
+	maceta.LoadModel("Models/maceta.obj");
 
 	// Montañas
 	Montanas[0] = Model();
@@ -445,6 +507,21 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 	Arboles_HoraDeAventura[1] = Model();
 	Arboles_HoraDeAventura[1].LoadModel("Models/arbol_algodon2.obj");
 
+	/************************** Parque alameda *****************************/
+	Fence_color = Model();
+	Fence_color.LoadModel("Models/fence_color.obj");
+
+	Fence_normal = Model();
+	Fence_normal.LoadModel("Models/fence_normal.obj");
+
+	arbusto_colorido = Model();
+	arbusto_colorido.LoadModel("Models/colorful_bush.obj");
+
+	arbol_colorido = Model();
+	arbol_colorido.LoadModel("Models/arbol_colorido.obj");
+
+	pasto_rosa = Model();
+	pasto_rosa.LoadModel("Models/pasto_rosa.obj");
 
 
 	std::vector<std::string> skyboxFaces;
@@ -554,7 +631,7 @@ pointLights[2] = PointLight(1.0f, 1.0f, 0.0f,
 	////Loop mientras no se cierra la ventana
 ////////////variables animacion coche halo
 movCochehalo = 0.0f;
-	movOffsethalo = 0.1f; //velocidad del coche
+	movOffsethalo = 0.01f; //velocidad del coche
 	rotllantahalo = 0.0f;
 	rotllantaOffsethalo = 5.0f;
 avanzahalo=true;
@@ -563,12 +640,26 @@ avanzahalo=true;
 /////////variables animacion coche scootdeadpool
 
 movscootdeadpool=0.0f;
-movOffscootdeadpool=0.2;
+movOffscootdeadpool=0.05;
 rotllantascootdeadpool=0.0f;
 rotllantaOffsethalo=5.0f;
 avanzascootdeadpool=true;
-
-
+/////////variables NAVE SAMUS
+samusmovN=0.0f;
+samusmovNOffset=0.05f;
+samusmovNy=0.0f;
+samusmovNyOffset=0.05f;
+avanzasamus=true;
+//regresasamus=false;
+subenavsamus=true;
+//bajasamus=false;
+/////variables escudo cap 1 animacion
+movescudocap=0.0f;
+movOffescudocap=0.05;
+rotmovescudocap=0.0f;
+rotmovescudocapOffset=5.0f;
+avanzaescudocap=true;
+/////
 
 
 
@@ -724,9 +815,9 @@ else {
 if (avanzahalo)
 		{
 			//el coche avanza y se detiene en el límite del plano
-			if (movCochehalo > -10.0f)
+			if (movCochehalo > 0.0f)
 			{
-				movCochehalo -= ((movOffsethalo * deltaTime)/10);
+				movCochehalo -= ((movOffsethalo * deltaTime));
 				rotllantahalo +=rotllantaOffsethalo * deltaTime;
 				//printf("> -10.0f  %.2f\n", movscootdeadpool);
 
@@ -740,9 +831,9 @@ if (avanzahalo)
 		else
 		{
 			//el coche avanza hacia atrás y se detiene en el límite del plano
-			if (movCochehalo < 10.0f)
+			if (movCochehalo < 25.0f)
 			{
-				movCochehalo += ((movOffsethalo * deltaTime)/10);
+				movCochehalo += ((movOffsethalo * deltaTime));
 				rotllantahalo -=rotllantaOffsethalo * deltaTime;
 				//printf("< 10.0f  %.2f\n", movCochehalo);
 
@@ -757,9 +848,9 @@ if (avanzahalo)
 if (avanzascootdeadpool)
 		{
 			//el coche avanza y se detiene en el límite del plano
-			if (movscootdeadpool > -5.0f)
+			if (movscootdeadpool > 0.0f)
 			{
-				movscootdeadpool -= ((movOffscootdeadpool * deltaTime)/10);
+				movscootdeadpool -= ((movOffscootdeadpool * deltaTime));
 				rotllantascootdeadpool +=rotllantascootOffsetdeadpool * deltaTime;
 				//printf("> -10.0f  %.2f\n", movscootdeadpool);
 
@@ -774,9 +865,9 @@ if (avanzascootdeadpool)
 		else
 		{
 			//el coche avanza hacia atrás y se detiene en el límite del plano
-			if (movscootdeadpool < 5.0f)
+			if (movscootdeadpool < 25.0f)
 			{
-				movscootdeadpool +=( (movOffscootdeadpool * deltaTime)/10);
+				movscootdeadpool +=( (movOffscootdeadpool * deltaTime));
 				rotllantascootdeadpool -=rotllantaOffsethalo * deltaTime;
 				//printf("< 10.0f  %.2f\n", movscootdeadpool);
 
@@ -788,8 +879,99 @@ if (avanzascootdeadpool)
 			}
 		}
 
-////////////////////////////
+////////////////////////////nave&& subenavsamus
+if (avanzasamus&& subenavsamus)
+		{
+			//la nave avanza
+			if (samusmovNy > 0.0f)
+			{
+				samusmovNy-= samusmovNyOffset * deltaTime;
+				//samusmovN -=samusmovNOffset*deltaTime;
+			}
+			else
+			{
+				//avanzasamus = false;
+				subenavsamus = false;
+			}
+			///5.0
+			if (samusmovN > 0.0f   )
+			{
+				
+				samusmovN -=samusmovNOffset*deltaTime;
+			}
+			else
+			{
+				avanzasamus = false;
+				//subenavsamus = false;
+			}
 
+
+
+
+
+		}else{
+			if (samusmovNy < 10.0f)
+			{
+				samusmovNy+= samusmovNyOffset * deltaTime;
+				//samusmovN +=samusmovNOffset*deltaTime;
+			}
+			else
+			{
+				//avanzasamus = true;
+				subenavsamus = true;
+			}
+
+			//
+			if (samusmovN < 5.0f)
+			{
+				
+				samusmovN +=samusmovNOffset*deltaTime;
+			}
+			else
+			{
+				avanzasamus = true;
+				//subenavsamus = true;
+			}
+
+		}
+
+		
+///////////////////////////animacion simple escudo cap
+if (avanzaescudocap)
+		{
+			//el coche avanza y se detiene en el límite del plano
+			if (movescudocap > 0.0f)
+			{
+				movescudocap -= movOffescudocap * deltaTime;
+				rotmovescudocap +=rotmovescudocapOffset * deltaTime;
+				printf("> 0.0f  %.2f\n", movOffescudocap);
+
+
+
+			}
+			else
+			{
+				avanzaescudocap = false;
+			}
+		}
+		else
+		{
+			//el coche avanza hacia atrás y se detiene en el límite del plano
+			if (movescudocap < 25.0f)
+			{
+				movescudocap +=movOffescudocap * deltaTime;
+				rotmovescudocap -=rotmovescudocapOffset * deltaTime;
+				printf("< 25.0f  %.2f\n", movescudocap);
+			}
+			else
+			{
+				avanzaescudocap = true;
+			}
+		}
+
+
+	
+		
 
 
 /////////////////
@@ -837,106 +1019,6 @@ model = glm::mat4(1.0);
 		model = glm::scale(model, glm::vec3(5.0f, 4.0f, 3.9f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pisoSecundario.RenderModel();
-
-
-
-		////pasto
-		///model = glm::mat4(1.0);
-
-		/*model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(10.0f, 1.0f, 15.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		cubcesped.RenderModel();*/
-		///////pavimento
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -16.00f));
-		//model = glm::scale(model, glm::vec3(10.0f, 1.0f, 1.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubpavim.RenderModel();
-
-		//////segundo pavimento
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 16.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 1.0f, 1.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubpavim.RenderModel();
-		/////tercer pavimento
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(11.0f, 0.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 17.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubpavim.RenderModel();
-
-
-		////////cuarto pavimento
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(-11.0f, 0.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 17.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubpavim.RenderModel();
-
-		///////calles
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(-17.0f, 0.0f, 0.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		//model = glm::scale(model, glm::vec3(17.0f, 1.0f, 5.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubcarretera.RenderModel();
-		//////calle2
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(17.0f, 0.0f, 0.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		//model = glm::scale(model, glm::vec3(17.0f, 1.0f, 5.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubcarretera.RenderModel();
-
-		/////calle 3
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.0f));
-		////model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		//model = glm::scale(model, glm::vec3(22.0f, 1.0f, 5.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubcarretera.RenderModel();
-		/////calle 4
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -22.0f));
-		////model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		//model = glm::scale(model, glm::vec3(22.0f, 1.0f, 5.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubcarretera.RenderModel();
-
-
-		////pavimentooo
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -37.00f));
-		//model = glm::scale(model, glm::vec3(22.0f, 1.0f, 10.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubpavim.RenderModel();
-
-		/////pavimento
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 37.00f));
-		//model = glm::scale(model, glm::vec3(22.0f, 1.0f, 10.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubpavim.RenderModel();
-
-		/////pavimento
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(32.0f, 0.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 1.0f, 47.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubpavim.RenderModel();
-
-		/////pavimento
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(-32.0f, 0.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 1.0f, 47.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cubpavim.RenderModel();
 
 		/******************************** EDIFICIOS **************************/
 
@@ -992,7 +1074,8 @@ model = glm::mat4(1.0);
 		
 		///bote de basura
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-9.0f, 1.3f, 3.0f));
+		//model = glm::translate(model, glm::vec3(-32.0f, 1.2f, -15.0f));
+		model = glm::translate(model, glm::vec3(-30.0f, 1.3f, -6.5f));
 		model = glm::scale(model, glm::vec3(0.8f,0.8f, 0.8f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1084,7 +1167,8 @@ model = glm::mat4(1.0);
 		estatuaspidermandorada.RenderModel();
 		///bicicleta roja
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(5.0f, 1.2f, 8.0f));
+		model = glm::translate(model, glm::vec3(45.0f, 1.2f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bicicletaroja.RenderModel();
 		///pelotabasquet
@@ -1168,8 +1252,10 @@ model = glm::translate(model, glm::vec3(-85.0f, 0.0f, -45.0f));
 /************************** modeloscarrosmotor*****************************/
 ///carro halo 1.8
 model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(20.0f, 1.7f, -15.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		///por aqui que s emueva
+	//printf("halo eje z  %.2f\n",movCochehalo);
+
 		model = glm::translate(model, glm::vec3(20.0f, 1.7f,movCochehalo));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1224,6 +1310,7 @@ halo_carritollantaizq.RenderModel();
 		model = glm::mat4(1.0);
 		//model = glm::translate(model, glm::vec3(-19.0f, 1.6f, -15.0f));
 		///se pone la traslacion
+		//printf("sccot eje z  %.2f\n",movscootdeadpool);
 model = glm::translate(model, glm::vec3(-19.0f, 1.6f,movscootdeadpool));
 glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		modelaux4=model;
@@ -1253,6 +1340,30 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		///aqui se rota
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		scotterdeadpoolllantader.RenderModel();
+	///////////////////////////////////////////////////////////////////////////////////nave samus 3°vehiculo
+			model = glm::mat4(1.0);
+			//printf("smaus movny  %.2f\n",samusmovNy);
+			//-5.0
+			//model = glm::translate(model, glm::vec3(-20.0f, 30.0f,45.0f));
+			model = glm::translate(model, glm::vec3(-10.0f, 27.0f,45.0f));
+
+
+			model = glm::translate(model, glm::vec3(samusmovN,((samusmovNy)),0.0f));
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			naveSamus.RenderModel();
+	/////////////////////////////////////////////////////////////////////////////////// 1° animacionsimple escudo cap
+//-80
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-80.0f, 2.0f,0.0f));
+			model = glm::translate(model, glm::vec3(0.0f,0.0f,movescudocap));
+			//printf("movescudocap  %.2f\n",movescudocap);
+			model = glm::rotate(model, rotmovescudocap * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			escudocap.RenderModel();
 		
 
 
@@ -1261,12 +1372,26 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 
 
-
-
-
+	
 
 ///////////////////////////////////////////////////////////////////////////////////
 		/************ Hora de Aventura **************/
+
+		// Rey Helado
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.0f, 1.0f, -30.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ReyHelado.RenderModel();
+
+		// Piso helado
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(40.0f, 0.17f, -40.0f));
+		model = glm::scale(model, glm::vec3(13.0f, 13.0f, 13.0f));
+		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pisoHielo.RenderModel();
 
 		// Castillo Rey Helado
 		model = glm::mat4(1.0);
@@ -1275,6 +1400,29 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		castillo_rey_helado.RenderModel();
+
+		// Casa Jake
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -0.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Casa_JakeConPasto.RenderModel();
+		// Maceta de casa de Jake
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -0.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		maceta.RenderModel();
+		// Maceta de casa de Jake
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -20.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		maceta.RenderModel();
+
 
 		// Montañas
 	// Primeras montañas
@@ -1294,7 +1442,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Entrada de unicornio arcoiris
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(5.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(16.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Rainicorn.RenderModel();
@@ -1307,78 +1455,76 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Fuente01.RenderModel();
 
 /************************ VEGETACION: Hora de aventura ***************************/
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-6.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Arboles_HoraDeAventura[0].RenderModel();
+		float tamanoArboles = 3.0f;
+		for (int i = 0; i < 6 * 2; i = i + 2) {
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-10.0f, 1.0f, -28.0f + i));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Arboles_HoraDeAventura[0].RenderModel();
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-8.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Arboles_HoraDeAventura[1].RenderModel();
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-13.0f, 1.0f, -27.0f + i));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Arboles_HoraDeAventura[1].RenderModel();
+		}
 
-		/*
+		for (int i = 0; i < 6 * 2; i = i + 2) {
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(13.0f, 1.0f, -28.0f + i));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			arbol_colorido.RenderModel();
+		}
+		
 
-		//Instancia del coche 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f + mainWindow.getmuevex(), 0.5f, -3.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Kitt_M.RenderModel();
+/************************* Parque alameda ****************************/
 
-		//Llanta delantera izquierda
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(7.0f, -0.5f, 8.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		color = glm::vec3(0.5f, 0.5f, 0.5f);//llanta con color gris
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
+		/* Lado derecho */
+		for (int i = 0; i <= 4 * 6; i = i + 4) {
+			// Reja colorida
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(16.0f, 1.0f, -30.0f + i));
+			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Fence_color.RenderModel();
+		}
 
-		//Llanta trasera izquierda
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 8.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
+		for (int i = 0; i <= 2 * 24; i = i + 1) {
+			// Pasto rosa
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(16.5f, 1.0f, -30.0f + i));
+			model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			pasto_rosa.RenderModel();
+		}
 
-		//Llanta delantera derecha
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(7.0f, -0.5f, 1.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
+		for (int i = 0; i <= 4 * 6; i = i + 4) {
+			// Reja colorida
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(16.0f, 1.0f, 6.0f + i));
+			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Fence_color.RenderModel();
+		}
 
-		//Llanta trasera derecha
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
-	
+		/* Lado izquierdo */
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 6.0));
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Blackhawk_M.RenderModel();
+		for (int i = 0; i <= 4 * 6; i = i + 4) {
+			// Reja normal
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-15.0f, 1.0f, -30.0f + i));
+			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Fence_color.RenderModel();
+		}
 
-		//Agave �qu� sucede si lo renderizan antes del coche y el helic�ptero?
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -4.0f));
-		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		*/
+
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
