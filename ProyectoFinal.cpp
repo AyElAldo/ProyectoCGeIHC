@@ -11,8 +11,8 @@ Pr�ctica 7: Iluminaci�n 1
 #include <vector>
 #include <math.h>
 /* pa windows */
-#include <glew.h>
-#include <glfw3.h>
+//#include <glew.h>
+//#include <glfw3.h>
 
 ///pa linux
 //#include <GL/glew.h>
@@ -76,6 +76,7 @@ Model Fuente01;
 // Personajes
 Model ReyHelado;
 Model Bimo;
+
 
 // Parque alameda
 Model Fence_color;
@@ -172,7 +173,35 @@ bool avanzascootdeadpool;
 
 
 
-//////////////////////////////////////////////////
+//////////////////////////////////////////////////VARIABLES NAVE 3 VEHICULO MOTORIZADO
+Model naveSamus;
+	 float samusmovN;
+	float samusmovNOffset;
+	float samusmovNy;
+	float samusmovNyOffset;
+bool subenavsamus;
+bool bajasamus;
+bool avanzasamus;
+bool regresasamus;
+/////////////1 animacion simple
+
+Model escudocap;
+float movescudocap;
+float movOffescudocap;
+float rotmovescudocap;
+float rotmovescudocapOffset;
+bool avanzaescudocap; 
+/////2 animacion simple
+Model coronarey;
+float movcoronarey;
+float movOffcoronarey;
+float rotmovcoronarey;
+float rotmovOffcornarey;
+bool avanzacorona; 
+
+////
+////////
+////2 animacion simple
 Skybox skybox;
 Skybox skybox2;
 
@@ -447,6 +476,20 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 	scotterdeadpoolllantader=Model();
 	scotterdeadpoolllantader.LoadModel("Models/scooterdeadllanta.obj");
 
+//////////////////////////nave samus 3°vehiculo
+naveSamus=Model();
+naveSamus.LoadModel("Models/samusnave.obj");
+/************************** animaciones simples 1°*****************************/
+escudocap=Model();
+escudocap.LoadModel("Models/escudocap.obj");
+/************************** animaciones simples 2°*****************************/
+coronarey=Model();
+coronarey.LoadModel("Models/coronareyhelado.obj");
+
+
+/************************** animaciones compleja*****************************/
+
+
 	/************************** Hora de aventura *****************************/
 
 	// Rey helado
@@ -467,6 +510,7 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 	// Casa madera
 	Casa_JakeConPasto = Model();
 	Casa_JakeConPasto.LoadModel("Models/casaJakeConPasto.obj");
+
 	// Maceta casa jake
 	maceta = Model();
 	maceta.LoadModel("Models/maceta.obj");
@@ -628,7 +672,7 @@ pointLights[2] = PointLight(1.0f, 1.0f, 0.0f,
 	////Loop mientras no se cierra la ventana
 ////////////variables animacion coche halo
 movCochehalo = 0.0f;
-	movOffsethalo = 0.1f; //velocidad del coche
+	movOffsethalo = 0.01f; //velocidad del coche
 	rotllantahalo = 0.0f;
 	rotllantaOffsethalo = 5.0f;
 avanzahalo=true;
@@ -637,12 +681,31 @@ avanzahalo=true;
 /////////variables animacion coche scootdeadpool
 
 movscootdeadpool=0.0f;
-movOffscootdeadpool=0.2;
+movOffscootdeadpool=0.05;
 rotllantascootdeadpool=0.0f;
 rotllantaOffsethalo=5.0f;
 avanzascootdeadpool=true;
-
-
+/////////variables NAVE SAMUS
+samusmovN=0.0f;
+samusmovNOffset=0.05f;
+samusmovNy=0.0f;
+samusmovNyOffset=0.05f;
+avanzasamus=true;
+//regresasamus=false;
+subenavsamus=true;
+//bajasamus=false;
+/////variables escudo cap 1 animacion
+movescudocap=0.0f;
+movOffescudocap=0.05f;
+rotmovescudocap=0.0f;
+rotmovescudocapOffset=5.0f;
+avanzaescudocap=true;
+/////variables coronareyhelado
+movcoronarey=0.0f;
+ movOffcoronarey=0.01f;
+ rotmovcoronarey=0.0f;
+ rotmovOffcornarey=5.0f;
+ avanzacorona=true; 
 
 
 
@@ -798,9 +861,9 @@ else {
 if (avanzahalo)
 		{
 			//el coche avanza y se detiene en el límite del plano
-			if (movCochehalo > -10.0f)
+			if (movCochehalo > 0.0f)
 			{
-				movCochehalo -= ((movOffsethalo * deltaTime)/10);
+				movCochehalo -= ((movOffsethalo * deltaTime));
 				rotllantahalo +=rotllantaOffsethalo * deltaTime;
 				//printf("> -10.0f  %.2f\n", movscootdeadpool);
 
@@ -814,9 +877,9 @@ if (avanzahalo)
 		else
 		{
 			//el coche avanza hacia atrás y se detiene en el límite del plano
-			if (movCochehalo < 10.0f)
+			if (movCochehalo < 25.0f)
 			{
-				movCochehalo += ((movOffsethalo * deltaTime)/10);
+				movCochehalo += ((movOffsethalo * deltaTime));
 				rotllantahalo -=rotllantaOffsethalo * deltaTime;
 				//printf("< 10.0f  %.2f\n", movCochehalo);
 
@@ -831,9 +894,9 @@ if (avanzahalo)
 if (avanzascootdeadpool)
 		{
 			//el coche avanza y se detiene en el límite del plano
-			if (movscootdeadpool > -5.0f)
+			if (movscootdeadpool > 0.0f)
 			{
-				movscootdeadpool -= ((movOffscootdeadpool * deltaTime)/10);
+				movscootdeadpool -= ((movOffscootdeadpool * deltaTime));
 				rotllantascootdeadpool +=rotllantascootOffsetdeadpool * deltaTime;
 				//printf("> -10.0f  %.2f\n", movscootdeadpool);
 
@@ -848,9 +911,9 @@ if (avanzascootdeadpool)
 		else
 		{
 			//el coche avanza hacia atrás y se detiene en el límite del plano
-			if (movscootdeadpool < 5.0f)
+			if (movscootdeadpool < 25.0f)
 			{
-				movscootdeadpool +=( (movOffscootdeadpool * deltaTime)/10);
+				movscootdeadpool +=( (movOffscootdeadpool * deltaTime));
 				rotllantascootdeadpool -=rotllantaOffsethalo * deltaTime;
 				//printf("< 10.0f  %.2f\n", movscootdeadpool);
 
@@ -862,8 +925,131 @@ if (avanzascootdeadpool)
 			}
 		}
 
-////////////////////////////
+////////////////////////////nave&& subenavsamus
+if (avanzasamus&& subenavsamus)
+		{
+			//la nave avanza
+			if (samusmovNy > 0.0f)
+			{
+				samusmovNy-= samusmovNyOffset * deltaTime;
+				//samusmovN -=samusmovNOffset*deltaTime;
+			}
+			else
+			{
+				//avanzasamus = false;
+				subenavsamus = false;
+			}
+			///5.0
+			if (samusmovN > 0.0f   )
+			{
+				
+				samusmovN -=samusmovNOffset*deltaTime;
+			}
+			else
+			{
+				avanzasamus = false;
+				//subenavsamus = false;
+			}
 
+
+
+
+
+		}else{
+			if (samusmovNy < 10.0f)
+			{
+				samusmovNy+= samusmovNyOffset * deltaTime;
+				//samusmovN +=samusmovNOffset*deltaTime;
+			}
+			else
+			{
+				//avanzasamus = true;
+				subenavsamus = true;
+			}
+
+			//
+			if (samusmovN < 5.0f)
+			{
+				
+				samusmovN +=samusmovNOffset*deltaTime;
+			}
+			else
+			{
+				avanzasamus = true;
+				//subenavsamus = true;
+			}
+
+		}
+
+		
+///////////////////////////animacion simple escudo cap
+if (avanzaescudocap)
+		{
+			//el coche avanza y se detiene en el límite del plano
+			if (movescudocap > 0.0f)
+			{
+				movescudocap -= movOffescudocap * deltaTime;
+				rotmovescudocap +=rotmovescudocapOffset * deltaTime;
+				//sprintf("> 0.0f  %.2f\n", movOffescudocap);
+
+
+
+			}
+			else
+			{
+				avanzaescudocap = false;
+			}
+		}
+		else
+		{
+			//el coche avanza hacia atrás y se detiene en el límite del plano
+			if (movescudocap < 25.0f)
+			{
+				movescudocap +=movOffescudocap * deltaTime;
+				rotmovescudocap -=rotmovescudocapOffset * deltaTime;
+				//printf("< 25.0f  %.2f\n", movescudocap);
+			}
+			else
+			{
+				avanzaescudocap = true;
+			}
+		}
+
+///////////////////////////animacion simple corona rey
+if (avanzacorona)
+		{
+			//el coche avanza y se detiene en el límite del plano
+			if (movcoronarey > 0.0f)
+			{
+				movcoronarey -= movOffcoronarey * deltaTime;
+				rotmovcoronarey +=rotmovOffcornarey * deltaTime;
+				//printf("> 0.0f  %.2f\n", movOffescudocap);
+
+
+
+			}
+			else
+			{
+				avanzacorona = false;
+			}
+		}
+		else
+		{
+			//el coche avanza hacia atrás y se detiene en el límite del plano
+			if (movcoronarey< 25.0f)
+			{
+				movcoronarey +=movOffcoronarey * deltaTime;
+				rotmovcoronarey -=rotmovOffcornarey * deltaTime;
+				//printf("< 25.0f  %.2f\n", movescudocap);
+			}
+			else
+			{
+				avanzacorona = true;
+			}
+		}
+
+	
+		
 
 
 /////////////////
@@ -975,7 +1161,7 @@ model = glm::mat4(1.0);
 
 		///arboles tipo hora de aventura pino con hielo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 1.3f, -34.0f));
+		model = glm::translate(model, glm::vec3(20.0f, 1.3f, -40.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1074,6 +1260,7 @@ model = glm::mat4(1.0);
 		///bicicleta roja
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(35.0f, 1.6f, 3.0f));
+
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bicicletaroja.RenderModel();
@@ -1158,8 +1345,10 @@ model = glm::translate(model, glm::vec3(-85.0f, 0.0f, -45.0f));
 /************************** modeloscarrosmotor*****************************/
 ///carro halo 1.8
 model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(20.0f, 1.7f, -15.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		///por aqui que s emueva
+	//printf("halo eje z  %.2f\n",movCochehalo);
+
 		model = glm::translate(model, glm::vec3(20.0f, 1.7f,movCochehalo));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1214,6 +1403,7 @@ halo_carritollantaizq.RenderModel();
 		model = glm::mat4(1.0);
 		//model = glm::translate(model, glm::vec3(-19.0f, 1.6f, -15.0f));
 		///se pone la traslacion
+		//printf("sccot eje z  %.2f\n",movscootdeadpool);
 model = glm::translate(model, glm::vec3(-19.0f, 1.6f,movscootdeadpool));
 glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		modelaux4=model;
@@ -1243,12 +1433,50 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		///aqui se rota
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		scotterdeadpoolllantader.RenderModel();
+	///////////////////////////////////////////////////////////////////////////////////nave samus 3°vehiculo
+			model = glm::mat4(1.0);
+			//printf("smaus movny  %.2f\n",samusmovNy);
+			//-5.0
+			//model = glm::translate(model, glm::vec3(-20.0f, 30.0f,45.0f));
+			model = glm::translate(model, glm::vec3(-10.0f, 27.0f,45.0f));
+
+
+			model = glm::translate(model, glm::vec3(samusmovN,((samusmovNy)),0.0f));
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			naveSamus.RenderModel();
+	/////////////////////////////////////////////////////////////////////////////////// 1° animacionsimple escudo cap
+//-80
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-80.0f, 2.0f,0.0f));
+			model = glm::translate(model, glm::vec3(0.0f,0.0f,movescudocap));
+			//printf("movescudocap  %.2f\n",movescudocap);
+			model = glm::rotate(model, rotmovescudocap * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			escudocap.RenderModel();
 		
+/////////////////////////////////////////////////////////////////////////////////// 2° animacionsimple corona rey
+//-80
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-75.0f, 2.0f,3.0f));
+			model = glm::translate(model, glm::vec3(0.0f,0.0f,movescudocap));
+			//printf("movescudocap  %.2f\n",movescudocap);
+			model = glm::rotate(model, rotmovescudocap * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			coronarey.RenderModel();
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 		/************ Hora de Aventura **************/
 
 		/****** Personajes *****/
+
 		// Rey Helado
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(30.0f, 1.0f, -30.0f));
@@ -1268,6 +1496,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		// Piso helado
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(40.0f, 0.12f, -40.0f));
+
 		model = glm::scale(model, glm::vec3(13.0f, 13.0f, 13.0f));
 		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1311,7 +1540,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Gasolineria.RenderModel();
 
-		// Montañas
+	// Montañas
 	// Primeras montañas
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(35.0f, 1.0f, -75.0f));
@@ -1627,8 +1856,6 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 				Fence_color.RenderModel();
 			}
 		}
-
-
 
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);

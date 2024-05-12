@@ -1,0 +1,101 @@
+# Blender MTL File: 'SAMUSNAVE.blend'
+# Material Count: 9
+
+newmtl mat_0-samusship_lamdgear_center.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd samusship_lamdgear_center.jpg
+
+newmtl mat_1-ship_hatch_pole.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd ship_hatch_pole.jpg
+
+newmtl mat_2-samusship_cannboos.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd samusship_cannboos.jpg
+
+newmtl mat_3-samusship_under.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd samusship_under.jpg
+
+newmtl mat_4-samusship_hatch.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd samusship_hatch.jpg
+
+newmtl mat_5-samus_ship_body.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd samus_ship_body.jpg
+
+newmtl mat_6-samusship_fin.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd samusship_fin.jpg
+
+newmtl mat_7-samusship_lamdgear.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd samusship_lamdgear.jpg
+
+newmtl mat_8-samus_ship_body.jpg
+Ns 9.849156
+Ka 1.000000 1.000000 1.000000
+Kd 0.698039 0.698039 0.698039
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd samus_ship_body.jpg
