@@ -75,10 +75,14 @@ Model Fuente01;
 
 // Personajes
 Model ReyHelado;
+Model Bimo;
 
 // Parque alameda
 Model Fence_color;
 Model Fence_normal;
+
+// Gasolineria
+Model Gasolineria;
 
 // Vegatacion
 Model arbusto_colorido;
@@ -115,8 +119,16 @@ Model lamp_deadpool;
 
 ///mesasillaplatico
 Model mesasillaplastico;
+
+// Pedestal Estatua
+Model pedestalEstatua;
 ///estatua dorada spider man
 Model estatuaspidermandorada;
+
+// Piso centro
+Model piso_central;
+// Fuente centro
+Model Fountain_center;
 
 /// Bicicleta roja
 Model bicicletaroja;
@@ -377,6 +389,10 @@ int main()
 	///mesa y silla
 	mesasillaplastico = Model();
 	mesasillaplastico.LoadModel("Models/mesasilla.obj");
+
+	// Pedestal
+	pedestalEstatua = Model();
+	pedestalEstatua.LoadModel("Models/colorful_pedestal.obj");
 	///estatua dorada spiderman
 	estatuaspidermandorada = Model();
 	estatuaspidermandorada.LoadModel("Models/estatuaspiderman.obj");
@@ -441,6 +457,10 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 	ReyHelado = Model();
 	ReyHelado.LoadModel("Models/rey_helado.obj");
 
+	// Bimo
+	Bimo = Model();
+	Bimo.LoadModel("Models/bimo.obj");
+
 	pisoHielo = Model();
 	pisoHielo.LoadModel("Models/sueloHielo.obj");
 
@@ -451,7 +471,7 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 	// Casa madera
 	Casa_JakeConPasto = Model();
 	Casa_JakeConPasto.LoadModel("Models/casaJakeConPasto.obj");
-		// Maceta casa jake
+	// Maceta casa jake
 	maceta = Model();
 	maceta.LoadModel("Models/maceta.obj");
 
@@ -461,11 +481,22 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 	Montanas[1] = Model();
 	Montanas[1].LoadModel("Models/montanas.obj");
 
+	// Gasolineria
+	Gasolineria = Model();
+	Gasolineria.LoadModel("Models/gasolineria.obj");
+
 	// Entrada unicornio
 	Rainicorn = Model();
 	Rainicorn.LoadModel("Models/rainicorn_solo.obj");
 
+	// Piso centras
+	piso_central = Model();
+	piso_central.LoadModel("Models/piso_central.obj");
+
 	// Fuente del centro de la alameda
+	Fountain_center = Model();
+	Fountain_center.LoadModel("Models/fountain_center.obj");
+
 	Fuente01 = Model();
 	Fuente01.LoadModel("Models/fuente_alameda_centro.obj");
 
@@ -1020,19 +1051,32 @@ model = glm::mat4(1.0);
 
 		////mesaconsilla
 		model = glm::mat4(1.0);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-3.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(30.0f, 1.3f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		mesasillaplastico.RenderModel();	
+
+		// Pedestal estatua
+		model = glm::mat4(1.0);
+		glm::vec3 posEstatua = glm::vec3(-7.0f, 1.0f, 0.0f);
+		model = glm::translate(model, posEstatua);
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pedestalEstatua.RenderModel();
+
+		posEstatua.x += 1;
+		posEstatua.y += 2;
+		posEstatua.x -= 1;
 		///estatua de marvel spiderman dorada
 		model = glm::mat4(1.0);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-3.0f, 1.0f, 8.0f));
+		model = glm::translate(model, posEstatua);
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		estatuaspidermandorada.RenderModel();
+
 		///bicicleta roja
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(45.0f, 1.2f, 0.0f));
+		model = glm::translate(model, glm::vec3(35.0f, 1.6f, 3.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bicicletaroja.RenderModel();
@@ -1207,6 +1251,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 ///////////////////////////////////////////////////////////////////////////////////
 		/************ Hora de Aventura **************/
 
+		/****** Personajes *****/
 		// Rey Helado
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(30.0f, 1.0f, -30.0f));
@@ -1215,9 +1260,17 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ReyHelado.RenderModel();
 
+		// Bimo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -10.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		//model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bimo.RenderModel();
+
 		// Piso helado
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(40.0f, 0.17f, -40.0f));
+		model = glm::translate(model, glm::vec3(40.0f, 0.12f, -40.0f));
 		model = glm::scale(model, glm::vec3(13.0f, 13.0f, 13.0f));
 		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1253,6 +1306,13 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		maceta.RenderModel();
 
+		// Gasolineria
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.0f, 1.0f, 50.0f));
+		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Gasolineria.RenderModel();
 
 		// Montañas
 	// Primeras montañas
@@ -1277,81 +1337,215 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Rainicorn.RenderModel();
 
+		// Piso centro
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		piso_central.RenderModel();
+
 		// Fuente de la alameda - Centro
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(1.4f, 1.0f, 4.5f));
+		model = glm::translate(model, glm::vec3(0.0f, 1.3f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Fountain_center.RenderModel();
+
+		// Fuente
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.1f, 25.5f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Fuente01.RenderModel();
 
 /************************ VEGETACION: Hora de aventura ***************************/
 		float tamanoArboles = 3.0f;
-		for (int i = 0; i < 6 * 2; i = i + 2) {
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(-10.0f, 1.0f, -28.0f + i));
-			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Arboles_HoraDeAventura[0].RenderModel();
+		// Arboles izquierdo
+		for (int i = 0; i < 15 * 3; i = i + 3) {
+			if (i > 20 && i < 38) {
+				continue;
+			}
+			else {
+				// Arbol 0 rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-9.0f, 1.0f, -28.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Arboles_HoraDeAventura[0].RenderModel();
 
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(-13.0f, 1.0f, -27.0f + i));
-			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Arboles_HoraDeAventura[1].RenderModel();
+				// Arbol 1 azul
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-11.0f, 1.0f, -27.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Arboles_HoraDeAventura[1].RenderModel();
+
+				// Arbol colorido
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-7.0f, 1.0f, -27.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				arbol_colorido.RenderModel();
+
+				// Arbustos
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-11.5f, 1.0f, -26.5f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				arbusto_colorido.RenderModel();
+			}
 		}
 
+		// Arboles lado derecho
 		for (int i = 0; i < 6 * 2; i = i + 2) {
 			model = glm::mat4(1.0);
 			model = glm::translate(model, glm::vec3(13.0f, 1.0f, -28.0f + i));
 			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			arbol_colorido.RenderModel();
+			
 		}
 		
 
 /************************* Parque alameda ****************************/
 
 		/* Lado derecho */
-		for (int i = 0; i <= 4 * 6; i = i + 4) {
-			// Reja colorida
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(16.0f, 1.0f, -30.0f + i));
-			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Fence_color.RenderModel();
+		for (int i = 0; i <= 4 * 15; i = i + 4) {
+			if (i > 24 && i < 36) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(16.0f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
 		}
 
-		for (int i = 0; i <= 2 * 24; i = i + 1) {
-			// Pasto rosa
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(16.5f, 1.0f, -30.0f + i));
-			model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			pasto_rosa.RenderModel();
+		// Pasto rosa
+		for (int i = 0; i <= 2 * 30; i = i + 1) {
+			if (i > 26 && i < 36) {
+				continue;
+			}
+			else {
+				// Pasto rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(16.5f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				pasto_rosa.RenderModel();
+			}
 		}
 
-		for (int i = 0; i <= 4 * 6; i = i + 4) {
-			// Reja colorida
+		// Reja del lado de las piramides
+		for (int i = 0; i <= 4 * 7; i = i + 4) {
+			if (i > 11 && i < 17) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, -32.0f));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
+		}
+		// Pasto rosa lado piramides
+		for (int i = 0; i <= 2 * 14; i = i + 1) {
+			if (i > 11 && i < 17) {
+				continue;
+			}
+			else {
+				// Pasto rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, -33.0f));
+				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				pasto_rosa.RenderModel();
+			}
+		}
+
+		// Reja colorida inclinada lado piramides
+		float aux1 = 0, aux2 = 0;
+		for (int i = 0; i < 9; i++) {
+			aux1 = aux1 + 1.2;
+			aux2 = aux2 + 3.1;
 			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(16.0f, 1.0f, 6.0f + i));
-			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::translate(model, glm::vec3(4.0f + aux1, 1.0f, -33.0f + aux2));
+			model = glm::scale(model, glm::vec3(1.8f, 1.8f, 1.8f));
+			model = glm::rotate(model, 23 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			Fence_color.RenderModel();
 		}
 
 		/* Lado izquierdo */
 
-		for (int i = 0; i <= 4 * 6; i = i + 4) {
-			// Reja normal
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(-15.0f, 1.0f, -30.0f + i));
-			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Fence_color.RenderModel();
+		for (int i = 0; i <= 4 * 15; i = i + 4) {
+			if (i > 24 && i < 36) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-15.0f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
+		}
+
+		// Pasto rosa
+		for (int i = 0; i <= 2 * 30; i = i + 1) {
+			if (i > 26 && i < 36) {
+				continue;
+			}
+			else {
+				// Pasto rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-15.5f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				pasto_rosa.RenderModel();
+			}
+		}
+
+		// Reja del lado torre avengers
+		for (int i = 0; i <= 4 * 7; i = i + 4) {
+			if (i > 11 && i < 17) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, 32.0f));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
+		}
+		// Pasto rosa lado avengers
+		for (int i = 0; i <= 2 * 14; i = i + 1) {
+			if (i > 11 && i < 17) {
+				continue;
+			}
+			else {
+				// Pasto rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, -32.5f));
+				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				pasto_rosa.RenderModel();
+			}
 		}
 
 
