@@ -64,6 +64,8 @@ Model pisoHielo;
 Model castillo_rey_helado;
 Model Montanas[2];
 
+Model CasaArbol;
+
 Model Arboles_HoraDeAventura[3]; // Por lo mientras 3 arboles
 
 Model Casa_JakeConPasto;
@@ -89,6 +91,8 @@ Model Gasolineria;
 Model arbusto_colorido;
 Model arbol_colorido;
 Model pasto_rosa;
+
+Model pasto_verde;
 
 
 /*************************************/
@@ -369,6 +373,9 @@ int main()
 	pisoSecundario = Model();
 	pisoSecundario.LoadModel("Models/piso_secundario.obj");
 
+	pasto_verde = Model();
+	pasto_verde.LoadModel("Models/pasto_verde.obj");
+
 
 	/*cubcarretera = Model();
 	cubcarretera.LoadModel("Models/carratera.obj");
@@ -506,6 +513,9 @@ coronarey.LoadModel("Models/coronareyhelado.obj");
 	// Castillo del rey helado
 	castillo_rey_helado = Model();
 	castillo_rey_helado.LoadModel("Models/king_castle.obj");
+
+	CasaArbol = Model();
+	CasaArbol.LoadModel("Models/casaArbol.obj");
 
 	// Casa madera
 	Casa_JakeConPasto = Model();
@@ -1509,6 +1519,22 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		castillo_rey_helado.RenderModel();
+
+		// Casa del Arbol
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(60.0f, 1.0f, 35.0f));
+		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		CasaArbol.RenderModel();
+
+		// Pasto
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(70.0f, 0.0f, 35.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pasto_verde.RenderModel();
 
 		// Casa Jake
 		model = glm::mat4(1.0);
