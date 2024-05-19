@@ -11,21 +11,21 @@ Pr�ctica 7: Iluminaci�n 1
 #include <vector>
 #include <math.h>
 /* pa windows */
-//#include <glew.h>
-//#include <glfw3.h>
+#include <glew.h>
+#include <glfw3.h>
 
 ///pa linux
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+//#include <GL/glew.h>
+//#include <GLFW/glfw3.h>
 /* pa windows */
-//#include <glm.hpp>
-//#include <gtc\matrix_transform.hpp>
-//#include <gtc\type_ptr.hpp>
+#include <glm.hpp>
+#include <gtc\matrix_transform.hpp>
+#include <gtc\type_ptr.hpp>
 
 //pa linux
-#include<glm/glm.hpp>
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
+//#include<glm/glm.hpp>
+//#include<glm/gtc/matrix_transform.hpp>
+//#include<glm/gtc/type_ptr.hpp>
 
 //para probar el importer
 //#include<assimp/Importer.hpp>
@@ -64,7 +64,7 @@ Model pisoHielo;
 Model castillo_rey_helado;
 Model Montanas[2];
 
-Model Arboles_HoraDeAventura[10]; // Por lo mientras 10 arboles
+Model Arboles_HoraDeAventura[3]; // Por lo mientras 3 arboles
 
 Model Casa_JakeConPasto;
 Model maceta;
@@ -75,10 +75,15 @@ Model Fuente01;
 
 // Personajes
 Model ReyHelado;
+Model Bimo;
+
 
 // Parque alameda
 Model Fence_color;
 Model Fence_normal;
+
+// Gasolineria
+Model Gasolineria;
 
 // Vegatacion
 Model arbusto_colorido;
@@ -115,8 +120,16 @@ Model lamp_deadpool;
 
 ///mesasillaplatico
 Model mesasillaplastico;
+
+// Pedestal Estatua
+Model pedestalEstatua;
 ///estatua dorada spider man
 Model estatuaspidermandorada;
+
+// Piso centro
+Model piso_central;
+// Fuente centro
+Model Fountain_center;
 
 /// Bicicleta roja
 Model bicicletaroja;
@@ -124,16 +137,23 @@ Model bicicletaroja;
 Model pelotabasquet;
 ////tienda comic ventana con transparencia
 Model tiendacomic;
+//oxxo
+Model Oxxo;
 ///tienda de dulce transparencia
 Model candystore;
 Model tiendavideojuegos;
+Model bano_halo;
 ///// modelos con spotlights
 Model Farospot;
 Model Torrecontrolspot;
 Model proyectorspot;
+Model ironman;
+Model venom;
 ///modelos con pointlights
 Model espada_fin;
 Model gema_infinito;
+Model fogata;
+
 ////halo carrito
 Model halo_carrito;
 Model halo_carritollantaizq;
@@ -162,16 +182,24 @@ bool avanzascootdeadpool;
 
 //////////////////////////////////////////////////VARIABLES NAVE 3 VEHICULO MOTORIZADO
 Model naveSamus;
+Model avionhydra;
+Model aspa;
+float rotaspa;
+float rotaspaOffset;
 	 float samusmovN;
 	float samusmovNOffset;
 	float samusmovNy;
 	float samusmovNyOffset;
+	float samusmovNizq;
+	float samusmovNizqOffset;
 bool subenavsamus;
 bool bajasamus;
 bool avanzasamus;
-bool regresasamus;
-/////////////1 animacion simple
+bool izqsamus;
+bool avanzatrueavion;
 
+/////////////1 animacion simple
+Model capitan_lanzando_escudo;
 Model escudocap;
 float movescudocap;
 float movOffescudocap;
@@ -180,6 +208,11 @@ float rotmovescudocapOffset;
 bool avanzaescudocap; 
 /////2 animacion simple
 Model coronarey;
+Model penguin;
+float coronayrey;
+float coronayOffrey;
+bool  bajacorona;
+bool avanzaxcorona;
 float movcoronarey;
 float movOffcoronarey;
 float rotmovcoronarey;
@@ -213,10 +246,6 @@ PointLight pointLights[MAX_POINT_LIGHTS];
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 //FARO CON TIEMPO
 //SpotLight spotLights2[MAX_SPOT_LIGHTS];
-
-
-
-
 
 
 // Vertex Shader
@@ -405,6 +434,10 @@ int main()
 	///mesa y silla
 	mesasillaplastico = Model();
 	mesasillaplastico.LoadModel("Models/mesasilla.obj");
+
+	// Pedestal
+	pedestalEstatua = Model();
+	pedestalEstatua.LoadModel("Models/colorful_pedestal.obj");
 	///estatua dorada spiderman
 	estatuaspidermandorada = Model();
 	estatuaspidermandorada.LoadModel("Models/estatuaspiderman.obj");
@@ -430,6 +463,10 @@ int main()
 	candystore.LoadModel("Models/candystore.obj");
 	tiendavideojuegos=Model();
 	tiendavideojuegos.LoadModel("Models/tiendavideojuegos.obj");
+	Oxxo=Model();
+	Oxxo.LoadModel("Models/oxxo.obj");
+	bano_halo=Model();
+	bano_halo.LoadModel("Models/bath.obj");
 
 /************************** modelosspotlights*****************************/
 Farospot=Model();
@@ -438,6 +475,14 @@ Torrecontrolspot=Model();
 Torrecontrolspot.LoadModel("Models/airtrafic.obj");
 proyectorspot=Model();
 proyectorspot.LoadModel("Models/proyector.obj");
+ironman=Model();
+ironman.LoadModel("Models/ironman.obj");
+venom=Model();
+venom.LoadModel("Models/venom.obj");
+/************************** modelospointlights*****************************/
+
+fogata=Model();
+fogata.LoadModel("Models/fogata.obj");
 
 
 espada_fin=Model();
@@ -462,24 +507,37 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 
 	scotterdeadpoolllantader=Model();
 	scotterdeadpoolllantader.LoadModel("Models/scooterdeadllanta.obj");
+
 //////////////////////////nave samus 3°vehiculo
 naveSamus=Model();
 naveSamus.LoadModel("Models/samusnave.obj");
+avionhydra=Model();
+avionhydra.LoadModel("Models/avionhidra.obj");
+aspa=Model();
+aspa.LoadModel("Models/aspa.obj");
 /************************** animaciones simples 1°*****************************/
+capitan_lanzando_escudo=Model();
+capitan_lanzando_escudo.LoadModel("Models/caplanzando.obj");
 escudocap=Model();
 escudocap.LoadModel("Models/escudocap.obj");
 /************************** animaciones simples 2°*****************************/
 coronarey=Model();
 coronarey.LoadModel("Models/coronareyhelado.obj");
-
+penguin=Model();
+penguin.LoadModel("Models/penguin.obj");
 
 /************************** animaciones compleja*****************************/
+
 
 	/************************** Hora de aventura *****************************/
 
 	// Rey helado
 	ReyHelado = Model();
 	ReyHelado.LoadModel("Models/rey_helado.obj");
+
+	// Bimo
+	Bimo = Model();
+	Bimo.LoadModel("Models/bimo.obj");
 
 	pisoHielo = Model();
 	pisoHielo.LoadModel("Models/sueloHielo.obj");
@@ -491,7 +549,8 @@ coronarey.LoadModel("Models/coronareyhelado.obj");
 	// Casa madera
 	Casa_JakeConPasto = Model();
 	Casa_JakeConPasto.LoadModel("Models/casaJakeConPasto.obj");
-		// Maceta casa jake
+
+	// Maceta casa jake
 	maceta = Model();
 	maceta.LoadModel("Models/maceta.obj");
 
@@ -501,11 +560,22 @@ coronarey.LoadModel("Models/coronareyhelado.obj");
 	Montanas[1] = Model();
 	Montanas[1].LoadModel("Models/montanas.obj");
 
+	// Gasolineria
+	Gasolineria = Model();
+	Gasolineria.LoadModel("Models/gasolineria.obj");
+
 	// Entrada unicornio
 	Rainicorn = Model();
 	Rainicorn.LoadModel("Models/rainicorn_solo.obj");
 
+	// Piso centras
+	piso_central = Model();
+	piso_central.LoadModel("Models/piso_central.obj");
+
 	// Fuente del centro de la alameda
+	Fountain_center = Model();
+	Fountain_center.LoadModel("Models/fountain_center.obj");
+
 	Fuente01 = Model();
 	Fuente01.LoadModel("Models/fuente_alameda_centro.obj");
 
@@ -535,12 +605,12 @@ coronarey.LoadModel("Models/coronareyhelado.obj");
 
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/desertsky_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_ft.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_rt.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_lf.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_dn.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_up.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_bk.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_ft.tga");
 
 	skybox = Skybox(skyboxFaces);
 
@@ -578,10 +648,11 @@ skybox2=Skybox(skyboxFaces2);
 		-86.0f, 5.0f,-44.0f,
 		0.1f, 0.1f, 0.1f);
 	pointLightCount++;
-	 
-	pointLights[1] = PointLight(1.0f,1.0f, 0.0f,
+	 ///fogata  		13.0f, 5.0f,0.0f,
+
+	pointLights[1] = PointLight(1.0f,0.5f, 0.0f,
 		0.4f, 1.0f,
-		13.0f, 5.0f,0.0f,
+		0.0f, 1.0f,10.0f,
 		0.1f, 0.1f, 0.1f);
 	pointLightCount++;
 	//Declaraci�n de primer luz puntual ARREGLO2 espada fin
@@ -603,14 +674,16 @@ pointLights[2] = PointLight(1.0f, 1.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		5.0f);
 	spotLightCount++;*/
+//		-35.0f, 30.0f, 50.0f,
+///5.0 
+//iron man -30.0f, 6.0f, -41.0f, posiciom 		1.0f, 1.0f, 0.0f,  1.0f, 0.1f, 0.032f
 
-//torre de control
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
-		3.0f, 2.0f,
-		-35.0f, 30.0f, 50.0f,
+	spotLights[0] = SpotLight(1.0f, 0.0f, 0.0f,
+		1.0f, 2.0f,
+		-21.0f, 6.2f, -41.0f,
 		5.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
-		5.0f);
+		4.0f);
 	spotLightCount++;
 //proyector
 	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
@@ -652,16 +725,22 @@ avanzahalo=true;
 movscootdeadpool=0.0f;
 movOffscootdeadpool=0.05;
 rotllantascootdeadpool=0.0f;
-rotllantaOffsethalo=5.0f;
+rotllantaOffsethalo=2.0f;
 avanzascootdeadpool=true;
 /////////variables NAVE SAMUS
 samusmovN=0.0f;
 samusmovNOffset=0.05f;
 samusmovNy=0.0f;
 samusmovNyOffset=0.05f;
-avanzasamus=true;
+samusmovNizq=0.0f;
+samusmovNizqOffset=0.05f;
+avanzatrueavion=true;
+avanzasamus=false;
+izqsamus=false;
 //regresasamus=false;
 subenavsamus=true;
+rotaspa=0.0f;
+rotaspaOffset=5.0f;
 //bajasamus=false;
 /////variables escudo cap 1 animacion
 movescudocap=0.0f;
@@ -669,13 +748,15 @@ movOffescudocap=0.05f;
 rotmovescudocap=0.0f;
 rotmovescudocapOffset=5.0f;
 avanzaescudocap=true;
+
 /////variables coronareyhelado
 movcoronarey=0.0f;
  movOffcoronarey=0.01f;
  rotmovcoronarey=0.0f;
  rotmovOffcornarey=5.0f;
  avanzacorona=true; 
-
+avanzaxcorona=true;
+bajacorona=false;
 
 
 	bool cicloDia = true;
@@ -895,58 +976,59 @@ if (avanzascootdeadpool)
 		}
 
 ////////////////////////////nave&& subenavsamus
-if (avanzasamus&& subenavsamus)
+if (avanzatrueavion)
 		{
 			//la nave avanza
-			if (samusmovNy > 0.0f)
-			{
-				samusmovNy-= samusmovNyOffset * deltaTime;
-				//samusmovN -=samusmovNOffset*deltaTime;
+			if (subenavsamus){
+				if(samusmovNy <=3.5f){
+				//printf("smaus movny antes %.2f\n",samusmovNy);
+
+					samusmovNy+=(samusmovNyOffset*deltaTime)/25;
+
+					rotaspa+=rotaspaOffset*deltaTime;
+
+				}
+				else{
+					subenavsamus=false;
+					avanzasamus=true;
+				}
+
 			}
-			else
-			{
-				//avanzasamus = false;
-				subenavsamus = false;
+
+			if(avanzasamus){
+				if(samusmovN<=25.0f){
+				samusmovN+=(samusmovNOffset*deltaTime);
+				rotaspa+=rotaspaOffset*deltaTime;
 			}
-			///5.0
-			if (samusmovN > 0.0f   )
-			{
-				
-				samusmovN -=samusmovNOffset*deltaTime;
+			else{
+				avanzasamus=false;
+				izqsamus=true;
 			}
-			else
-			{
-				avanzasamus = false;
-				//subenavsamus = false;
+			}
+
+			if(izqsamus){
+				if(samusmovNizq<=7.0f){
+					samusmovNizq+=samusmovNizqOffset*deltaTime;
+					rotaspa+=rotaspaOffset*deltaTime;
+
+
+				}
+				else{
+					izqsamus=true;
+				}
+
 			}
 
 
+			
+			
 
-
-
-		}else{
-			if (samusmovNy < 10.0f)
-			{
-				samusmovNy+= samusmovNyOffset * deltaTime;
-				//samusmovN +=samusmovNOffset*deltaTime;
-			}
-			else
-			{
-				//avanzasamus = true;
-				subenavsamus = true;
-			}
-
-			//
-			if (samusmovN < 5.0f)
-			{
-				
-				samusmovN +=samusmovNOffset*deltaTime;
-			}
-			else
-			{
-				avanzasamus = true;
-				//subenavsamus = true;
-			}
+		}
+		else{
+		avanzatrueavion=true;
+			samusmovN=0.0;
+			samusmovNy=0.0;
+			
 
 		}
 
@@ -987,6 +1069,8 @@ if (avanzaescudocap)
 ///////////////////////////animacion simple corona rey
 if (avanzacorona)
 		{
+			/*
+
 			//el coche avanza y se detiene en el límite del plano
 			if (movcoronarey > 0.0f)
 			{
@@ -1015,6 +1099,9 @@ if (avanzacorona)
 			{
 				avanzacorona = true;
 			}
+			*/
+
+
 		}
 
 	
@@ -1031,6 +1118,9 @@ if (avanzacorona)
 		///carro spiderman
 		glm::mat4 modelaux4(1.0);
 		//glm::mat4 modelaux3(1.0);
+		///avion hydra
+		glm::mat4 modelaux5(1.0);
+
 
 
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -1130,7 +1220,7 @@ model = glm::mat4(1.0);
 
 		///arboles tipo hora de aventura pino con hielo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.3f, 13.0f));
+		model = glm::translate(model, glm::vec3(20.0f, 1.3f, -40.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1138,8 +1228,9 @@ model = glm::mat4(1.0);
 
 		////segundo arboles tipo hora de aventura pino con hielo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.3f, -13.0f));
+		model = glm::translate(model, glm::vec3(25.0f, 1.3f, -25.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pino.RenderModel();
@@ -1202,19 +1293,33 @@ model = glm::mat4(1.0);
 
 		////mesaconsilla
 		model = glm::mat4(1.0);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-3.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(30.0f, 1.3f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		mesasillaplastico.RenderModel();	
+
+		// Pedestal estatua
+		model = glm::mat4(1.0);
+		glm::vec3 posEstatua = glm::vec3(-9.0f, 1.0f, 0.0f);
+		model = glm::translate(model, posEstatua);
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pedestalEstatua.RenderModel();
+
+		posEstatua.x += 1.7;
+		posEstatua.y += 1.5;
+		posEstatua.z -= 2.3;
 		///estatua de marvel spiderman dorada
 		model = glm::mat4(1.0);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-3.0f, 1.0f, 8.0f));
+		model = glm::translate(model, posEstatua);
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		estatuaspidermandorada.RenderModel();
+
 		///bicicleta roja
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(45.0f, 1.2f, 0.0f));
+		model = glm::translate(model, glm::vec3(35.0f, 1.6f, 3.0f));
+
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bicicletaroja.RenderModel();
@@ -1229,14 +1334,23 @@ model = glm::mat4(1.0);
 /**************************ventanas transparentes*****************************/
 
 		////tienda comic con ventana transparente
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		/*
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-55.0f, 0.0f, -40.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		tiendacomic.RenderModel();
+		tiendacomic.RenderModel();*/
+
 		///tienda de dulce
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-55.0f, 0.0f, -40.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Oxxo.RenderModel();
+				///tienda de dulce
+
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, -10.0f));
@@ -1245,10 +1359,15 @@ model = glm::mat4(1.0);
 		candystore.RenderModel();		
 		///tienda videojuegos
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, 10.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		tiendavideojuegos.RenderModel();
+		//tiendavideojuegos.RenderModel();
+		bano_halo.RenderModel();
+
+		/////
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		/************************** modelosspotlights*****************************/
 
 
@@ -1269,6 +1388,24 @@ model = glm::translate(model, glm::vec3(-35.0f, 3.0f, 50.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Torrecontrolspot.RenderModel();
+///iron man
+model = glm::mat4(1.0);
+//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+model = glm::translate(model, glm::vec3(-20.0f, 1.2f, -40.0f));
+model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ironman.RenderModel();
+//venom
+/*
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(-35.0f, 1.0f, 55.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		venom.RenderModel();
+
+*/
+
 	//proyector
 model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-85.0f, 0.5f, 0.0f));
@@ -1291,6 +1428,13 @@ model = glm::translate(model, glm::vec3(-85.0f, 0.0f, -45.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		gema_infinito.RenderModel();
+
+		///fogatass
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(0.0f, 1.0f, 10.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		fogata.RenderModel();
 
 
 		//glEnable(GL_BLEND);
@@ -1391,14 +1535,27 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			model = glm::mat4(1.0);
 			//printf("smaus movny  %.2f\n",samusmovNy);
 			//-5.0
-			//model = glm::translate(model, glm::vec3(-20.0f, 30.0f,45.0f));
-			model = glm::translate(model, glm::vec3(-10.0f, 27.0f,45.0f));
+			//model = glm::translate(model, glm::vec3(15.0f, 27.0f,43.0f));
+			model = glm::translate(model, glm::vec3(15.0f, 27.0f,37.0f));
 
 
-			model = glm::translate(model, glm::vec3(samusmovN,((samusmovNy)),0.0f));
+			model = glm::translate(model, glm::vec3(-(samusmovN),((samusmovNy)),samusmovNizq));
 
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			naveSamus.RenderModel();
+			modelaux5=model;
+			///naveSamus.RenderModel();
+			avionhydra.RenderModel();
+			model=modelaux5;
+			//model = glm::translate(model, glm::vec3(-1.3f, 0.8f,0.0f));
+
+			model = glm::translate(model, glm::vec3(-0.4f, 0.25f,0.0f));
+			model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			aspa.RenderModel();
+
+
+
 	/////////////////////////////////////////////////////////////////////////////////// 1° animacionsimple escudo cap
 //-80
 			model = glm::mat4(1.0);
@@ -1414,6 +1571,15 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		
 /////////////////////////////////////////////////////////////////////////////////// 2° animacionsimple corona rey
 //-80
+			/*model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-80.0f, 2.0f,0.0f));
+			//			model = glm::translate(model, glm::vec3(-85.0f, 2.0f,3.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
+
+			capitan_lanzando_escudo.RenderModel();*/
+
+
 			model = glm::mat4(1.0);
 			model = glm::translate(model, glm::vec3(-75.0f, 2.0f,3.0f));
 			model = glm::translate(model, glm::vec3(0.0f,0.0f,movescudocap));
@@ -1424,16 +1590,29 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			coronarey.RenderModel();
+////gunther
+model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-75.0f, 0.0f,3.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			penguin.RenderModel();
 
 
 
+			/////capitan america
+model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-81.0f, 0.0f,-3.0f));
+			//			model = glm::translate(model, glm::vec3(-80.0f, 0.0f,-3.0f));
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 
+			capitan_lanzando_escudo.RenderModel();
 
-	
 
 ///////////////////////////////////////////////////////////////////////////////////
 		/************ Hora de Aventura **************/
+
+		/****** Personajes *****/
 
 		// Rey Helado
 		model = glm::mat4(1.0);
@@ -1443,9 +1622,18 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ReyHelado.RenderModel();
 
+		// Bimo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -15.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		//model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bimo.RenderModel();
+
 		// Piso helado
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(40.0f, 0.17f, -40.0f));
+		model = glm::translate(model, glm::vec3(40.0f, 0.12f, -40.0f));
+
 		model = glm::scale(model, glm::vec3(13.0f, 13.0f, 13.0f));
 		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1481,8 +1669,15 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		maceta.RenderModel();
 
+		// Gasolineria
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.0f, 1.0f, 50.0f));
+		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Gasolineria.RenderModel();
 
-		// Montañas
+	// Montañas
 	// Primeras montañas
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(35.0f, 1.0f, -75.0f));
@@ -1505,83 +1700,299 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Rainicorn.RenderModel();
 
+		// Piso centro
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 2.0f, 4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		piso_central.RenderModel();
+
 		// Fuente de la alameda - Centro
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(1.4f, 1.0f, 4.5f));
+		model = glm::translate(model, glm::vec3(0.0f, 1.3f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Fountain_center.RenderModel();
+
+		// Fuente
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.1f, 29.0f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Fuente01.RenderModel();
 
 /************************ VEGETACION: Hora de aventura ***************************/
 		float tamanoArboles = 3.0f;
-		for (int i = 0; i < 6 * 2; i = i + 2) {
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(-10.0f, 1.0f, -28.0f + i));
-			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Arboles_HoraDeAventura[0].RenderModel();
+		// Arboles izquierdo
+		for (int i = 0; i < 19 * 3; i = i + 3) {
+			if (i > 15 && i < 38) {
+				continue;
+			}
+			else {
+				// Arbol 0 rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-9.5f, 1.0f, -28.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Arboles_HoraDeAventura[0].RenderModel();
 
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(-13.0f, 1.0f, -27.0f + i));
-			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Arboles_HoraDeAventura[1].RenderModel();
+				// Arbol 1 azul
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-12.5f, 1.0f, -27.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Arboles_HoraDeAventura[1].RenderModel();
+
+				// Arbol colorido
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-6.5f, 1.0f, -27.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				arbol_colorido.RenderModel();
+
+				
+			}
 		}
 
-		for (int i = 0; i < 6 * 2; i = i + 2) {
+		// Arbustos izquierdo
+		for (int i = 0; i < 10; i = i + 3) {
 			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(13.0f, 1.0f, -28.0f + i));
+			model = glm::translate(model, glm::vec3(-5.0f - i, 1.0f, 4.5f));
 			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			arbol_colorido.RenderModel();
+			arbusto_colorido.RenderModel();
+
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-5.0f - i, 1.0f, -4.5f));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			arbusto_colorido.RenderModel();
 		}
+
+		// Arboles derecho
+		for (int i = 0; i < 19 * 3; i = i + 3) {
+			if (i > 15 && i < 38) {
+				continue;
+			}
+			else {
+				// Arbol 0 rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(9.5f, 1.0f, -28.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Arboles_HoraDeAventura[0].RenderModel();
+
+				// Arbol 1 azul
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(12.5f, 1.0f, -27.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Arboles_HoraDeAventura[1].RenderModel();
+
+				// Arbol colorido
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(6.5f, 1.0f, -27.0f + i));
+				model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				arbol_colorido.RenderModel();
+
+
+			}
+		}
+
+		// Arbustos izquierdo
+		for (int i = 0; i < 10; i = i + 3) {
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(5.0f + i, 1.0f, 4.5f));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			arbusto_colorido.RenderModel();
+
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(5.0f + i, 1.0f, -4.5f));
+			model = glm::scale(model, glm::vec3(tamanoArboles, tamanoArboles, tamanoArboles));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			arbusto_colorido.RenderModel();
+		}
+		
 		
 
 /************************* Parque alameda ****************************/
 
 		/* Lado derecho */
-		for (int i = 0; i <= 4 * 6; i = i + 4) {
-			// Reja colorida
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(16.0f, 1.0f, -30.0f + i));
-			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Fence_color.RenderModel();
+		for (int i = 0; i <= 4 * 15; i = i + 4) {
+			if (i > 24 && i < 36) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(16.0f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
 		}
 
-		for (int i = 0; i <= 2 * 24; i = i + 1) {
-			// Pasto rosa
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(16.5f, 1.0f, -30.0f + i));
-			model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			pasto_rosa.RenderModel();
+		// Pasto rosa
+		for (int i = 0; i <= 2 * 30; i = i + 1) {
+			if (i > 26 && i < 36) {
+				continue;
+			}
+			else {
+				// Pasto rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(16.5f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				pasto_rosa.RenderModel();
+			}
 		}
 
-		for (int i = 0; i <= 4 * 6; i = i + 4) {
-			// Reja colorida
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(16.0f, 1.0f, 6.0f + i));
-			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Fence_color.RenderModel();
+		// Reja del lado de las piramides
+		for (int i = 0; i <= 4 * 7; i = i + 4) {
+			if (i > 11 && i < 17) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, -32.0f));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
 		}
+		// Pasto rosa lado piramides
+		for (int i = 0; i <= 2 * 14; i = i + 1) {
+			if (i > 11 && i < 17) {
+				continue;
+			}
+			else {
+				// Pasto rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, -33.0f));
+				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				pasto_rosa.RenderModel();
+			}
+		}
+
+		// Lado derecho interior
+		for (int i = 0; i <= 4 * 15; i = i + 4) {
+			if (i > 24 && i < 36) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(4.0f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
+		}
+
+		// Reja del lado de las piramides interior
+		//for (int i = 0; i <= 4 * 7; i = i + 4) {
+		//	if (i > 11 && i < 17) {
+		//		continue;
+		//	}
+		//	else {
+		//		// Reja colorida
+		//		model = glm::mat4(1.0);
+		//		model = glm::translate(model, glm::vec3(4.0f - i, 1.0f, -32.0f));
+		//		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		//		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//		Fence_color.RenderModel();
+		//	}
+		//}
 
 		/* Lado izquierdo */
 
-		for (int i = 0; i <= 4 * 6; i = i + 4) {
-			// Reja normal
-			model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(-15.0f, 1.0f, -30.0f + i));
-			model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			Fence_color.RenderModel();
+		for (int i = 0; i <= 4 * 15; i = i + 4) {
+			if (i > 24 && i < 36) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-15.0f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
 		}
 
+		// Pasto rosa
+		for (int i = 0; i <= 2 * 30; i = i + 1) {
+			if (i > 26 && i < 36) {
+				continue;
+			}
+			else {
+				// Pasto rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-15.5f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				pasto_rosa.RenderModel();
+			}
+		}
+
+		// Reja del lado torre avengers
+		for (int i = 0; i <= 4 * 7; i = i + 4) {
+			if (i > 11 && i < 17) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, 32.0f));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
+		}
+		// Pasto rosa lado avengers
+		for (int i = 0; i <= 2 * 14; i = i + 1) {
+			if (i > 11 && i < 17) {
+				continue;
+			}
+			else {
+				// Pasto rosa
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(14.0f - i, 1.0f, 32.5f));
+				model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				pasto_rosa.RenderModel();
+			}
+		}
+
+		// Lado izquierdo interior
+		for (int i = 0; i <= 4 * 15; i = i + 4) {
+			if (i > 24 && i < 36) {
+				continue;
+			}
+			else {
+				// Reja colorida
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-4.0f, 1.0f, -30.0f + i));
+				model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+				//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				Fence_color.RenderModel();
+			}
+		}
 
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);
@@ -1589,7 +2000,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//AgaveTexture.UseTexture();
 		//Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		///meshList[3]->RenderMesh();
-		glDisable(GL_BLEND);
+		///glDisable(GL_BLEND);
 
 		glUseProgram(0);
 
