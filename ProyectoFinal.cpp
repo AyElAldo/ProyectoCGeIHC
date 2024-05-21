@@ -79,6 +79,12 @@ Model Fuente01;
 Model ReyHelado;
 Model Bimo;
 
+// Bimo Avatar
+Model AvatarCuerpo;
+Model AvatarBI;
+Model AvatarBD;
+Model AvatarPI;
+Model AvatarPD;
 
 // Parque alameda
 Model Fence_color;
@@ -86,6 +92,9 @@ Model Fence_normal;
 
 // Gasolineria
 Model Gasolineria;
+
+// Edificios
+Model edificios;
 
 // Vegatacion
 Model arbusto_colorido;
@@ -107,7 +116,6 @@ Model avengers;
 ///STARK
 Model stark;
 ///Sanctum
-
 Model Sanctum;
 ///spiderman
 Model Spiderman;
@@ -498,6 +506,18 @@ coronarey.LoadModel("Models/coronareyhelado.obj");
 
 
 	/************************** Hora de aventura *****************************/
+	// Avatar BMO
+	AvatarCuerpo = Model();
+	AvatarCuerpo.LoadModel("Models/bmo_cuerpo.obj");
+
+	AvatarBI = Model();
+	AvatarBI.LoadModel("Models/bimo_bi.obj");
+	AvatarBD = Model();
+	AvatarBD.LoadModel("Models/bimo_bd.obj");
+	AvatarPI = Model();
+	AvatarPI.LoadModel("Models/bimo_pierna.obj");
+	AvatarPD = Model();
+	AvatarPD.LoadModel("Models/bimo_pierna.obj");
 
 	// Rey helado
 	ReyHelado = Model();
@@ -534,6 +554,10 @@ coronarey.LoadModel("Models/coronareyhelado.obj");
 	// Gasolineria
 	Gasolineria = Model();
 	Gasolineria.LoadModel("Models/gasolineria.obj");
+
+	// Edificios
+	edificios = Model();
+	edificios.LoadModel("Models/edificios.obj");
 
 	// Entrada unicornio
 	Rainicorn = Model();
@@ -1160,14 +1184,27 @@ model = glm::mat4(1.0);
 		//scooterdeadpool.RenderModel();
 		///falta que se mueva
 		
-		///bote de basura
+		/****************** Botes de basura *********************/
 		model = glm::mat4(1.0);
 		//model = glm::translate(model, glm::vec3(-32.0f, 1.2f, -15.0f));
 		model = glm::translate(model, glm::vec3(-30.0f, 1.3f, -6.5f));
 		model = glm::scale(model, glm::vec3(0.8f,0.8f, 0.8f));
-
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bote_basura.RenderModel();
+
+		model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(-32.0f, 1.2f, -15.0f));
+		model = glm::translate(model, glm::vec3(26.0f, 2.3f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.8f,0.8f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bote_basura.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-3.0f, 1.3f, -8.5f));
+		//model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bote_basura.RenderModel();
+		/********************************************************/
 
 		///arboles tipo hora de aventura pino con hielo
 		model = glm::mat4(1.0);
@@ -1514,11 +1551,27 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Castillo Rey Helado
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -40.0f));
+		model = glm::translate(model, glm::vec3(50.0f, 0.0f, -40.0f));
 		model = glm::scale(model, glm::vec3(55.0f, 55.0f, 55.0f));
 		model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		castillo_rey_helado.RenderModel();
+
+		// Edificios 
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, -75.0f));
+		model = glm::scale(model, glm::vec3(1.8f, 1.8f, 1.8f));
+		//model = glm::rotate(model, 100 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		edificios.RenderModel();
+
+		// Pasto de edificios
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-30.0f, -1.0f, -75.0f));
+		model = glm::scale(model, glm::vec3(1.8f, 0.8f, 1.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pasto_verde.RenderModel();
 
 		// Casa del Arbol
 		model = glm::mat4(1.0);
@@ -1528,7 +1581,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		CasaArbol.RenderModel();
 
-		// Pasto
+		// Pasto casa del arbol
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(70.0f, 0.0f, 35.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
@@ -1882,6 +1935,56 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 				Fence_color.RenderModel();
 			}
 		}
+
+		/************** AVATAR *****************/
+		glm::mat4 model_avatar(1.0);
+		// Cuerpo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 1.6f, 8.0f));
+		model_avatar = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		AvatarCuerpo.RenderModel();
+
+		model = model_avatar;
+
+		// Brazos
+		model = glm::translate(model, glm::vec3(0.5f, 0.7f, 0.0f));
+		model_avatar = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		AvatarBD.RenderModel();
+
+		model = model_avatar;
+
+		//model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-1.1f, 0.0f, 0.0f));
+		//model_avatar = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		AvatarBI.RenderModel();
+
+		model = model_avatar;
+		// Piernas
+		model = glm::translate(model, glm::vec3(-0.8f, -0.65f, 0.0f));
+		model_avatar = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		AvatarPI.RenderModel();
+
+		model = model_avatar;
+
+		model = glm::translate(model, glm::vec3(0.6f, -0.0f, 0.0f));
+		model_avatar = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		AvatarPD.RenderModel();
+
 
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);
