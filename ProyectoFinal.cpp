@@ -192,15 +192,25 @@ float rotaspaOffset;
 	float samusmovNyOffset;
 	float samusmovNizq;
 	float samusmovNizqOffset;
+	float giraavion1;
+	float giraavionOffset;
 bool subenavsamus;
 bool bajasamus;
 bool avanzasamus;
 bool izqsamus;
 bool avanzatrueavion;
+bool giraavion;
 
 /////////////1 animacion simple
 Model capitan_lanzando_escudo;
+Model jake;
+Model jakebrazo;
 Model escudocap;
+bool brazorot;
+float rotbrazo;
+float rotOffbrazo;
+bool avanzaescudo1;
+bool avanzaescudox;
 float movescudocap;
 float movOffescudocap;
 float rotmovescudocap;
@@ -212,14 +222,30 @@ Model penguin;
 float coronayrey;
 float coronayOffrey;
 bool  bajacorona;
+bool bajaizqcorona;
+bool baja2corona;
 bool avanzaxcorona;
+bool bajaizq2corona;
 float movcoronarey;
 float movOffcoronarey;
+float movcoronareyYY;
+float movOffcoronareyY;
+
 float rotmovcoronarey;
 float rotmovOffcornarey;
 bool avanzacorona; 
 
-////
+//// 3 animacion simple
+
+Model silversurfer;
+bool girarsurfer;
+bool avansasurferx;
+bool avanzasurfer;
+float girasurfer;
+float giraOffsuurfer;
+float avanzsurferx;
+float avanOffzsurfer;
+
 ////////
 ////2 animacion simple
 Skybox skybox;
@@ -520,14 +546,19 @@ capitan_lanzando_escudo=Model();
 capitan_lanzando_escudo.LoadModel("Models/caplanzando.obj");
 escudocap=Model();
 escudocap.LoadModel("Models/escudocap.obj");
+jake=Model();
+jake.LoadModel("Models/jake.obj");
+jakebrazo=Model();
+jakebrazo.LoadModel("Models/jake_brazo.obj");
 /************************** animaciones simples 2°*****************************/
 coronarey=Model();
 coronarey.LoadModel("Models/coronareyhelado.obj");
 penguin=Model();
 penguin.LoadModel("Models/penguin.obj");
 
-/************************** animaciones compleja*****************************/
-
+/************************** animacion simple 3°*****************************/
+silversurfer=Model();
+silversurfer.LoadModel("Models/silversurfer.obj");
 
 	/************************** Hora de aventura *****************************/
 
@@ -733,14 +764,17 @@ samusmovNOffset=0.05f;
 samusmovNy=0.0f;
 samusmovNyOffset=0.05f;
 samusmovNizq=0.0f;
-samusmovNizqOffset=0.05f;
+samusmovNizqOffset=0.01f;
 avanzatrueavion=true;
 avanzasamus=false;
 izqsamus=false;
+giraavion=false;
 //regresasamus=false;
 subenavsamus=true;
 rotaspa=0.0f;
 rotaspaOffset=5.0f;
+giraavion1=0.0f;
+giraavionOffset=0.5;
 //bajasamus=false;
 /////variables escudo cap 1 animacion
 movescudocap=0.0f;
@@ -748,15 +782,32 @@ movOffescudocap=0.05f;
 rotmovescudocap=0.0f;
 rotmovescudocapOffset=5.0f;
 avanzaescudocap=true;
+brazorot=true;
+rotbrazo=0.0f;
+rotOffbrazo=0.1;
+avanzaescudox=false;
 
-/////variables coronareyhelado
+/////variables coronareyhelado 2 animacion
 movcoronarey=0.0f;
  movOffcoronarey=0.01f;
+ movcoronareyYY=0.0f;
+ movOffcoronareyY=0.01;
  rotmovcoronarey=0.0f;
  rotmovOffcornarey=5.0f;
  avanzacorona=true; 
-avanzaxcorona=true;
-bajacorona=false;
+avanzaxcorona=false;
+bajacorona=true;
+baja2corona=false;
+bajaizqcorona=false;
+//giraavion=false;
+////3 animacion silver surfer
+avanzasurfer=true;
+girarsurfer=true;
+avansasurferx=false;
+girasurfer=0.0;
+ giraOffsuurfer=0.1;
+ avanzsurferx=0.0;
+ avanOffzsurfer=0.01;
 
 
 	bool cicloDia = true;
@@ -976,6 +1027,7 @@ if (avanzascootdeadpool)
 		}
 
 ////////////////////////////nave&& subenavsamus
+/*
 if (avanzatrueavion)
 		{
 			//la nave avanza
@@ -1031,11 +1083,77 @@ if (avanzatrueavion)
 			
 
 		}
+*/
+if (avanzatrueavion)
+{
+    // La nave avanza
+    if (subenavsamus) {
+        if (samusmovNy <= 4.5f) {
+            samusmovNy += (samusmovNyOffset * deltaTime) / 25;
+            rotaspa += rotaspaOffset * deltaTime;
+        } else {
+            subenavsamus = false;
+            avanzasamus = true;
+        }
+    }
+
+    if (avanzasamus) {
+        if (samusmovN <= 25.0f) {
+            samusmovN += samusmovNOffset * deltaTime;
+            rotaspa += rotaspaOffset * deltaTime;
+        } else {
+            avanzasamus = false;
+            //izqsamus = true;
+			giraavion=true;
+        }
+    }
+
+	if(giraavion){
+		if (giraavion1 <= 90.0f) {
+            giraavion1 += giraavionOffset * deltaTime;
+            rotaspa += rotaspaOffset * deltaTime;
+        } else {
+            giraavion = false;
+            izqsamus = true;
+			
+
+			
+        }
+	}
+
+
+    if (izqsamus) {
+         if (samusmovNizq <= 8.0f) {
+            samusmovNizq += samusmovNizqOffset * deltaTime;
+            rotaspa += rotaspaOffset * deltaTime;
+        } else {
+            
+            izqsamus = false;
+			            subenavsamus = true;
+						 samusmovN = 0.0f;
+            samusmovNy = 0.0f;
+            samusmovNizq = 0.0f;
+			giraavion1=0.0f;
+        }
+    }
+	
+    
+} else {
+    avanzatrueavion = true;
+    samusmovN = 0.0f;
+    samusmovNy = 0.0f;
+    samusmovNizq = 0.0f;
+	giraavion1=0.0f;
+    subenavsamus = true;
+    avanzasamus = false;
+    izqsamus = false;
+}
 
 		
 ///////////////////////////animacion simple escudo cap
 if (avanzaescudocap)
 		{
+			/*
 			//el coche avanza y se detiene en el límite del plano
 			if (movescudocap > 0.0f)
 			{
@@ -1065,48 +1183,161 @@ if (avanzaescudocap)
 				avanzaescudocap = true;
 			}
 		}
+*/
+if(brazorot){
+	if(rotbrazo<=90.0f){
+		rotbrazo+=rotOffbrazo*deltaTime;
+		//printf("rotbrazo  %.2f\n",rotbrazo);
+
+
+	}
+	else{
+		brazorot=false;
+		avanzaescudox=true;
+	}
+	
+}
+if(avanzaescudox){
+	if(movescudocap<=10.0f){
+		movescudocap+=movOffescudocap*deltaTime;
+		rotmovescudocap +=rotmovescudocapOffset * deltaTime;
+	}
+	else{
+		avanzaescudox=false;
+		rotbrazo=0.0;
+		movescudocap=0.0;
+		rotmovescudocap=0.0;
+		brazorot=true;
+	}
+
+}
+		}else{
+			avanzaescudox=false;
+			rotmovescudocap=0.0;
+		rotbrazo=0.0;
+		movescudocap=0.0;
+		brazorot=true;
+		//avanzaescudocap=true;
+		}
 
 ///////////////////////////animacion simple corona rey
 if (avanzacorona)
 		{
-			/*
+			if(bajacorona){
+				if(movcoronareyYY > -0.5f){
+					movcoronareyYY-=(movOffcoronareyY*deltaTime);
 
-			//el coche avanza y se detiene en el límite del plano
-			if (movcoronarey > 0.0f)
-			{
-				movcoronarey -= movOffcoronarey * deltaTime;
-				rotmovcoronarey +=rotmovOffcornarey * deltaTime;
-				//printf("> 0.0f  %.2f\n", movOffescudocap);
+				}
+				else{
+					bajacorona=false;
+					bajaizqcorona=true;
+					//movcoronareyYY=0.0f;
+				}
 
 
 
+				
 			}
-			else
-			{
-				avanzacorona = false;
+
+			if(bajaizqcorona){
+				if(movcoronarey > -1.0f){
+					movcoronarey-=movOffcoronarey*deltaTime;
+
+				}
+
+			
+			else{
+				bajaizqcorona=false;
+				baja2corona=true;
+				//bajacorona=true;
 			}
+			}
+			
+			if(baja2corona){
+				if(movcoronareyYY > -1.5f){
+					movcoronareyYY-=(movOffcoronareyY*deltaTime);
+
+				}
+				else{
+					bajaizq2corona=true;
+					baja2corona=false;
+					//movcoronarey=0.0f;
+					//movcoronareyYY=0.0f;
+				}
+			}
+			// bajaizq2corona;
+
+			if(bajaizq2corona){
+				if(movcoronarey > -6.0f){
+					movcoronarey-=movOffcoronarey*deltaTime;
+
+				}
+
+			
+			else{
+				bajaizq2corona=false;
+				bajacorona=true;
+				movcoronarey=0.0f;
+					movcoronareyYY=0.0f;
+				//bajacorona=true;
+			}
+			}
+
+			
+
+
+			
+
+
 		}
-		else
-		{
-			//el coche avanza hacia atrás y se detiene en el límite del plano
-			if (movcoronarey< 25.0f)
-			{
-				movcoronarey +=movOffcoronarey * deltaTime;
-				rotmovcoronarey -=rotmovOffcornarey * deltaTime;
-				//printf("< 25.0f  %.2f\n", movescudocap);
-			}
-			else
-			{
-				avanzacorona = true;
-			}
-			*/
+		else{
+			bajacorona=true;
+			baja2corona=false;
+			bajaizqcorona=false;
+			movcoronarey=0.0f;
+			movcoronareyYY=0.0f;
 
 
 		}
+
+	///////3 animacion simple
+		
+if(avanzasurfer){
+	if(girarsurfer){
+		if(girasurfer<=180.0f){
+		girasurfer+=giraOffsuurfer*deltaTime;
 
 	
-		
+	}
+	else{
+		girarsurfer=false;
+		avansasurferx=true;
+	}
+	}
+	if(avansasurferx){
+		if(avanzsurferx<=20.0f){
+			avanzsurferx+=avanOffzsurfer*deltaTime;
+		}
+		else{
+			avansasurferx=false;
+			//bool
+			girarsurfer=true;
+			avanzsurferx=0.0f;
+			//float
+			girasurfer=0.0f;
 
+
+
+		}
+
+	}
+}
+else{
+	avansasurferx=false;
+			girarsurfer=true;
+			avanzsurferx=0.0f;
+			girasurfer=0.0f;
+}
 
 /////////////////
 		glm::mat4 model(1.0);
@@ -1533,13 +1764,16 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		scotterdeadpoolllantader.RenderModel();
 	///////////////////////////////////////////////////////////////////////////////////nave samus 3°vehiculo
 			model = glm::mat4(1.0);
-			//printf("smaus movny  %.2f\n",samusmovNy);
+			//printf("giraavion1  %.2f\n",giraavion1);
 			//-5.0
 			//model = glm::translate(model, glm::vec3(15.0f, 27.0f,43.0f));
 			model = glm::translate(model, glm::vec3(15.0f, 27.0f,37.0f));
+			//model = glm::rotate(model, giraavion1 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+
 
 
 			model = glm::translate(model, glm::vec3(-(samusmovN),((samusmovNy)),samusmovNizq));
+			model = glm::rotate(model,giraavion1 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			modelaux5=model;
@@ -1582,31 +1816,58 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 			model = glm::mat4(1.0);
 			model = glm::translate(model, glm::vec3(-75.0f, 2.0f,3.0f));
-			model = glm::translate(model, glm::vec3(0.0f,0.0f,movescudocap));
+			model = glm::translate(model, glm::vec3(0.0f,movcoronareyYY,movcoronarey));
 			//printf("movescudocap  %.2f\n",movescudocap);
-			model = glm::rotate(model, rotmovescudocap * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-
+			model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 
 
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			coronarey.RenderModel();
 ////gunther
 model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(-75.0f, 0.0f,3.0f));
+//			model = glm::translate(model, glm::vec3(-75.0f, 0.0f,3.0f));
+
+			model = glm::translate(model, glm::vec3(-75.0f, 0.0f,3.5f));
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			penguin.RenderModel();
 
 
 
-			/////capitan america
+			/////jake
 model = glm::mat4(1.0);
-			model = glm::translate(model, glm::vec3(-81.0f, 0.0f,-3.0f));
+			model = glm::translate(model, glm::vec3(-81.0f, 2.0f,-3.0f));
 			//			model = glm::translate(model, glm::vec3(-80.0f, 0.0f,-3.0f));
+			//model = glm::rotate(model, rotbrazo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
 
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 
-			capitan_lanzando_escudo.RenderModel();
+			jake.RenderModel();
+
+
+	model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-81.0f, 2.0f,-3.0f));
+			model = glm::rotate(model, -(rotbrazo) * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+			//			model = glm::translate(model, glm::vec3(-80.0f, 0.0f,-3.0f));
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			jakebrazo.RenderModel();
+
+///// 3 animacion simple
+model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-70.0f, 1.0f,-3.0f));
+			model = glm::rotate(model, girasurfer * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::translate(model, glm::vec3(0.0f,0.0f,avanzsurferx));
+
+
+			printf("avanzasurfer  %.2f\n",avanzsurferx);
+
+			
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			silversurfer.RenderModel();
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////
