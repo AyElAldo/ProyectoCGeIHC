@@ -1940,7 +1940,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glm::mat4 model_avatar(1.0);
 		// Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.6f, 8.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 1.55f, 8.0f));
 		model_avatar = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1968,8 +1968,9 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		AvatarBI.RenderModel();
 
 		model = model_avatar;
-		// Piernas
-		model = glm::translate(model, glm::vec3(-0.8f, -0.65f, 0.0f));
+		// Piernas 
+		// izquierda
+		model = glm::translate(model, glm::vec3(-0.9f, -0.6f, 0.0f));
 		model_avatar = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1977,7 +1978,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		AvatarPI.RenderModel();
 
 		model = model_avatar;
-
+		// derecha
 		model = glm::translate(model, glm::vec3(0.6f, -0.0f, 0.0f));
 		model_avatar = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
