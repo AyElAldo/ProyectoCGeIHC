@@ -890,12 +890,6 @@ double tiempoInicical2=glfwGetTime();
 			cicloDia = (cicloDia == true) ? false : true;
 			tiempoUltimoCambio = tiempoActualskybox;
 			
-			
-
-
-			
-
-			
 		}
 		if (cicloDia == true)
 		{
@@ -1126,7 +1120,7 @@ if (avanzatrueavion)
     // La nave avanza
     if (subenavsamus) {
         if (samusmovNy <= 4.5f) {
-            samusmovNy += (samusmovNyOffset * deltaTime) / 25;
+            samusmovNy += (samusmovNyOffset * deltaTime) / 5;
             rotaspa += rotaspaOffset * deltaTime;
         } else {
             subenavsamus = false;
