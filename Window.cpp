@@ -15,6 +15,12 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	width = windowWidth;
 	height = windowHeight;
 	muevex = 2.0f;
+	traslacionBMO = 0.0f;
+	rotacionBMO = 0.0f;
+	rotacionBD = 0.0f;
+	rotacionBI = 0.0f;
+	rotacionPD = 0.0f;
+	rotacionPI = 0.0f;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -123,7 +129,69 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		theWindow->lampespadafin=true;
 	}
 
+	// Movimiento Avatar
+	if (key == GLFW_KEY_UP)
+	{	
+		static bool bandera = false;
+		theWindow->traslacionBMO -= .1f;
+		if (bandera) {
+			printf("1\n");
+			theWindow->rotacionBI += 6;
+			theWindow->rotacionBD -= 6;
 
+			theWindow->rotacionPI -= 6;
+			theWindow->rotacionPD += 6;
+			
+			if (theWindow->rotacionBI > 45) {
+				bandera = false;
+			}
+		}
+		else {
+			printf("2\n");
+			theWindow->rotacionBI -= 6;
+			theWindow->rotacionBD += 6;
+
+			theWindow->rotacionPI += 6;
+			theWindow->rotacionPD -= 6;
+
+			if (theWindow->rotacionBI < -45) {
+				bandera = true;
+			}
+		}
+	}
+
+	if (key == GLFW_KEY_DOWN) {
+		static bool bandera = false;
+		theWindow->traslacionBMO += .1f;
+		if (bandera) {
+			printf("1\n");
+			theWindow->rotacionBI += 6;
+			theWindow->rotacionBD -= 6;
+
+			theWindow->rotacionPI -= 6;
+			theWindow->rotacionPD += 6;
+
+			if (theWindow->rotacionBI > 45) {
+				bandera = false;
+			}
+		}
+		else {
+			printf("2\n");
+			theWindow->rotacionBI -= 6;
+			theWindow->rotacionBD += 6;
+
+			theWindow->rotacionPI += 6;
+			theWindow->rotacionPD -= 6;
+
+			if (theWindow->rotacionBI < -45) {
+				bandera = true;
+			}
+		}
+	}
+
+	if (key == GLFW_KEY_RIGHT) {
+		theWindow->rotacionBMO += 2;
+	}
 
 
 	if (key >= 0 && key < 1024)

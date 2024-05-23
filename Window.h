@@ -23,6 +23,16 @@ public:
 	///lampespadafin teclado
 	GLboolean getLampara() { return lampespadafin; }
 
+	// Avatar
+	GLfloat getTraslacionBMO() { return traslacionBMO; }
+	GLfloat getRotacionBMO() { return rotacionBMO; }
+
+	GLfloat getRotacionBI() { return rotacionBI; }
+	GLfloat getRotacionBD() { return rotacionBD; }
+	GLfloat getRotacionPI() { return rotacionPI; }
+	GLfloat getRotacionPD() { return rotacionPD; }
+
+
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
@@ -40,6 +50,14 @@ private:
 	GLfloat xChange;
 	GLfloat yChange;
 	GLfloat muevex;
+
+	GLfloat traslacionBMO;
+	GLfloat	rotacionBMO;
+	GLfloat	rotacionBI;
+	GLfloat	rotacionBD;
+	GLfloat	rotacionPI;
+	GLfloat	rotacionPD;
+
 	///lampespadafin teclado
 	GLboolean lampespadafin = true;
 	bool mouseFirstMoved;

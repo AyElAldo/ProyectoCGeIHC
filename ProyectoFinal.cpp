@@ -11,8 +11,8 @@ Pr�ctica 7: Iluminaci�n 1
 #include <vector>
 #include <math.h>
 /* pa windows */
-//#include <glew.h>
-//#include <glfw3.h>
+#include <glew.h>
+#include <glfw3.h>
 
 ///pa linux
 //#include <GL/glew.h>
@@ -79,6 +79,7 @@ Model Fuente01;
 Model ReyHelado;
 Model Bimo;
 
+
 // Bimo Avatar
 Model AvatarCuerpo;
 Model AvatarBI;
@@ -92,6 +93,7 @@ Model Fence_normal;
 
 // Gasolineria
 Model Gasolineria;
+
 
 // Edificios
 Model edificios;
@@ -149,16 +151,23 @@ Model bicicletaroja;
 Model pelotabasquet;
 ////tienda comic ventana con transparencia
 Model tiendacomic;
+//oxxo
+Model Oxxo;
 ///tienda de dulce transparencia
 Model candystore;
 Model tiendavideojuegos;
+Model bano_halo;
 ///// modelos con spotlights
 Model Farospot;
 Model Torrecontrolspot;
 Model proyectorspot;
+Model ironman;
+Model venom;
 ///modelos con pointlights
 Model espada_fin;
 Model gema_infinito;
+Model fogata;
+
 ////halo carrito
 Model halo_carrito;
 Model halo_carritollantaizq;
@@ -187,17 +196,35 @@ bool avanzascootdeadpool;
 
 //////////////////////////////////////////////////VARIABLES NAVE 3 VEHICULO MOTORIZADO
 Model naveSamus;
+Model avionhydra;
+Model aspa;
+float rotaspa;
+float rotaspaOffset;
 	 float samusmovN;
 	float samusmovNOffset;
 	float samusmovNy;
 	float samusmovNyOffset;
+	float samusmovNizq;
+	float samusmovNizqOffset;
+	float giraavion1;
+	float giraavionOffset;
 bool subenavsamus;
 bool bajasamus;
 bool avanzasamus;
-bool regresasamus;
-/////////////1 animacion simple
+bool izqsamus;
+bool avanzatrueavion;
+bool giraavion;
 
+/////////////1 animacion simple
+Model capitan_lanzando_escudo;
+Model jake;
+Model jakebrazo;
 Model escudocap;
+bool brazorot;
+float rotbrazo;
+float rotOffbrazo;
+bool avanzaescudo1;
+bool avanzaescudox;
 float movescudocap;
 float movOffescudocap;
 float rotmovescudocap;
@@ -205,13 +232,34 @@ float rotmovescudocapOffset;
 bool avanzaescudocap; 
 /////2 animacion simple
 Model coronarey;
+Model penguin;
+float coronayrey;
+float coronayOffrey;
+bool  bajacorona;
+bool bajaizqcorona;
+bool baja2corona;
+bool avanzaxcorona;
+bool bajaizq2corona;
 float movcoronarey;
 float movOffcoronarey;
+float movcoronareyYY;
+float movOffcoronareyY;
+
 float rotmovcoronarey;
 float rotmovOffcornarey;
 bool avanzacorona; 
 
-////
+//// 3 animacion simple
+
+Model silversurfer;
+bool girarsurfer;
+bool avansasurferx;
+bool avanzasurfer;
+float girasurfer;
+float giraOffsuurfer;
+float avanzsurferx;
+float avanOffzsurfer;
+
 ////////
 ////2 animacion simple
 Skybox skybox;
@@ -458,6 +506,10 @@ int main()
 	candystore.LoadModel("Models/candystore.obj");
 	tiendavideojuegos=Model();
 	tiendavideojuegos.LoadModel("Models/tiendavideojuegos.obj");
+	Oxxo=Model();
+	Oxxo.LoadModel("Models/oxxo.obj");
+	bano_halo=Model();
+	bano_halo.LoadModel("Models/bath.obj");
 
 /************************** modelosspotlights*****************************/
 Farospot=Model();
@@ -466,6 +518,14 @@ Torrecontrolspot=Model();
 Torrecontrolspot.LoadModel("Models/airtrafic.obj");
 proyectorspot=Model();
 proyectorspot.LoadModel("Models/proyector.obj");
+ironman=Model();
+ironman.LoadModel("Models/ironman.obj");
+venom=Model();
+venom.LoadModel("Models/venom.obj");
+/************************** modelospointlights*****************************/
+
+fogata=Model();
+fogata.LoadModel("Models/fogata.obj");
 
 
 espada_fin=Model();
@@ -494,15 +554,28 @@ halo_carritollantaizq.LoadModel("Models/halocarroizq.obj");
 //////////////////////////nave samus 3°vehiculo
 naveSamus=Model();
 naveSamus.LoadModel("Models/samusnave.obj");
+avionhydra=Model();
+avionhydra.LoadModel("Models/avionhidra.obj");
+aspa=Model();
+aspa.LoadModel("Models/aspa.obj");
 /************************** animaciones simples 1°*****************************/
+capitan_lanzando_escudo=Model();
+capitan_lanzando_escudo.LoadModel("Models/caplanzando.obj");
 escudocap=Model();
 escudocap.LoadModel("Models/escudocap.obj");
+jake=Model();
+jake.LoadModel("Models/jake.obj");
+jakebrazo=Model();
+jakebrazo.LoadModel("Models/jake_brazo.obj");
 /************************** animaciones simples 2°*****************************/
 coronarey=Model();
 coronarey.LoadModel("Models/coronareyhelado.obj");
+penguin=Model();
+penguin.LoadModel("Models/penguin.obj");
 
-
-/************************** animaciones compleja*****************************/
+/************************** animacion simple 3°*****************************/
+silversurfer=Model();
+silversurfer.LoadModel("Models/silversurfer.obj");
 
 
 	/************************** Hora de aventura *****************************/
@@ -600,12 +673,12 @@ coronarey.LoadModel("Models/coronareyhelado.obj");
 
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/desertsky_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/desertsky_ft.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_rt.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_lf.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_dn.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_up.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_bk.tga");
+	skyboxFaces.push_back("Textures/Skybox/day-at-the-beach_ft.tga");
 
 	skybox = Skybox(skyboxFaces);
 
@@ -643,10 +716,11 @@ skybox2=Skybox(skyboxFaces2);
 		-86.0f, 5.0f,-44.0f,
 		0.1f, 0.1f, 0.1f);
 	pointLightCount++;
-	 
-	pointLights[1] = PointLight(1.0f,1.0f, 0.0f,
+	 ///fogata  		13.0f, 5.0f,0.0f,
+
+	pointLights[1] = PointLight(1.0f,0.5f, 0.0f,
 		0.4f, 1.0f,
-		13.0f, 5.0f,0.0f,
+		0.0f, 1.0f,10.0f,
 		0.1f, 0.1f, 0.1f);
 	pointLightCount++;
 	//Declaraci�n de primer luz puntual ARREGLO2 espada fin
@@ -668,14 +742,16 @@ pointLights[2] = PointLight(1.0f, 1.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		5.0f);
 	spotLightCount++;*/
+//		-35.0f, 30.0f, 50.0f,
+///5.0 
+//iron man -30.0f, 6.0f, -41.0f, posiciom 		1.0f, 1.0f, 0.0f,  1.0f, 0.1f, 0.032f
 
-//torre de control
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
-		3.0f, 2.0f,
-		-35.0f, 30.0f, 50.0f,
+	spotLights[0] = SpotLight(1.0f, 0.0f, 0.0f,
+		1.0f, 2.0f,
+		-21.0f, 6.2f, -41.0f,
 		5.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
-		5.0f);
+		4.0f);
 	spotLightCount++;
 //proyector
 	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
@@ -717,16 +793,25 @@ avanzahalo=true;
 movscootdeadpool=0.0f;
 movOffscootdeadpool=0.05;
 rotllantascootdeadpool=0.0f;
-rotllantaOffsethalo=5.0f;
+rotllantaOffsethalo=2.0f;
 avanzascootdeadpool=true;
 /////////variables NAVE SAMUS
 samusmovN=0.0f;
 samusmovNOffset=0.05f;
 samusmovNy=0.0f;
 samusmovNyOffset=0.05f;
-avanzasamus=true;
+samusmovNizq=0.0f;
+samusmovNizqOffset=0.01f;
+avanzatrueavion=true;
+avanzasamus=false;
+izqsamus=false;
+giraavion=false;
 //regresasamus=false;
 subenavsamus=true;
+rotaspa=0.0f;
+rotaspaOffset=5.0f;
+giraavion1=0.0f;
+giraavionOffset=0.5;
 //bajasamus=false;
 /////variables escudo cap 1 animacion
 movescudocap=0.0f;
@@ -734,13 +819,32 @@ movOffescudocap=0.05f;
 rotmovescudocap=0.0f;
 rotmovescudocapOffset=5.0f;
 avanzaescudocap=true;
-/////variables coronareyhelado
+brazorot=true;
+rotbrazo=0.0f;
+rotOffbrazo=0.1;
+avanzaescudox=false;
+
+/////variables coronareyhelado 2 animacion
 movcoronarey=0.0f;
  movOffcoronarey=0.01f;
+ movcoronareyYY=0.0f;
+ movOffcoronareyY=0.01;
  rotmovcoronarey=0.0f;
  rotmovOffcornarey=5.0f;
  avanzacorona=true; 
-
+avanzaxcorona=false;
+bajacorona=true;
+baja2corona=false;
+bajaizqcorona=false;
+//giraavion=false;
+////3 animacion silver surfer
+avanzasurfer=true;
+girarsurfer=true;
+avansasurferx=false;
+girasurfer=0.0;
+ giraOffsuurfer=0.1;
+ avanzsurferx=0.0;
+ avanOffzsurfer=0.01;
 
 
 	bool cicloDia = true;
@@ -960,65 +1064,133 @@ if (avanzascootdeadpool)
 		}
 
 ////////////////////////////nave&& subenavsamus
-if (avanzasamus&& subenavsamus)
+/*
+if (avanzatrueavion)
 		{
 			//la nave avanza
-			if (samusmovNy > 0.0f)
-			{
-				samusmovNy-= samusmovNyOffset * deltaTime;
-				//samusmovN -=samusmovNOffset*deltaTime;
+			if (subenavsamus){
+				if(samusmovNy <=3.5f){
+				//printf("smaus movny antes %.2f\n",samusmovNy);
+
+					samusmovNy+=(samusmovNyOffset*deltaTime)/25;
+
+					rotaspa+=rotaspaOffset*deltaTime;
+
+				}
+				else{
+					subenavsamus=false;
+					avanzasamus=true;
+				}
+
 			}
-			else
-			{
-				//avanzasamus = false;
-				subenavsamus = false;
+
+			if(avanzasamus){
+				if(samusmovN<=25.0f){
+				samusmovN+=(samusmovNOffset*deltaTime);
+				rotaspa+=rotaspaOffset*deltaTime;
 			}
-			///5.0
-			if (samusmovN > 0.0f   )
-			{
-				
-				samusmovN -=samusmovNOffset*deltaTime;
+			else{
+				avanzasamus=false;
+				izqsamus=true;
 			}
-			else
-			{
-				avanzasamus = false;
-				//subenavsamus = false;
+			}
+
+			if(izqsamus){
+				if(samusmovNizq<=7.0f){
+					samusmovNizq+=samusmovNizqOffset*deltaTime;
+					rotaspa+=rotaspaOffset*deltaTime;
+
+
+				}
+				else{
+					izqsamus=true;
+				}
+
 			}
 
 
-
-
-
-		}else{
-			if (samusmovNy < 10.0f)
-			{
-				samusmovNy+= samusmovNyOffset * deltaTime;
-				//samusmovN +=samusmovNOffset*deltaTime;
-			}
-			else
-			{
-				//avanzasamus = true;
-				subenavsamus = true;
-			}
-
-			//
-			if (samusmovN < 5.0f)
-			{
-				
-				samusmovN +=samusmovNOffset*deltaTime;
-			}
-			else
-			{
-				avanzasamus = true;
-				//subenavsamus = true;
-			}
+			
+			
 
 		}
+		else{
+		avanzatrueavion=true;
+			samusmovN=0.0;
+			samusmovNy=0.0;
+			
+
+		}
+*/
+if (avanzatrueavion)
+{
+    // La nave avanza
+    if (subenavsamus) {
+        if (samusmovNy <= 4.5f) {
+            samusmovNy += (samusmovNyOffset * deltaTime) / 25;
+            rotaspa += rotaspaOffset * deltaTime;
+        } else {
+            subenavsamus = false;
+            avanzasamus = true;
+        }
+    }
+
+    if (avanzasamus) {
+        if (samusmovN <= 25.0f) {
+            samusmovN += samusmovNOffset * deltaTime;
+            rotaspa += rotaspaOffset * deltaTime;
+        } else {
+            avanzasamus = false;
+            //izqsamus = true;
+			giraavion=true;
+        }
+    }
+
+	if(giraavion){
+		if (giraavion1 <= 90.0f) {
+            giraavion1 += giraavionOffset * deltaTime;
+            rotaspa += rotaspaOffset * deltaTime;
+        } else {
+            giraavion = false;
+            izqsamus = true;
+			
+
+			
+        }
+	}
+
+
+    if (izqsamus) {
+         if (samusmovNizq <= 8.0f) {
+            samusmovNizq += samusmovNizqOffset * deltaTime;
+            rotaspa += rotaspaOffset * deltaTime;
+        } else {
+            
+            izqsamus = false;
+			            subenavsamus = true;
+						 samusmovN = 0.0f;
+            samusmovNy = 0.0f;
+            samusmovNizq = 0.0f;
+			giraavion1=0.0f;
+        }
+    }
+	
+    
+} else {
+    avanzatrueavion = true;
+    samusmovN = 0.0f;
+    samusmovNy = 0.0f;
+    samusmovNizq = 0.0f;
+	giraavion1=0.0f;
+    subenavsamus = true;
+    avanzasamus = false;
+    izqsamus = false;
+}
 
 		
 ///////////////////////////animacion simple escudo cap
 if (avanzaescudocap)
 		{
+			/*
 			//el coche avanza y se detiene en el límite del plano
 			if (movescudocap > 0.0f)
 			{
@@ -1048,43 +1220,161 @@ if (avanzaescudocap)
 				avanzaescudocap = true;
 			}
 		}
+*/
+if(brazorot){
+	if(rotbrazo<=90.0f){
+		rotbrazo+=rotOffbrazo*deltaTime;
+		//printf("rotbrazo  %.2f\n",rotbrazo);
+
+
+	}
+	else{
+		brazorot=false;
+		avanzaescudox=true;
+	}
+	
+}
+if(avanzaescudox){
+	if(movescudocap<=10.0f){
+		movescudocap+=movOffescudocap*deltaTime;
+		rotmovescudocap +=rotmovescudocapOffset * deltaTime;
+	}
+	else{
+		avanzaescudox=false;
+		rotbrazo=0.0;
+		movescudocap=0.0;
+		rotmovescudocap=0.0;
+		brazorot=true;
+	}
+
+}
+		}else{
+			avanzaescudox=false;
+			rotmovescudocap=0.0;
+		rotbrazo=0.0;
+		movescudocap=0.0;
+		brazorot=true;
+		//avanzaescudocap=true;
+		}
 
 ///////////////////////////animacion simple corona rey
 if (avanzacorona)
 		{
-			//el coche avanza y se detiene en el límite del plano
-			if (movcoronarey > 0.0f)
-			{
-				movcoronarey -= movOffcoronarey * deltaTime;
-				rotmovcoronarey +=rotmovOffcornarey * deltaTime;
-				//printf("> 0.0f  %.2f\n", movOffescudocap);
+			if(bajacorona){
+				if(movcoronareyYY > -0.5f){
+					movcoronareyYY-=(movOffcoronareyY*deltaTime);
+
+				}
+				else{
+					bajacorona=false;
+					bajaizqcorona=true;
+					//movcoronareyYY=0.0f;
+				}
 
 
 
+				
 			}
-			else
-			{
-				avanzacorona = false;
+
+			if(bajaizqcorona){
+				if(movcoronarey > -1.0f){
+					movcoronarey-=movOffcoronarey*deltaTime;
+
+				}
+
+			
+			else{
+				bajaizqcorona=false;
+				baja2corona=true;
+				//bajacorona=true;
 			}
+			}
+			
+			if(baja2corona){
+				if(movcoronareyYY > -1.5f){
+					movcoronareyYY-=(movOffcoronareyY*deltaTime);
+
+				}
+				else{
+					bajaizq2corona=true;
+					baja2corona=false;
+					//movcoronarey=0.0f;
+					//movcoronareyYY=0.0f;
+				}
+			}
+			// bajaizq2corona;
+
+			if(bajaizq2corona){
+				if(movcoronarey > -6.0f){
+					movcoronarey-=movOffcoronarey*deltaTime;
+
+				}
+
+			
+			else{
+				bajaizq2corona=false;
+				bajacorona=true;
+				movcoronarey=0.0f;
+					movcoronareyYY=0.0f;
+				//bajacorona=true;
+			}
+			}
+
+			
+
+
+			
+
+
 		}
-		else
-		{
-			//el coche avanza hacia atrás y se detiene en el límite del plano
-			if (movcoronarey< 25.0f)
-			{
-				movcoronarey +=movOffcoronarey * deltaTime;
-				rotmovcoronarey -=rotmovOffcornarey * deltaTime;
-				//printf("< 25.0f  %.2f\n", movescudocap);
-			}
-			else
-			{
-				avanzacorona = true;
-			}
+		else{
+			bajacorona=true;
+			baja2corona=false;
+			bajaizqcorona=false;
+			movcoronarey=0.0f;
+			movcoronareyYY=0.0f;
+
+
 		}
+
+	///////3 animacion simple
+		
+if(avanzasurfer){
+	if(girarsurfer){
+		if(girasurfer<=180.0f){
+		girasurfer+=giraOffsuurfer*deltaTime;
 
 	
-		
+	}
+	else{
+		girarsurfer=false;
+		avansasurferx=true;
+	}
+	}
+	if(avansasurferx){
+		if(avanzsurferx<=20.0f){
+			avanzsurferx+=avanOffzsurfer*deltaTime;
+		}
+		else{
+			avansasurferx=false;
+			//bool
+			girarsurfer=true;
+			avanzsurferx=0.0f;
+			//float
+			girasurfer=0.0f;
 
+
+
+		}
+
+	}
+}
+else{
+	avansasurferx=false;
+			girarsurfer=true;
+			avanzsurferx=0.0f;
+			girasurfer=0.0f;
+}
 
 /////////////////
 		glm::mat4 model(1.0);
@@ -1096,6 +1386,9 @@ if (avanzacorona)
 		///carro spiderman
 		glm::mat4 modelaux4(1.0);
 		//glm::mat4 modelaux3(1.0);
+		///avion hydra
+		glm::mat4 modelaux5(1.0);
+
 
 
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -1322,14 +1615,23 @@ model = glm::mat4(1.0);
 /**************************ventanas transparentes*****************************/
 
 		////tienda comic con ventana transparente
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		/*
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-55.0f, 0.0f, -40.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		tiendacomic.RenderModel();
+		tiendacomic.RenderModel();*/
+
 		///tienda de dulce
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-55.0f, 0.0f, -40.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Oxxo.RenderModel();
+				///tienda de dulce
+
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, -10.0f));
@@ -1338,10 +1640,15 @@ model = glm::mat4(1.0);
 		candystore.RenderModel();		
 		///tienda videojuegos
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, 10.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		tiendavideojuegos.RenderModel();
+		//tiendavideojuegos.RenderModel();
+		bano_halo.RenderModel();
+
+		/////
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		/************************** modelosspotlights*****************************/
 
 
@@ -1362,6 +1669,24 @@ model = glm::translate(model, glm::vec3(-35.0f, 3.0f, 50.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Torrecontrolspot.RenderModel();
+///iron man
+model = glm::mat4(1.0);
+//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+model = glm::translate(model, glm::vec3(-20.0f, 1.2f, -40.0f));
+model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ironman.RenderModel();
+//venom
+/*
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(-35.0f, 1.0f, 55.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		venom.RenderModel();
+
+*/
+
 	//proyector
 model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-85.0f, 0.5f, 0.0f));
@@ -1384,6 +1709,13 @@ model = glm::translate(model, glm::vec3(-85.0f, 0.0f, -45.0f));
 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		gema_infinito.RenderModel();
+
+		///fogatass
+model = glm::mat4(1.0);
+model = glm::translate(model, glm::vec3(0.0f, 1.0f, 10.0f));
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		fogata.RenderModel();
 
 
 		//glEnable(GL_BLEND);
@@ -1482,16 +1814,32 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		scotterdeadpoolllantader.RenderModel();
 	///////////////////////////////////////////////////////////////////////////////////nave samus 3°vehiculo
 			model = glm::mat4(1.0);
-			//printf("smaus movny  %.2f\n",samusmovNy);
+			//printf("giraavion1  %.2f\n",giraavion1);
 			//-5.0
-			//model = glm::translate(model, glm::vec3(-20.0f, 30.0f,45.0f));
-			model = glm::translate(model, glm::vec3(-10.0f, 27.0f,45.0f));
+			//model = glm::translate(model, glm::vec3(15.0f, 27.0f,43.0f));
+			model = glm::translate(model, glm::vec3(15.0f, 27.0f,37.0f));
+			//model = glm::rotate(model, giraavion1 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
 
-			model = glm::translate(model, glm::vec3(samusmovN,((samusmovNy)),0.0f));
+
+			model = glm::translate(model, glm::vec3(-(samusmovN),((samusmovNy)),samusmovNizq));
+			model = glm::rotate(model,giraavion1 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-			naveSamus.RenderModel();
+			modelaux5=model;
+			///naveSamus.RenderModel();
+			avionhydra.RenderModel();
+			model=modelaux5;
+			//model = glm::translate(model, glm::vec3(-1.3f, 0.8f,0.0f));
+
+			model = glm::translate(model, glm::vec3(-0.4f, 0.25f,0.0f));
+			model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			aspa.RenderModel();
+
+
+
 	/////////////////////////////////////////////////////////////////////////////////// 1° animacionsimple escudo cap
 //-80
 			model = glm::mat4(1.0);
@@ -1507,16 +1855,66 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		
 /////////////////////////////////////////////////////////////////////////////////// 2° animacionsimple corona rey
 //-80
+			/*model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-80.0f, 2.0f,0.0f));
+			//			model = glm::translate(model, glm::vec3(-85.0f, 2.0f,3.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
+
+			capitan_lanzando_escudo.RenderModel();*/
+
+
 			model = glm::mat4(1.0);
 			model = glm::translate(model, glm::vec3(-75.0f, 2.0f,3.0f));
-			model = glm::translate(model, glm::vec3(0.0f,0.0f,movescudocap));
+			model = glm::translate(model, glm::vec3(0.0f,movcoronareyYY,movcoronarey));
 			//printf("movescudocap  %.2f\n",movescudocap);
-			model = glm::rotate(model, rotmovescudocap * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-
+			model = glm::rotate(model, rotllantahalo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 
 
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			coronarey.RenderModel();
+////gunther
+model = glm::mat4(1.0);
+//			model = glm::translate(model, glm::vec3(-75.0f, 0.0f,3.0f));
+
+			model = glm::translate(model, glm::vec3(-75.0f, 0.0f,3.5f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			penguin.RenderModel();
+
+
+
+			/////jake
+model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-81.0f, 2.0f,-3.0f));
+			//			model = glm::translate(model, glm::vec3(-80.0f, 0.0f,-3.0f));
+			//model = glm::rotate(model, rotbrazo * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
+
+			jake.RenderModel();
+
+
+	model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-81.0f, 2.0f,-3.0f));
+			model = glm::rotate(model, -(rotbrazo) * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+			//			model = glm::translate(model, glm::vec3(-80.0f, 0.0f,-3.0f));
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			jakebrazo.RenderModel();
+
+///// 3 animacion simple
+model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-70.0f, 1.0f,-3.0f));
+			model = glm::rotate(model, girasurfer * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::translate(model, glm::vec3(0.0f,0.0f,avanzsurferx));
+
+			//printf("avanzasurfer  %.2f\n",avanzsurferx);		
+
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			silversurfer.RenderModel();
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -1941,9 +2339,12 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		// Cuerpo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 1.55f, 8.0f));
+		printf("Traslacion BMO: %f", mainWindow.getTraslacionBMO());
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, mainWindow.getTraslacionBMO()));
 		model_avatar = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(mainWindow.getRotacionBMO()), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		AvatarCuerpo.RenderModel();
 
@@ -1954,6 +2355,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		model_avatar = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(mainWindow.getRotacionBD()), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		AvatarBD.RenderModel();
 
@@ -1964,6 +2366,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//model_avatar = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(mainWindow.getRotacionBI()), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		AvatarBI.RenderModel();
 
@@ -1974,6 +2377,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		model_avatar = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(mainWindow.getRotacionPI()), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		AvatarPI.RenderModel();
 
@@ -1983,9 +2387,14 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		model_avatar = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(mainWindow.getRotacionPD()), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		AvatarPD.RenderModel();
 
+		printf("RotacionBI: %f\n", mainWindow.getRotacionBI());
+		printf("RotacionBD: %f\n", mainWindow.getRotacionBD());
+		printf("RotacionPD: %f\n", mainWindow.getRotacionPD());
+		printf("RotacionPI: %f\n", mainWindow.getRotacionPI());
 
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);
@@ -1993,7 +2402,7 @@ glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//AgaveTexture.UseTexture();
 		//Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		///meshList[3]->RenderMesh();
-		glDisable(GL_BLEND);
+		///glDisable(GL_BLEND);
 
 		glUseProgram(0);
 
