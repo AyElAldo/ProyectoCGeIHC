@@ -136,11 +136,10 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		theWindow->traslacionBMO -= .1f;
 		if (bandera) {
 			printf("1\n");
-			theWindow->rotacionBI += 6;
-			theWindow->rotacionBD -= 6;
-
-			theWindow->rotacionPI -= 6;
-			theWindow->rotacionPD += 6;
+			theWindow->rotacionBI += 8;
+			theWindow->rotacionBD -= 8;
+			theWindow->rotacionPI -= 8;
+			theWindow->rotacionPD += 8;
 			
 			if (theWindow->rotacionBI > 45) {
 				bandera = false;
@@ -148,11 +147,10 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		}
 		else {
 			printf("2\n");
-			theWindow->rotacionBI -= 6;
-			theWindow->rotacionBD += 6;
-
-			theWindow->rotacionPI += 6;
-			theWindow->rotacionPD -= 6;
+			theWindow->rotacionBI -= 8;
+			theWindow->rotacionBD += 8;
+			theWindow->rotacionPI += 8;
+			theWindow->rotacionPD -= 8;
 
 			if (theWindow->rotacionBI < -45) {
 				bandera = true;
@@ -167,7 +165,6 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 			printf("1\n");
 			theWindow->rotacionBI += 6;
 			theWindow->rotacionBD -= 6;
-
 			theWindow->rotacionPI -= 6;
 			theWindow->rotacionPD += 6;
 
@@ -179,7 +176,6 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 			printf("2\n");
 			theWindow->rotacionBI -= 6;
 			theWindow->rotacionBD += 6;
-
 			theWindow->rotacionPI += 6;
 			theWindow->rotacionPD -= 6;
 

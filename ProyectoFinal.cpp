@@ -2338,7 +2338,7 @@ model = glm::mat4(1.0);
 		glm::mat4 model_avatar(1.0);
 		// Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.55f, 8.0f));
+		model = glm::translate(model, glm::vec3(25.0f, 1.55f, 36.0f));
 		printf("Traslacion BMO: %f", mainWindow.getTraslacionBMO());
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, mainWindow.getTraslacionBMO()));
 		model_avatar = model;

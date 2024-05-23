@@ -1,15 +1,41 @@
-﻿  Window.cpp
+﻿  ProyectoFinal.cpp
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.h(18,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+  (compilando archivo de origen "ProyectoFinal.cpp")
+  
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.h(19,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+  (compilando archivo de origen "ProyectoFinal.cpp")
+  
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(794,21): warning C4305: '=': truncamiento de 'double' a 'float'
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(824,13): warning C4305: '=': truncamiento de 'double' a 'float'
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(831,19): warning C4305: '=': truncamiento de 'double' a 'float'
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(845,17): warning C4305: '=': truncamiento de 'double' a 'float'
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(847,17): warning C4305: '=': truncamiento de 'double' a 'float'
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(867,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(869,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(975,34): warning C4805: '==': combinación no segura del tipo 'GLboolean' y el tipo 'bool' en la operación
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1590,22): warning C4305: '+=': truncamiento de 'double' a 'T'
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1590,22): warning C4305:         with
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1590,22): warning C4305:         [
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1590,22): warning C4305:             T=float
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1590,22): warning C4305:         ]
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1592,22): warning C4305: '-=': truncamiento de 'double' a 'T'
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1592,22): warning C4305:         with
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1592,22): warning C4305:         [
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1592,22): warning C4305:             T=float
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\ProyectoFinal.cpp(1592,22): warning C4305:         ]
+  Window.cpp
 C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.h(18,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
   (compilando archivo de origen "Window.cpp")
   
 C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.h(19,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
   (compilando archivo de origen "Window.cpp")
   
-C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(218,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(219,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(223,28): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(224,40): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(226,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(227,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(214,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(215,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(219,28): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(220,40): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(222,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(223,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+  Generando código...
 C:\Users\26ald\Documents\Grafica\Proyecto\Proyecto\Window.cpp(82): warning C4715: 'Window::Initialise': no todas las rutas de acceso de control devuelven un valor
   Proyecto.vcxproj -> C:\Users\26ald\Documents\Grafica\Proyecto\Debug\Proyecto.exe
